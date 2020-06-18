@@ -28,7 +28,6 @@ namespace YoloDetection
         Stopwatch SW;
         public static ImageConverter imgConverter = new ImageConverter();
         public static ImageConverter imgConverterToBytes = new ImageConverter();
-        
         private static YoloDetection YoloDetection;
         private List<DetectedObject> paintObjects = new List<DetectedObject>();
         private DetectedObject lastObj = null;
