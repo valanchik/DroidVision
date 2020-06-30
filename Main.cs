@@ -34,15 +34,23 @@ namespace YoloDetection
         private long timeDetection = 0;
         IGameController gameController;
         private bool AutoMoving = false;
-        private bool sendedToUDP = true;
+        public static bool sendedToUDP = true;
         private static bool IsRender = true;
+        private static bool IsDetected = true;
         private static Image imgConverted;
         private static Image imgCroped;
         private static Image imgCloned;
         private static byte[] bImg;
         private static  Bitmap bmpImage;
         private static Stopwatch SWController = new Stopwatch();
-
+        private KalmanFilter2D Kalman2D = new KalmanFilter2D(f: 1, h: 1, q: 2, r: 15);
+        private KalmanFilterRectangle KalmanRect = new KalmanFilterRectangle(f: 1, h: 1, q: 2, r: 15);
+        private bool KalmanReseted = true;
+        FireController FC = new FireController(5);
+        MoveLimitter ML = new MoveLimitter(22);
+        private Vector CalibrateVector = new Vector(0,0);
+        private double CalibrateMouseCoeff = 1;
+        private Counter OffsetCounter = new Counter();
         public Main()
         {
 
@@ -71,26 +79,25 @@ namespace YoloDetection
 
             UDPServer.mjpegParser.OnJPEG += (byte[] jpeg) =>
             {
-                if (IsRender)
+                if (IsDetected && sendedToUDP)
                 {
-                    IsRender = !IsRender;
+                    IsDetected = !IsDetected;
 
                     YoloDetection.lastImg = jpeg;
-                    pictureBox1.Image = (Image)imgConverter.ConvertFrom(jpeg);
-
+                   
                     /*imgConverted = (Image)imgConverter.ConvertFrom(jpeg);
                     imgCroped = cropImage(imgConverted, new Rectangle(0, 0, 320, 320));
                     imgCloned = (Image)imgCroped.Clone();
                     pictureBox1.Image = imgCroped;
                     bImg = (byte[])imgConverterToBytes.ConvertTo(imgCloned, typeof(byte[]));
                     YoloDetection.lastImg = bImg;*/
-                    IsRender = !IsRender;
                 }
             };
             YoloDetection.OnYoloDetect += (long time) =>
             {
                 timeDetection = time;
                 YoloRunTimeValue.Invoke(new Action(() => YoloRunTimeValue.Text = time.ToString() + " ms"));
+                pictureBox1.Image = (Image)imgConverter.ConvertFrom(YoloDetection.lastImg);
             };
             YoloDetection.OnObject += (DetectedObject obj) =>
             {
@@ -110,54 +117,151 @@ namespace YoloDetection
             SW.Start(); // Запускаем*/
 
             List<DetectedObject> obj = new List<DetectedObject>();
-            using (Pen pen = new Pen(Color.Red, 2))
+            using (Pen pen = new Pen(Color.Red, 2) )
             {
-                while (!detected.IsEmpty)
+                using (Pen pen2 = new Pen(Color.Yellow, 2))
                 {
-                    DetectedObject item;
-                    if (detected.TryTake(out item))
+                    while (!detected.IsEmpty)
                     {
-                        item.DrawRect(e, pen);
-                        obj.Add(item);
+                        DetectedObject item;
+                        if (detected.TryTake(out item))
+                        {
+                            switch (item.Name)
+                            {
+                                case ("0"):
+                                    //item.DrawRect(e, pen);
+                                    break;
+                                case ("1"):
+                                    //item.DrawRect(e, pen2);
+                                    break;
+                                default:
+                                    item.DrawRect(e, pen);
+                                    break;
+                            }
+                            
+                            obj.Add(item);
+                        }
                     }
                 }
             }
-            DetectedObjectController objects = new DetectedObjectController(new Vector(852, 480), new Vector(852, 480), obj);
+            DetectedObjectController objects = new DetectedObjectController(new Vector(1920, 1080), new Vector(852, 480), obj);
             DetectedObject o = objects.GetNearestRectFromCenter();
             
             if (o != null)
             {
                 using (Pen pen = new Pen(Color.White, 2))
                 {
-                    o.DrawRect(e, pen);
-                    o.DrawCircle(e, pen, o.Head);
+                    if (KalmanReseted)
+                    {
+                        Kalman2D.SetState(o.Head, 40);
+                        KalmanRect.SetState(o.Rect, 40F);
+                        KalmanReseted = false;
+                    }
+                    KalmanRect.Correct(o.Rect);
+                    o.Rect = KalmanRect.State;
 
+                    o.DrawRect(e, pen);
+
+                    Kalman2D.Correct(o.offsetVector);
+                    o.offsetVector = Kalman2D.State;
+
+                    o.DrawCircle(e, pen, o.offsetVector);
 
                     if (AutoMoving)
                     {
                         
                         if (sendedToUDP)
                         {
-                            if (!Vector.Equals(DetectedObject.emptyVector, o.offsetVector))
-                            {
+                                                            
                                 // инверсия вектора
                                 //o.offsetVector = Vector.Multiply(o.offsetVector, -1);
+                                if (calibrate.Checked)
+                                {
+                                    sendedToUDP = false;
+                                    //AutoCalibrate(o.offsetVector);
+                                    Console.WriteLine(o.offsetVector);
+                                    gameController.MoveTo(o.offsetVector);
+                                    AutoMoving = !AutoMoving;
+                                } else
+                                {
+                                    if (onlyFire.Checked)
+                                    {
+                                        if (objects.IsObjectCrossCenter(o) && FC.IsCanFire())
+                                        {
+                                            sendedToUDP = false;
+                                            FC.Fire();
+                                            GameCommand command = new GameCommand();
+                                            command.ClickType = MouseClickTypes.LeftBtn;
+                                            gameController.MakeCommand(command);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        ML.SetMinMilliseconds(0);
+                                        if (ML.IsCanMove())
+                                        {
+                                            
+                                            if (o.offsetVector.Length>1000) {
+                                                Vector norm = new Vector(o.offsetVector.X, o.offsetVector.Y);
+                                                norm.Normalize();
+                                                o.offsetVector = Vector.Multiply(norm, 100);
+                                            }
+                                            //sendedToUDP = false;
+                                            GameCommand command = new GameCommand();
+                                            if (FC.IsCanFire() && objects.IsObjectCrossCenter(o) && OffsetCounter.Avg < 2)
+                                            {
+                                                FC.Fire();
+                                                command.ClickType = MouseClickTypes.LeftBtn;
+                                            }
+                                            ML.Move();
+                                            command.X = (int)o.offsetVector.X;
+                                            command.Y = (int)o.offsetVector.Y;
+                                            gameController.MakeCommand(command);
+                                            
+                                            Console.WriteLine(o.offsetVector);
 
 
-                                sendedToUDP = false;;
-                                gameController.MoveOffset(o.offsetVector);
-                            }
+                                        }
+                                        
+                                    }
+                                }
                         }
-                        
-                    } 
+                    } else
+                    {
+                        sendedToUDP = true;
+                    }
+                    
                 }
+            } else
+            {
+                KalmanReseted = true;
+                //OffsetCounter.Reset();
             }
-            
+            if (lastObj != null && o != null )
+            {
+                OffsetCounter.Add(objects.GetDistance(lastObj.offsetVector, o.offsetVector));
+                avgOffsetObject.Text = OffsetCounter.Avg.ToString();
+            }
+            lastObj = o;
             objects.Clear();
-
+            IsDetected = !IsDetected;
             /*SW.Stop();
             calcTimeValue.Text = (SW.ElapsedTicks / (TimeSpan.TicksPerMillisecond / 1000)).ToString() + " µs";*/
 
+        }
+        private void AutoCalibrate (Vector offsetVector)
+        {
+            if (!Vector.Equals(DetectedObject.emptyVector, CalibrateVector))
+            {
+                double delta = Vector.Subtract(offsetVector, CalibrateVector).Length;
+                CalibrateMouseCoeff = ((CalibrateVector.Length + delta) / CalibrateVector.Length);
+                vectorCoeff.Text = CalibrateMouseCoeff.ToString();
+                CalibrateVector = DetectedObject.emptyVector;
+            }
+            else
+            {
+                CalibrateVector = offsetVector;
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -186,5 +290,82 @@ namespace YoloDetection
             return bmpImage.Clone(cropArea, bmpImage.PixelFormat);
         }
 
+        private void kalmanError_TextChanged(object sender, EventArgs e)
+        {
+            if (kalmanError.Text == "")
+            {
+                return;
+            }
+            double val = -1;
+
+            double.TryParse(kalmanError.Text, out val);
+            if (val>-1)
+            {
+                kalmanError.Text = val.ToString();
+                Kalman2D.R = val;
+                KalmanRect.R = val;
+            } else
+            {
+                kalmanError.Text = "1";
+            }
+            kalmanError.SelectionStart = kalmanError.Text.Length;
+            kalmanError.Focus();
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            string text = gc_commnad.Text;
+            MouseClickTypes type = (MouseClickTypes)mouseClickType.SelectedIndex;
+            string timeout = mouseTimeout.Text;
+            Vector vect = gameController.StringToVector(text);
+            GameCommand gc = new GameCommand();
+            gc.X = (int)vect.X;
+            gc.Y = (int)vect.Y;
+            gc.ClickType = type;
+            int ct = 0;
+            Int32.TryParse(timeout, out ct);
+            gc.ClickTimeout = ct;
+            gameController.MakeCommand(gc);
+        }
+
+        private void Main_Load(object sender, EventArgs e)
+        {
+            mouseClickType.SelectedIndex = 0;
+        }
+
+        private void mouseClickType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            mouseTimeout.Enabled = !((MouseClickTypes)mouseClickType.SelectedIndex == MouseClickTypes.None);
+        }
+
+        private void maxFirePErSecond_TextChanged(object sender, EventArgs e)
+        {
+            double v = 1;
+            double.TryParse(maxFirePErSecond.Text, out v);
+            FC.SetMaxFirePerSecond(v);
+        }
+
+        private void covariance_TextChanged(object sender, EventArgs e)
+        {
+            if (covariance.Text == "")
+            {
+                return;
+            }
+            float val = -1;
+
+            float.TryParse(covariance.Text, out val);
+            if (val > -1)
+            {
+                covariance.Text = val.ToString();
+                Kalman2D.Covariance = val;
+                KalmanRect.Covariance = val;
+            }
+            else
+            {
+                covariance.Text = "1";
+            }
+            covariance.SelectionStart = covariance.Text.Length;
+            covariance.Focus();
+        }
     }
 }

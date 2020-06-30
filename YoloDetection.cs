@@ -28,7 +28,7 @@ namespace YoloDetection
 
         private static void YOLOThread()
         {
-            YoloWrapper yolo = new YoloWrapper("yolov4.cfg", "yolov4.weights", 0);
+            YoloWrapper yolo = new YoloWrapper("yolo-obj.cfg", "yolo-obj_best.weights", 0);
             bool flag = true;
             uint[] obj_ids = { 0};
             //uint[] obj_ids = { 0, 2 };

@@ -12,8 +12,8 @@ namespace YoloDetection
 {
     class DetectedObject
     {
-        private string Name;
-        private Rectangle Rect;
+        public string Name;
+        public Rectangle Rect;
         public Vector Center;
         public Vector Head;
         public double Distance;
@@ -28,7 +28,7 @@ namespace YoloDetection
             Name = name;
             Rect = rect;
             Center = new Vector(Rect.X+(Rect.Width/2), Rect.Y+(Rect.Height/2));
-            Head = new Vector(Center.X, Center.Y - (Rect.Height/2.5));
+            Head = new Vector(Center.X, Center.Y - (Rect.Height/3));
             offsetVector = DetectedObject.emptyVector;
         }
 
@@ -49,6 +49,7 @@ namespace YoloDetection
         Vector ScreenCoef;
         private Vector Center = new Vector(0.5F, 0.5F);
         private Vector CenterScreen;
+        private Vector CenterDetectionSize;
         private List<DetectedObject> Data = new List<DetectedObject>();
         public DetectedObjectController(Vector screen, Vector detectionSize)
         {
@@ -71,18 +72,37 @@ namespace YoloDetection
         {
             if (Data.Count>0)
             {
-                Data[0].offsetVector = Vector.Subtract(Data[0].Head, CenterScreen);
+                Data[0].offsetVector = Vector.Subtract(ConvertDetectionScreenSizeToScreeSize(Data[0].Head), CenterScreen);
                 return Data[0];
             }
             return null;
+        }
+        private Vector ConvertDetectionScreenSizeToScreeSize(Vector detectionSizeVector)
+        {
+            return new Vector(detectionSizeVector.X*ScreenCoef.X, detectionSizeVector.Y* ScreenCoef.Y);
+        } 
+        public bool IsObjectCrossCenter(DetectedObject obj)
+        {
+            Rectangle rect = obj.Rect;
+/*            rect.X *= (int)ScreenCoef.X;
+            rect.Width *= (int)ScreenCoef.X;
+            rect.Y *= (int)ScreenCoef.Y;
+            rect.Height *= (int)ScreenCoef.Y;*/
+            if ((rect.X< CenterDetectionSize.X && (rect.X+ rect.Width) > CenterDetectionSize.X) 
+                &&
+                (rect.Y < CenterDetectionSize.Y && (rect.Y + rect.Height) > CenterDetectionSize.Y))
+            {
+                return true;
+            }
+            return false;
         }
         public void Clear()
         {
             Data.Clear();
         }
-        private double GetDistance(Vector vec1, Vector vec2)
+        public double GetDistance(Vector vec1, Vector vec2)
         {
-            return Math.Sqrt(Math.Pow(vec1.X - vec2.X, 2) + Math.Pow(vec1.Y - vec2.Y, 2));
+            return Vector.Subtract(vec2, vec1).Length; ;
         }
         private void SetSizes(Vector screen, Vector detectionSize)
         {
@@ -90,6 +110,7 @@ namespace YoloDetection
             DetectionSize = detectionSize;
             ScreenCoef = new Vector(Screen.X / DetectionSize.X, Screen.Y / DetectionSize.Y);
             CenterScreen = new Vector(Screen.X * Center.X, Screen.Y * Center.Y);
+            CenterDetectionSize = new Vector(detectionSize.X * Center.X, detectionSize.Y * Center.Y);
         }
     }
 

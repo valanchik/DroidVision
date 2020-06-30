@@ -6,7 +6,7 @@ namespace Darknet
     public class YoloWrapper : IDisposable
     {
         private const string YoloLibraryName = "yolo_cpp_dll_gpu.dll";
-        private const int MaxObjects = 10;
+        private const int MaxObjects = 100;
 
         [DllImport(YoloLibraryName, EntryPoint = "init")]
         private static extern int InitializeYolo(string configurationFilename, string weightsFilename, int gpu);

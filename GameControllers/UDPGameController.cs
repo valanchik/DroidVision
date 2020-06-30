@@ -3,13 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using Newtonsoft.Json;
 
 namespace YoloDetection
 {
+    enum MouseClickTypes
+    {
+        None,
+        LeftBtn,
+        RightBtn
+    }
+    struct GameCommand
+    {
+        public int X { get; set; }
+        public int Y { get; set; }
+        [JsonProperty("ctype")]
+        public MouseClickTypes ClickType { get; set; }
+        [JsonProperty("ctimeout")]
+        public int ClickTimeout { get; set; }
+    }
+    struct MouseEvent
+    {
+        public double x, y;
+        public bool click;
+    }
     class UDPGameController : IGameController
     {
         UdpClient client;
@@ -36,7 +59,10 @@ namespace YoloDetection
 
         public void MoveTo(Vector vector)
         {
-            throw new NotImplementedException();
+            GameCommand gc = new GameCommand();
+            gc.X = (int)vector.X;
+            gc.Y = (int)vector.Y;
+            MakeCommand(gc);
         }
         private static void ReceiveMessage()
         {
@@ -59,6 +85,38 @@ namespace YoloDetection
             {
                 receiver.Close();
             }
+        }
+
+        public Vector StringToVector(string str)
+        {
+            Regex regex = new Regex(@"([\-\d]+)x([\-\d]+).*?");
+            MatchCollection matches = regex.Matches(str);
+            if (matches.Count > 0)
+            {
+                double x = 0;
+                double y =0;
+                foreach (Match match in matches)
+                {
+                    double.TryParse(match.Groups[1].Value, out x);
+                    double.TryParse(match.Groups[2].Value, out y);
+                    break;
+                }
+                    
+
+                return new Vector(x, y);
+            }
+            else
+            {
+                return new Vector(0, 0);
+            }
+            
+        }
+
+        public void MakeCommand(GameCommand command)
+        {
+            string str = JsonConvert.SerializeObject(command);
+            byte[] data = Encoding.ASCII.GetBytes(str);
+            client.Send(data, data.Length);
         }
     }
 }

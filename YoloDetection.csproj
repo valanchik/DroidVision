@@ -105,6 +105,9 @@
     <Reference Include="Alturos.Yolo, Version=3.0.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Alturos.Yolo.3.0.6-alpha\lib\net461\Alturos.Yolo.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Activities" />
     <Reference Include="System.Core" />
@@ -121,10 +124,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DetectedObject.cs" />
+    <Compile Include="FireController.cs" />
     <Compile Include="GameControllers\IGameController.cs" />
     <Compile Include="GameControllers\UDPGameController.cs" />
     <Compile Include="Hook.cs" />
-    <Compile Include="KalmanFilterSimple1D.cs" />
+    <Compile Include="KalmanFilter.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -132,6 +136,8 @@
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
     <Compile Include="MJPEGParser.cs" />
+    <Compile Include="MoveLimitter.cs" />
+    <Compile Include="Counter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="udpKeyServer.cs" />

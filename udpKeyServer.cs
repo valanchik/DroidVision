@@ -33,8 +33,8 @@ namespace YoloDetection
 
         private static void ReceiveMessage()
         {
-            UdpClient receiver = new UdpClient(localPort); // UdpClient для получения данных
-            IPEndPoint remoteIp = null; // адрес входящего подключения
+            UdpClient receiver = new UdpClient(localPort); 
+            IPEndPoint remoteIp = null; 
             
             try
             {
