@@ -51,6 +51,9 @@ namespace YoloDetection
         private Vector CalibrateVector = new Vector(0,0);
         private double CalibrateMouseCoeff = 1;
         private Counter OffsetCounter = new Counter();
+        private double lastLengthMove = 0;
+        private double TimePerLenght = 0;
+        private double LastUDPTime = 0;
         public Main()
         {
 
@@ -63,7 +66,10 @@ namespace YoloDetection
             UDPGameController.OnReceive += (string message) =>
             {
                 sendedToUDP = true;
-                timeController.Invoke(new Action(() => timeController.Text = SWController.ElapsedMilliseconds.ToString() + " ms"));
+                SWController.Stop();
+                TimePerLenght = lastLengthMove / SWController.ElapsedMilliseconds;
+                LastUDPTime = SWController.ElapsedMilliseconds;
+                timeController.Invoke(new Action(() => timeController.Text = LastUDPTime.ToString() + " ms, "+TimePerLenght.ToString()+" ms на 1 длинны"));
             };
 
             server = new UDPServer();
@@ -79,12 +85,12 @@ namespace YoloDetection
 
             UDPServer.mjpegParser.OnJPEG += (byte[] jpeg) =>
             {
-                if (IsDetected && sendedToUDP)
+                if (IsDetected)
                 {
                     IsDetected = !IsDetected;
 
                     YoloDetection.lastImg = jpeg;
-                   
+                    pictureBox1.Image = (Image)imgConverter.ConvertFrom(jpeg);
                     /*imgConverted = (Image)imgConverter.ConvertFrom(jpeg);
                     imgCroped = cropImage(imgConverted, new Rectangle(0, 0, 320, 320));
                     imgCloned = (Image)imgCroped.Clone();
@@ -97,12 +103,17 @@ namespace YoloDetection
             {
                 timeDetection = time;
                 YoloRunTimeValue.Invoke(new Action(() => YoloRunTimeValue.Text = time.ToString() + " ms"));
-                pictureBox1.Image = (Image)imgConverter.ConvertFrom(YoloDetection.lastImg);
             };
             YoloDetection.OnObject += (DetectedObject obj) =>
             {
                 detected.Add(obj);
             };
+        }
+        private void StartUDPSW()
+        {
+            sendedToUDP = false;
+            SWController.Restart();
+            SWController.Start();
         }
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
@@ -162,10 +173,10 @@ namespace YoloDetection
 
                     o.DrawRect(e, pen);
 
-                    Kalman2D.Correct(o.offsetVector);
-                    o.offsetVector = Kalman2D.State;
+                    Kalman2D.Correct(o.Head);
+                    o.Head = Kalman2D.State;
 
-                    o.DrawCircle(e, pen, o.offsetVector);
+                    o.DrawCircle(e, pen, o.Head);
 
                     if (AutoMoving)
                     {
@@ -177,9 +188,10 @@ namespace YoloDetection
                                 //o.offsetVector = Vector.Multiply(o.offsetVector, -1);
                                 if (calibrate.Checked)
                                 {
-                                    sendedToUDP = false;
+                                    StartUDPSW();
                                     //AutoCalibrate(o.offsetVector);
                                     Console.WriteLine(o.offsetVector);
+                                    lastLengthMove = o.offsetVector.Length;
                                     gameController.MoveTo(o.offsetVector);
                                     AutoMoving = !AutoMoving;
                                 } else
@@ -188,7 +200,7 @@ namespace YoloDetection
                                     {
                                         if (objects.IsObjectCrossCenter(o) && FC.IsCanFire())
                                         {
-                                            sendedToUDP = false;
+                                            StartUDPSW();
                                             FC.Fire();
                                             GameCommand command = new GameCommand();
                                             command.ClickType = MouseClickTypes.LeftBtn;
@@ -197,7 +209,7 @@ namespace YoloDetection
                                     }
                                     else
                                     {
-                                        ML.SetMinMilliseconds(0);
+                                        ML.SetMinMilliseconds(LastUDPTime+ timeDetection);
                                         if (ML.IsCanMove())
                                         {
                                             
@@ -206,9 +218,9 @@ namespace YoloDetection
                                                 norm.Normalize();
                                                 o.offsetVector = Vector.Multiply(norm, 100);
                                             }
-                                            //sendedToUDP = false;
+                                            StartUDPSW();
                                             GameCommand command = new GameCommand();
-                                            if (FC.IsCanFire() && objects.IsObjectCrossCenter(o) && OffsetCounter.Avg < 2)
+                                            if (FC.IsCanFire() && objects.IsObjectCrossCenter(o) /*&& OffsetCounter.Avg < 2*/)
                                             {
                                                 FC.Fire();
                                                 command.ClickType = MouseClickTypes.LeftBtn;
@@ -216,6 +228,7 @@ namespace YoloDetection
                                             ML.Move();
                                             command.X = (int)o.offsetVector.X;
                                             command.Y = (int)o.offsetVector.Y;
+                                            lastLengthMove = o.offsetVector.Length;
                                             gameController.MakeCommand(command);
                                             
                                             Console.WriteLine(o.offsetVector);
