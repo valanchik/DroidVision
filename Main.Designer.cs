@@ -43,6 +43,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.isVectorInverted = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.covariance = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.kalmanError = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
@@ -61,8 +63,8 @@
             this.vectorCoeff = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.calibrate = new System.Windows.Forms.CheckBox();
-            this.covariance = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.turnTimeOutValue = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -233,6 +235,23 @@
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Фильтр Калмана";
+            // 
+            // covariance
+            // 
+            this.covariance.Location = new System.Drawing.Point(173, 60);
+            this.covariance.Name = "covariance";
+            this.covariance.Size = new System.Drawing.Size(67, 22);
+            this.covariance.TabIndex = 3;
+            this.covariance.TextChanged += new System.EventHandler(this.covariance_TextChanged);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(6, 60);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(83, 17);
+            this.label10.TabIndex = 2;
+            this.label10.Text = "Ковариант:";
             // 
             // kalmanError
             // 
@@ -413,28 +432,31 @@
             this.calibrate.Text = "Калибровать";
             this.calibrate.UseVisualStyleBackColor = true;
             // 
-            // covariance
+            // label12
             // 
-            this.covariance.Location = new System.Drawing.Point(173, 60);
-            this.covariance.Name = "covariance";
-            this.covariance.Size = new System.Drawing.Size(67, 22);
-            this.covariance.TabIndex = 3;
-            this.covariance.TextChanged += new System.EventHandler(this.covariance_TextChanged);
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(480, 99);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(167, 17);
+            this.label12.TabIndex = 13;
+            this.label12.Text = "Задержка авт. очереди:";
             // 
-            // label10
+            // turnTimeOutValue
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(6, 60);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(83, 17);
-            this.label10.TabIndex = 2;
-            this.label10.Text = "Ковариант:";
+            this.turnTimeOutValue.Location = new System.Drawing.Point(646, 96);
+            this.turnTimeOutValue.Name = "turnTimeOutValue";
+            this.turnTimeOutValue.Size = new System.Drawing.Size(67, 22);
+            this.turnTimeOutValue.TabIndex = 12;
+            this.turnTimeOutValue.Text = "230";
+            this.turnTimeOutValue.TextChanged += new System.EventHandler(this.turnTimeOutValue_TextChanged);
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1330, 762);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.turnTimeOutValue);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.maxFirePErSecond);
@@ -501,6 +523,8 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox covariance;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox turnTimeOutValue;
     }
 }
 

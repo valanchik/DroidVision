@@ -54,6 +54,7 @@ namespace YoloDetection
         private double lastLengthMove = 0;
         private double TimePerLenght = 0;
         private double LastUDPTime = 0;
+        private int TurnTimeOut = 230;
         public Main()
         {
 
@@ -209,31 +210,32 @@ namespace YoloDetection
                                     }
                                     else
                                     {
-                                        ML.SetMinMilliseconds(LastUDPTime+ timeDetection);
-                                        if (ML.IsCanMove())
+                                        //ML.SetMinMilliseconds(LastUDPTime+ timeDetection);
+                                        if (true || ML.IsCanMove())
                                         {
                                             
-                                            if (o.offsetVector.Length>1000) {
+                                            /*if (o.offsetVector.Length>1000) {
                                                 Vector norm = new Vector(o.offsetVector.X, o.offsetVector.Y);
                                                 norm.Normalize();
                                                 o.offsetVector = Vector.Multiply(norm, 100);
-                                            }
-                                            StartUDPSW();
-                                            GameCommand command = new GameCommand();
+                                            }*/
+                                            
+                                            
                                             if (FC.IsCanFire() && objects.IsObjectCrossCenter(o) /*&& OffsetCounter.Avg < 2*/)
                                             {
+                                                
+                                                StartUDPSW();
                                                 FC.Fire();
+                                                GameCommand command = new GameCommand();
                                                 command.ClickType = MouseClickTypes.LeftBtn;
+                                                command.ClickTimeout = TurnTimeOut;
+                                                ML.Move();
+                                                command.X = (int)o.offsetVector.X;
+                                                command.Y = (int)o.offsetVector.Y;
+                                                lastLengthMove = o.offsetVector.Length;
+                                                gameController.MakeCommand(command);
+                                                //Console.WriteLine(o.offsetVector);
                                             }
-                                            ML.Move();
-                                            command.X = (int)o.offsetVector.X;
-                                            command.Y = (int)o.offsetVector.Y;
-                                            lastLengthMove = o.offsetVector.Length;
-                                            gameController.MakeCommand(command);
-                                            
-                                            Console.WriteLine(o.offsetVector);
-
-
                                         }
                                         
                                     }
@@ -327,18 +329,23 @@ namespace YoloDetection
 
         private void button2_Click_1(object sender, EventArgs e)
         {
-            string text = gc_commnad.Text;
-            MouseClickTypes type = (MouseClickTypes)mouseClickType.SelectedIndex;
-            string timeout = mouseTimeout.Text;
-            Vector vect = gameController.StringToVector(text);
-            GameCommand gc = new GameCommand();
-            gc.X = (int)vect.X;
-            gc.Y = (int)vect.Y;
-            gc.ClickType = type;
-            int ct = 0;
-            Int32.TryParse(timeout, out ct);
-            gc.ClickTimeout = ct;
-            gameController.MakeCommand(gc);
+            if (FC.IsCanFire())
+            {
+                FC.Fire();
+                string text = gc_commnad.Text;
+                MouseClickTypes type = (MouseClickTypes)mouseClickType.SelectedIndex;
+                string timeout = mouseTimeout.Text;
+                Vector vect = gameController.StringToVector(text);
+                GameCommand gc = new GameCommand();
+                gc.X = (int)vect.X;
+                gc.Y = (int)vect.Y;
+                gc.ClickType = type;
+                int ct = 0;
+                Int32.TryParse(timeout, out ct);
+                gc.ClickTimeout = ct;
+                gameController.MakeCommand(gc);
+            }
+            
         }
 
         private void Main_Load(object sender, EventArgs e)
@@ -379,6 +386,13 @@ namespace YoloDetection
             }
             covariance.SelectionStart = covariance.Text.Length;
             covariance.Focus();
+        }
+
+        private void turnTimeOutValue_TextChanged(object sender, EventArgs e)
+        {
+            int v = 0;
+            Int32.TryParse(turnTimeOutValue.Text, out v);
+            TurnTimeOut = v;
         }
     }
 }
