@@ -41,20 +41,29 @@ namespace YoloDetection
             {
                 if (flag && lastImg.Length > 0)
                 {
+                    flag = !flag;
                     Stopwatch SW = new Stopwatch(); // Создаем объект
                     SW.Start(); // Запускаем
-                    flag = !flag;
+                   
                     byte[] img = lastImg;
-                    bbox_t[] items = yolo.Detect(img);
-                    foreach (bbox_t box in items)
+                    try
                     {
-                        if (box.prob>0.5 && Array.IndexOf(obj_ids, box.obj_id) > -1)
+                        bbox_t[] items = yolo.Detect(img);
+                        foreach (bbox_t box in items)
                         {
-                            OnObject?.Invoke(new DetectedObject(box.obj_id.ToString(), new Rectangle((int)box.x, (int)box.y, (int)box.w, (int)box.h)));
+                            if (box.prob > 0.5 && Array.IndexOf(obj_ids, box.obj_id) > -1)
+                            {
+                                OnObject?.Invoke(new DetectedObject(box.obj_id.ToString(), new Rectangle((int)box.x, (int)box.y, (int)box.w, (int)box.h)));
+                            }
                         }
+                        SW.Stop();
+                        OnYoloDetect?.Invoke(SW.ElapsedMilliseconds);
                     }
-                    SW.Stop();
-                    OnYoloDetect?.Invoke(SW.ElapsedMilliseconds);
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex);
+                    }
+                    
                     flag = !flag;
                 }
             };

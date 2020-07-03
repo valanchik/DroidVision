@@ -23,6 +23,7 @@ namespace YoloDetection
                 localPort = 9191;
 
                 receiveThread = new Thread(new ThreadStart(ReceiveMessage));
+                receiveThread.Priority = ThreadPriority.Highest;
                 receiveThread.IsBackground = true;
                 receiveThread.Start();
             }

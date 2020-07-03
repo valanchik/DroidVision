@@ -24,19 +24,17 @@ namespace YoloDetection
         
         public DetectedObject(string name, Rectangle rect)
         {
-            Time = DateTimeOffset.Now.ToUnixTimeMilliseconds();
             Name = name;
             Rect = rect;
             Center = new Vector(Rect.X+(Rect.Width/2), Rect.Y+(Rect.Height/2));
             Head = new Vector(Center.X, Center.Y - (Rect.Height/3));
             offsetVector = DetectedObject.emptyVector;
         }
-
-        public bool IsActualTime(long t)
+        public void SetTime(long time)
         {
-            long now  = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-            return now - t < Time;
+            Time = time;
         }
+
 
         public void DrawRect(PaintEventArgs e, Pen pen) => e.Graphics.DrawRectangle(pen, Rect);
         public void DrawCircle(PaintEventArgs e, Pen pen, Vector vect) => e.Graphics.DrawEllipse(pen, new Rectangle(new System.Drawing.Point((int)vect.X, (int)vect.Y), new System.Drawing.Size(3,3)));
@@ -72,10 +70,14 @@ namespace YoloDetection
         {
             if (Data.Count>0)
             {
-                Data[0].offsetVector = Vector.Subtract(ConvertDetectionScreenSizeToScreeSize(Data[0].Head), CenterScreen);
+                Data[0].offsetVector = GetFromCenter(Data[0].Head);
                 return Data[0];
             }
             return null;
+        }
+        public Vector GetFromCenter(Vector vect)
+        {
+            return Vector.Subtract(ConvertDetectionScreenSizeToScreeSize(vect), CenterScreen);
         }
         private Vector ConvertDetectionScreenSizeToScreeSize(Vector detectionSizeVector)
         {
@@ -103,6 +105,13 @@ namespace YoloDetection
         public double GetDistance(Vector vec1, Vector vec2)
         {
             return Vector.Subtract(vec2, vec1).Length; ;
+        }
+        public Vector Predict(Vector from, double scalar)
+        {
+            //Vector v = Vector.Subtract(to.offsetVector, from.offsetVector);
+            /*Vector v = new Vector(from.X, from.Y);
+            v.Normalize();*/
+            return Vector.Add(from, Vector.Multiply(from, scalar));
         }
         private void SetSizes(Vector screen, Vector detectionSize)
         {

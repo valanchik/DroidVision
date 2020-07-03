@@ -123,6 +123,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Counter2d.cs" />
     <Compile Include="DetectedObject.cs" />
     <Compile Include="FireController.cs" />
     <Compile Include="GameControllers\IGameController.cs" />
