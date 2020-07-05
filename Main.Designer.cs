@@ -66,6 +66,7 @@
             this.label12 = new System.Windows.Forms.Label();
             this.turnTimeOutValue = new System.Windows.Forms.TextBox();
             this.CanMouseMove = new System.Windows.Forms.CheckBox();
+            this.canFire = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -243,6 +244,7 @@
             this.covariance.Name = "covariance";
             this.covariance.Size = new System.Drawing.Size(67, 22);
             this.covariance.TabIndex = 3;
+            this.covariance.Text = "0";
             this.covariance.TextChanged += new System.EventHandler(this.covariance_TextChanged);
             // 
             // label10
@@ -260,6 +262,7 @@
             this.kalmanError.Name = "kalmanError";
             this.kalmanError.Size = new System.Drawing.Size(67, 22);
             this.kalmanError.TabIndex = 1;
+            this.kalmanError.Text = "0";
             this.kalmanError.TextChanged += new System.EventHandler(this.kalmanError_TextChanged);
             // 
             // label4
@@ -370,7 +373,7 @@
             this.maxFirePErSecond.Name = "maxFirePErSecond";
             this.maxFirePErSecond.Size = new System.Drawing.Size(67, 22);
             this.maxFirePErSecond.TabIndex = 9;
-            this.maxFirePErSecond.Text = "3";
+            this.maxFirePErSecond.Text = "2";
             this.maxFirePErSecond.TextChanged += new System.EventHandler(this.maxFirePErSecond_TextChanged);
             // 
             // label8
@@ -401,7 +404,7 @@
             this.mouseCoeff.Name = "mouseCoeff";
             this.mouseCoeff.Size = new System.Drawing.Size(67, 22);
             this.mouseCoeff.TabIndex = 14;
-            this.mouseCoeff.Text = "0,2";
+            this.mouseCoeff.Text = "0,03762";
             this.mouseCoeff.TextChanged += new System.EventHandler(this.mouseCoeff_TextChanged);
             // 
             // autoCalibration
@@ -463,11 +466,24 @@
             this.CanMouseMove.Text = "Перемещать мышку";
             this.CanMouseMove.UseVisualStyleBackColor = true;
             // 
+            // canFire
+            // 
+            this.canFire.AutoSize = true;
+            this.canFire.Checked = true;
+            this.canFire.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.canFire.Location = new System.Drawing.Point(1158, 426);
+            this.canFire.Name = "canFire";
+            this.canFire.Size = new System.Drawing.Size(92, 21);
+            this.canFire.TabIndex = 15;
+            this.canFire.Text = "Стрелять";
+            this.canFire.UseVisualStyleBackColor = true;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1330, 762);
+            this.Controls.Add(this.canFire);
             this.Controls.Add(this.CanMouseMove);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.turnTimeOutValue);
@@ -540,6 +556,7 @@
         private System.Windows.Forms.TextBox turnTimeOutValue;
         private System.Windows.Forms.TextBox mouseCoeff;
         private System.Windows.Forms.CheckBox CanMouseMove;
+        private System.Windows.Forms.CheckBox canFire;
     }
 }
 

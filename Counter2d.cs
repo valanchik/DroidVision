@@ -16,7 +16,7 @@ namespace YoloDetection
         public Vector Avg => avg;
         public double Count => list.Count;
         public Vector Summ => summ;
-        private int maxList = 10;
+        private int maxList = 3;
         private List<Vector> list = new List<Vector>();
 
         public Counter2d()

@@ -11,6 +11,8 @@ namespace YoloDetection
     class FireController
     {
         private Stopwatch SW = new Stopwatch();
+        private Stopwatch SWCounter = new Stopwatch();
+        private int counter = 0;
         private double MaxFirePerSecond;
         private double MinMilliseconds;
         public FireController(double maxFirePerSecond)
@@ -21,7 +23,16 @@ namespace YoloDetection
         {
             Reset();
             SW.Start();
-            
+            if (!SWCounter.IsRunning)
+            {
+                //SWCounter.Start();
+            } else if (SWCounter.ElapsedMilliseconds<1000)
+            {
+                //counter++;
+            } else
+            {
+
+            }
             return this;
         }
         public FireController Reset()
