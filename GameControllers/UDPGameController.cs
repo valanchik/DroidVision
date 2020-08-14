@@ -23,10 +23,25 @@ namespace YoloDetection
     {
         public int X { get; set; }
         public int Y { get; set; }
+        [JsonProperty("led")]
+        public bool LED { get; set; }
         [JsonProperty("ctype")]
         public MouseClickTypes ClickType { get; set; }
         [JsonProperty("ctimeout")]
         public int ClickTimeout { get; set; }
+        [JsonProperty("step")]
+        public int Step
+        {
+            get
+            {
+                int step = Math.Max(Math.Abs(X), Math.Abs(Y));
+                if (step > 20)
+                {
+                    step = 20;
+                }
+                return step;
+            }
+        }
     }
     struct MouseEvent
     {

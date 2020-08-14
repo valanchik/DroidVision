@@ -40,6 +40,7 @@ namespace YoloDetection
         private static Image imgConverted;
         private static Image imgCroped;
         private static Image imgCloned;
+        private static Image cimg;
         private static byte[] bImg;
         private static  Bitmap bmpImage;
         private static Stopwatch SWController = new Stopwatch();
@@ -60,6 +61,10 @@ namespace YoloDetection
         private double LastUDPTime = 0;
         private int TurnTimeOut = 230;
         private Vector lastOffset = new Vector(0,0);
+        private bool stopedMoving = false;
+        private int cnt = 0;
+        private Stopwatch SavePicSW = new Stopwatch();
+        private bool savingImg = false;
         public Main()
         {
 
@@ -91,6 +96,9 @@ namespace YoloDetection
                  if (status)
                  {
                      AutoMoving = !AutoMoving;
+                     GameCommand gc = new GameCommand();
+                     gc.LED = AutoMoving;
+                     gameController.MakeCommand(gc);
                  }
                  
              };
@@ -136,6 +144,10 @@ namespace YoloDetection
         }
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
+            if (savingImg)
+            {
+                return;
+            }
             if (AutoMoving)
             {
                 autoMovingStatus.BackColor = Color.Green;
@@ -174,7 +186,7 @@ namespace YoloDetection
                     }
                 }
             }
-            DetectedObjectController objects = new DetectedObjectController(new Vector(1920, 1080), new Vector(852, 480), obj);
+            DetectedObjectController objects = new DetectedObjectController(new Vector(1920, 1080), new Vector(852,480), obj);
             DetectedObject o = objects.GetNearestRectFromCenter();
             
             if (o != null)
@@ -191,8 +203,21 @@ namespace YoloDetection
                             KalmanReseted = false;
                         }
                         KalmanRect.Correct(o.Rect);
+                        if (createDetectedImg.Checked && SavePicSW.IsRunning && SavePicSW.ElapsedMilliseconds>1000)
+                        {
+                            try
+                            {
+                                cimg = cropImage(pictureBox1.Image, o.Rect);
+                                cimg.Save(@".\pic\"+saveImgPrefix.Text+"_" + cnt + ".png", System.Drawing.Imaging.ImageFormat.Png);
+                                cnt++;
+                            } catch (Exception ee)
+                            {
+                                Console.WriteLine(ee);
+                            }
+                            
+                            SavePicSW.Restart();
+                        }
                         o.Rect = KalmanRect.State;
-
                         o.DrawRect(e, pen);
 
                         Kalman2D.Correct(o.Head);
@@ -230,7 +255,7 @@ namespace YoloDetection
                                     Kalman2DPredict.Correct(PredictCounter.Avg);
                                     predicted = Kalman2DPredict.State;
                                     
-                                    o.offsetVector = objects.GetFromCenter(predicted);
+                                    o.offsetVector = objects.GetFromCenter(o.Head);
 
                                     o.DrawCircle(e, predictPen, predicted);
 
@@ -289,7 +314,7 @@ namespace YoloDetection
                                             {
                                                 command.X = (int)o.offsetVector.X;
                                                 command.Y = (int)o.offsetVector.Y;
-                                                Console.WriteLine(o.offsetVector);
+                                                //Console.WriteLine(o.offsetVector);
                                             }
                                             lastLengthMove = o.offsetVector.Length;
                                             StartUDPSW();
@@ -297,16 +322,28 @@ namespace YoloDetection
                                             {
 
                                                 FC.Fire();
-
-                                                o.offsetVector = Vector.Add(o.offsetVector, new Vector(0, 6));
+                                                // компенсация отдачи
+                                                o.offsetVector = Vector.Add(o.offsetVector, new Vector(0, 3));
                                                 command.X = (int)o.offsetVector.X;
                                                 command.Y = (int)o.offsetVector.Y;
-
+                                                
                                                 command.ClickType = MouseClickTypes.LeftBtn;
                                                 command.ClickTimeout = TurnTimeOut;
                                                 
                                             }
+                                            command.LED = AutoMoving;
+
+                                            if (!movingX.Checked)
+                                            {
+                                                command.X = 0;
+                                            }
+                                            if (!movingY.Checked)
+                                            {
+                                                command.Y = 0;
+                                            }
+
                                             gameController.MakeCommand(command);
+                                            stopedMoving = false;
                                         }
                                     }
                                 }
@@ -323,6 +360,15 @@ namespace YoloDetection
             } else
             {
                 KalmanReseted = true;
+                // останавливаем движение
+                if (!stopedMoving)
+                {
+                    stopedMoving = true;
+                    GameCommand command = new GameCommand();
+                    command.LED = AutoMoving;
+                    gameController.MakeCommand(command);
+                } 
+                
                 //OffsetCounter.Reset();
             }
             if (lastObj != null && o != null )
@@ -375,7 +421,9 @@ namespace YoloDetection
 
         private static Image cropImage(Image img, Rectangle cropArea)
         {
+
             bmpImage = new Bitmap(img);
+            
             return bmpImage.Clone(cropArea, bmpImage.PixelFormat);
         }
 
@@ -423,6 +471,7 @@ namespace YoloDetection
             if (FC.IsCanFire())
             {
                 FC.Fire();
+                Console.WriteLine(FC.Counter);
                 string text = gc_commnad.Text;
                 MouseClickTypes type = (MouseClickTypes)mouseClickType.SelectedIndex;
                 string timeout = mouseTimeout.Text;
@@ -434,6 +483,7 @@ namespace YoloDetection
                 int ct = 0;
                 Int32.TryParse(timeout, out ct);
                 gc.ClickTimeout = ct;
+                gc.LED = led13.Checked;
                 gameController.MakeCommand(gc);
             }
             
@@ -506,6 +556,28 @@ namespace YoloDetection
             }
             mouseCoeff.SelectionStart = mouseCoeff.Text.Length;
             mouseCoeff.Focus();
+        }
+
+        private void createDetectedImg_CheckedChanged(object sender, EventArgs e)
+        {
+            if (createDetectedImg.Checked)
+            {
+                SavePicSW.Start();
+            } else
+            {
+                SavePicSW.Stop();
+                SavePicSW.Reset();
+            }
+        }
+
+        private void autoMovingStatus_Paint(object sender, PaintEventArgs e)
+        {
+            
+        }
+
+        private void autoMovingStatus_MouseClick(object sender, MouseEventArgs e)
+        {
+            AutoMoving = !AutoMoving;
         }
     }
 }

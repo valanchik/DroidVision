@@ -49,6 +49,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.led13 = new System.Windows.Forms.CheckBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -67,6 +68,10 @@
             this.turnTimeOutValue = new System.Windows.Forms.TextBox();
             this.CanMouseMove = new System.Windows.Forms.CheckBox();
             this.canFire = new System.Windows.Forms.CheckBox();
+            this.createDetectedImg = new System.Windows.Forms.CheckBox();
+            this.saveImgPrefix = new System.Windows.Forms.TextBox();
+            this.movingX = new System.Windows.Forms.CheckBox();
+            this.movingY = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -144,6 +149,8 @@
             this.autoMovingStatus.Name = "autoMovingStatus";
             this.autoMovingStatus.Size = new System.Drawing.Size(61, 14);
             this.autoMovingStatus.TabIndex = 4;
+            this.autoMovingStatus.Paint += new System.Windows.Forms.PaintEventHandler(this.autoMovingStatus_Paint);
+            this.autoMovingStatus.MouseClick += new System.Windows.Forms.MouseEventHandler(this.autoMovingStatus_MouseClick);
             // 
             // label2
             // 
@@ -244,7 +251,7 @@
             this.covariance.Name = "covariance";
             this.covariance.Size = new System.Drawing.Size(67, 22);
             this.covariance.TabIndex = 3;
-            this.covariance.Text = "0";
+            this.covariance.Text = "15";
             this.covariance.TextChanged += new System.EventHandler(this.covariance_TextChanged);
             // 
             // label10
@@ -262,7 +269,7 @@
             this.kalmanError.Name = "kalmanError";
             this.kalmanError.Size = new System.Drawing.Size(67, 22);
             this.kalmanError.TabIndex = 1;
-            this.kalmanError.Text = "0";
+            this.kalmanError.Text = "1";
             this.kalmanError.TextChanged += new System.EventHandler(this.kalmanError_TextChanged);
             // 
             // label4
@@ -276,7 +283,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(6, 173);
+            this.button2.Location = new System.Drawing.Point(9, 213);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(148, 23);
             this.button2.TabIndex = 6;
@@ -286,6 +293,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.led13);
             this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Controls.Add(this.label6);
             this.groupBox3.Controls.Add(this.label5);
@@ -295,10 +303,22 @@
             this.groupBox3.Controls.Add(this.button2);
             this.groupBox3.Location = new System.Drawing.Point(1158, 15);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(160, 203);
+            this.groupBox3.Size = new System.Drawing.Size(160, 242);
             this.groupBox3.TabIndex = 7;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Тест gameController";
+            // 
+            // led13
+            // 
+            this.led13.AutoSize = true;
+            this.led13.Checked = true;
+            this.led13.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.led13.Location = new System.Drawing.Point(6, 173);
+            this.led13.Name = "led13";
+            this.led13.Size = new System.Drawing.Size(130, 21);
+            this.led13.TabIndex = 15;
+            this.led13.Text = "Включить диод";
+            this.led13.UseVisualStyleBackColor = true;
             // 
             // label7
             // 
@@ -373,7 +393,7 @@
             this.maxFirePErSecond.Name = "maxFirePErSecond";
             this.maxFirePErSecond.Size = new System.Drawing.Size(67, 22);
             this.maxFirePErSecond.TabIndex = 9;
-            this.maxFirePErSecond.Text = "2";
+            this.maxFirePErSecond.Text = "6";
             this.maxFirePErSecond.TextChanged += new System.EventHandler(this.maxFirePErSecond_TextChanged);
             // 
             // label8
@@ -391,7 +411,7 @@
             this.groupBox4.Controls.Add(this.autoCalibration);
             this.groupBox4.Controls.Add(this.label9);
             this.groupBox4.Controls.Add(this.calibrate);
-            this.groupBox4.Location = new System.Drawing.Point(1158, 224);
+            this.groupBox4.Location = new System.Drawing.Point(1158, 263);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(160, 169);
             this.groupBox4.TabIndex = 11;
@@ -403,8 +423,8 @@
             this.mouseCoeff.Location = new System.Drawing.Point(84, 42);
             this.mouseCoeff.Name = "mouseCoeff";
             this.mouseCoeff.Size = new System.Drawing.Size(67, 22);
-            this.mouseCoeff.TabIndex = 14;
-            this.mouseCoeff.Text = "0,03762";
+            this.mouseCoeff.TabIndex = 11;
+            this.mouseCoeff.Text = "0,031";
             this.mouseCoeff.TextChanged += new System.EventHandler(this.mouseCoeff_TextChanged);
             // 
             // autoCalibration
@@ -450,8 +470,8 @@
             this.turnTimeOutValue.Location = new System.Drawing.Point(646, 96);
             this.turnTimeOutValue.Name = "turnTimeOutValue";
             this.turnTimeOutValue.Size = new System.Drawing.Size(67, 22);
-            this.turnTimeOutValue.TabIndex = 12;
-            this.turnTimeOutValue.Text = "120";
+            this.turnTimeOutValue.TabIndex = 10;
+            this.turnTimeOutValue.Text = "0";
             this.turnTimeOutValue.TextChanged += new System.EventHandler(this.turnTimeOutValue_TextChanged);
             // 
             // CanMouseMove
@@ -459,7 +479,7 @@
             this.CanMouseMove.AutoSize = true;
             this.CanMouseMove.Checked = true;
             this.CanMouseMove.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CanMouseMove.Location = new System.Drawing.Point(1158, 399);
+            this.CanMouseMove.Location = new System.Drawing.Point(1156, 438);
             this.CanMouseMove.Name = "CanMouseMove";
             this.CanMouseMove.Size = new System.Drawing.Size(162, 21);
             this.CanMouseMove.TabIndex = 14;
@@ -471,18 +491,65 @@
             this.canFire.AutoSize = true;
             this.canFire.Checked = true;
             this.canFire.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.canFire.Location = new System.Drawing.Point(1158, 426);
+            this.canFire.Location = new System.Drawing.Point(1156, 465);
             this.canFire.Name = "canFire";
             this.canFire.Size = new System.Drawing.Size(92, 21);
             this.canFire.TabIndex = 15;
             this.canFire.Text = "Стрелять";
             this.canFire.UseVisualStyleBackColor = true;
             // 
+            // createDetectedImg
+            // 
+            this.createDetectedImg.AutoSize = true;
+            this.createDetectedImg.Location = new System.Drawing.Point(5, 77);
+            this.createDetectedImg.Name = "createDetectedImg";
+            this.createDetectedImg.Size = new System.Drawing.Size(149, 21);
+            this.createDetectedImg.TabIndex = 16;
+            this.createDetectedImg.Text = "Создать картинки";
+            this.createDetectedImg.UseVisualStyleBackColor = true;
+            this.createDetectedImg.CheckedChanged += new System.EventHandler(this.createDetectedImg_CheckedChanged);
+            // 
+            // saveImgPrefix
+            // 
+            this.saveImgPrefix.Location = new System.Drawing.Point(5, 99);
+            this.saveImgPrefix.Name = "saveImgPrefix";
+            this.saveImgPrefix.Size = new System.Drawing.Size(149, 22);
+            this.saveImgPrefix.TabIndex = 4;
+            this.saveImgPrefix.Text = "a";
+            // 
+            // movingX
+            // 
+            this.movingX.AutoSize = true;
+            this.movingX.Checked = true;
+            this.movingX.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.movingX.Location = new System.Drawing.Point(1156, 492);
+            this.movingX.Name = "movingX";
+            this.movingX.Size = new System.Drawing.Size(116, 21);
+            this.movingX.TabIndex = 17;
+            this.movingX.Text = "Двигать по X";
+            this.movingX.UseVisualStyleBackColor = true;
+            // 
+            // movingY
+            // 
+            this.movingY.AutoSize = true;
+            this.movingY.Checked = true;
+            this.movingY.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.movingY.Location = new System.Drawing.Point(1156, 519);
+            this.movingY.Name = "movingY";
+            this.movingY.Size = new System.Drawing.Size(120, 21);
+            this.movingY.TabIndex = 18;
+            this.movingY.Text = "Двигать  по Y";
+            this.movingY.UseVisualStyleBackColor = true;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1330, 762);
+            this.Controls.Add(this.movingY);
+            this.Controls.Add(this.movingX);
+            this.Controls.Add(this.saveImgPrefix);
+            this.Controls.Add(this.createDetectedImg);
             this.Controls.Add(this.canFire);
             this.Controls.Add(this.CanMouseMove);
             this.Controls.Add(this.label12);
@@ -557,6 +624,11 @@
         private System.Windows.Forms.TextBox mouseCoeff;
         private System.Windows.Forms.CheckBox CanMouseMove;
         private System.Windows.Forms.CheckBox canFire;
+        private System.Windows.Forms.CheckBox led13;
+        private System.Windows.Forms.CheckBox createDetectedImg;
+        private System.Windows.Forms.TextBox saveImgPrefix;
+        private System.Windows.Forms.CheckBox movingX;
+        private System.Windows.Forms.CheckBox movingY;
     }
 }
 

@@ -27,7 +27,7 @@ namespace YoloDetection
             Name = name;
             Rect = rect;
             Center = new Vector(Rect.X+(Rect.Width/2), Rect.Y+(Rect.Height/2));
-            Head = new Vector(Center.X, Center.Y - (Rect.Height/3));
+            Head = new Vector(Center.X, Center.Y - (Rect.Height/2.6F));
             offsetVector = DetectedObject.emptyVector;
         }
         public void SetTime(long time)
@@ -63,6 +63,14 @@ namespace YoloDetection
             foreach (DetectedObject o in obj)
             {
                 o.Distance = GetDistance(CenterScreen, o.Center);
+                if (o.Rect.Height> DetectionSize.Y)
+                {
+                    o.Rect.Height = (int)DetectionSize.Y;
+                }
+                if (o.Rect.Width > DetectionSize.X)
+                {
+                    o.Rect.Width = (int)DetectionSize.X;
+                }
             }
             Data = obj.OrderBy(o => o.Distance).ToList();
         }
