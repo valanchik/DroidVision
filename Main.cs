@@ -42,7 +42,7 @@ namespace YoloDetection
         private static Image imgCloned;
         private static Image cimg;
         private static byte[] bImg;
-        private static  Bitmap bmpImage;
+        private static Bitmap bmpImage;
         private static Stopwatch SWController = new Stopwatch();
         private static Stopwatch SWTimeDetectObject = new Stopwatch();
         private KalmanFilter2D Kalman2D = new KalmanFilter2D(f: 1, h: 1, q: 2, r: 15);
@@ -52,7 +52,7 @@ namespace YoloDetection
         private bool KalmanPredictReseted = true;
         FireController FC = new FireController(5);
         MoveLimitter ML = new MoveLimitter(22);
-        private Vector CalibrateVector = new Vector(0,0);
+        private Vector CalibrateVector = new Vector(0, 0);
         private float CalibrateMouseCoeff = 1;
         private Counter OffsetCounter = new Counter();
         private Counter2d PredictCounter = new Counter2d();
@@ -60,7 +60,7 @@ namespace YoloDetection
         private double TimePerLenght = 0;
         private double LastUDPTime = 0;
         private int TurnTimeOut = 230;
-        private Vector lastOffset = new Vector(0,0);
+        private Vector lastOffset = new Vector(0, 0);
         private bool stopedMoving = false;
         private int cnt = 0;
         private Stopwatch SavePicSW = new Stopwatch();
@@ -70,8 +70,8 @@ namespace YoloDetection
 
             InitializeComponent();
             kalmanError_TextChanged(null, null);
-            covariance_TextChanged(null,null);
-            maxFirePErSecond_TextChanged(null,null);
+            covariance_TextChanged(null, null);
+            maxFirePErSecond_TextChanged(null, null);
             turnTimeOutValue_TextChanged(null, null);
             mouseCoeff_TextChanged(null, null);
 
@@ -86,7 +86,7 @@ namespace YoloDetection
                 SWController.Stop();
                 TimePerLenght = lastLengthMove / SWController.ElapsedMilliseconds;
                 LastUDPTime = SWController.ElapsedMilliseconds;
-                timeController.Invoke(new Action(() => timeController.Text = LastUDPTime.ToString() + " ms, "+TimePerLenght.ToString()+" ms на 1 длинны"));
+                timeController.Invoke(new Action(() => timeController.Text = LastUDPTime.ToString() + " ms, " + TimePerLenght.ToString() + " ms на 1 длинны"));
             };
 
             server = new UDPServer();
@@ -100,7 +100,7 @@ namespace YoloDetection
                      gc.LED = AutoMoving;
                      gameController.MakeCommand(gc);
                  }
-                 
+
              };
 
             UDPServer.mjpegParser.OnJPEG += (byte[] jpeg) =>
@@ -110,14 +110,17 @@ namespace YoloDetection
                     IsDetected = !IsDetected;
 
                     YoloDetection.lastImg = jpeg;
-                    try
+                    if (drawImage.Checked)
                     {
-                        pictureBox1.Image = (Image)imgConverter.ConvertFrom(jpeg);
-                    } catch (Exception e)
-                    {
-                        Console.WriteLine(e);
+                        try
+                        {
+                            pictureBox1.Image = (Image)imgConverter.ConvertFrom(jpeg);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                        }
                     }
-                    
                     /*imgConverted = (Image)imgConverter.ConvertFrom(jpeg);
                     imgCroped = cropImage(imgConverted, new Rectangle(0, 0, 320, 320));
                     imgCloned = (Image)imgCroped.Clone();
@@ -129,7 +132,11 @@ namespace YoloDetection
             YoloDetection.OnYoloDetect += (long time) =>
             {
                 timeDetection = time;
-                YoloRunTimeValue.Invoke(new Action(() => YoloRunTimeValue.Text = time.ToString() + " ms"));
+                YoloRunTimeValue.Invoke(new Action(() => {
+
+                    YoloRunTimeValue.Text = time.ToString() + " ms";
+                    Make();
+                }));
             };
             YoloDetection.OnObject += (DetectedObject obj) =>
             {
@@ -142,222 +149,191 @@ namespace YoloDetection
             SWController.Restart();
             SWController.Start();
         }
-        private void pictureBox1_Paint(object sender, PaintEventArgs e)
-        {
-            if (savingImg)
-            {
-                return;
-            }
+        private void Make() {
             if (AutoMoving)
             {
                 autoMovingStatus.BackColor = Color.Green;
-            } else
+            }
+            else
             {
                 autoMovingStatus.BackColor = Color.Red;
             }
-            /*Stopwatch SW = new Stopwatch(); // Создаем объект
-            SW.Start(); // Запускаем*/
-
             List<DetectedObject> obj = new List<DetectedObject>();
-            using (Pen pen = new Pen(Color.Red, 2) )
+            while (!detected.IsEmpty)
             {
-                using (Pen pen2 = new Pen(Color.Yellow, 2))
+                DetectedObject item;
+                if (detected.TryTake(out item))
                 {
-                    while (!detected.IsEmpty)
-                    {
-                        DetectedObject item;
-                        if (detected.TryTake(out item))
-                        {
-                            switch (item.Name)
-                            {
-                                case ("0"):
-                                    //item.DrawRect(e, pen);
-                                    break;
-                                case ("1"):
-                                    //item.DrawRect(e, pen2);
-                                    break;
-                                default:
-                                    item.DrawRect(e, pen);
-                                    break;
-                            }
-                            
-                            obj.Add(item);
-                        }
-                    }
+                    obj.Add(item);
                 }
             }
-            DetectedObjectController objects = new DetectedObjectController(new Vector(1920, 1080), new Vector(852,480), obj);
+            DetectedObjectController objects = new DetectedObjectController(new Vector(1920, 1080), new Vector(852, 480), obj);
             DetectedObject o = objects.GetNearestRectFromCenter();
-            
+
             if (o != null)
             {
-                using (Pen pen = new Pen(Color.White, 2))
+                if (KalmanReseted)
                 {
-                    using (Pen predictPen = new Pen(Color.Yellow, 3))
+                    Kalman2D.SetState(o.Head, 40);
+
+                    KalmanRect.SetState(o.Rect, 40F);
+                    KalmanReseted = false;
+                }
+                KalmanRect.Correct(o.Rect);
+                if (createDetectedImg.Checked && SavePicSW.IsRunning && SavePicSW.ElapsedMilliseconds > 1000)
+                {
+                    try
                     {
-                        if (KalmanReseted)
+                        cimg = cropImage(pictureBox1.Image, o.Rect);
+                        cimg.Save(@".\pic\" + saveImgPrefix.Text + "_" + cnt + ".png", System.Drawing.Imaging.ImageFormat.Png);
+                        cnt++;
+                    }
+                    catch (Exception ee)
+                    {
+                        Console.WriteLine(ee);
+                    }
+
+                    SavePicSW.Restart();
+                }
+                o.Rect = KalmanRect.State;
+                //o.DrawRect(e, pen);
+
+                Kalman2D.Correct(o.Head);
+                o.Head = Kalman2D.State;
+
+                //o.DrawCircle(e, pen, o.Head);
+
+                if (AutoMoving)
+                {
+
+                    if (true || sendedToUDP)
+                    {
+
+                        if (lastObj != null)
                         {
-                            Kalman2D.SetState(o.Head, 40);
-                            
-                            KalmanRect.SetState(o.Rect, 40F);
-                            KalmanReseted = false;
-                        }
-                        KalmanRect.Correct(o.Rect);
-                        if (createDetectedImg.Checked && SavePicSW.IsRunning && SavePicSW.ElapsedMilliseconds>1000)
-                        {
-                            try
+                            if (KalmanPredictReseted)
                             {
-                                cimg = cropImage(pictureBox1.Image, o.Rect);
-                                cimg.Save(@".\pic\"+saveImgPrefix.Text+"_" + cnt + ".png", System.Drawing.Imaging.ImageFormat.Png);
-                                cnt++;
-                            } catch (Exception ee)
-                            {
-                                Console.WriteLine(ee);
+                                Kalman2DPredict.SetState(o.Head, 0);
+                                PredictCounter.Reset();
+                                PredictCounter.Add(o.Head);
+                                KalmanPredictReseted = false;
                             }
-                            
-                            SavePicSW.Restart();
-                        }
-                        o.Rect = KalmanRect.State;
-                        o.DrawRect(e, pen);
 
-                        Kalman2D.Correct(o.Head);
-                        o.Head = Kalman2D.State;
-
-                        o.DrawCircle(e, pen, o.Head);
-
-                        if (AutoMoving)
-                        {
-
-                            if (true || sendedToUDP)
+                            //Vector predicted = objects.Predict(Vector.Subtract(o.Head, lastObj.Head), OffsetCounter.Avg*2);
+                            Vector delta = Vector.Subtract(o.Head, lastObj.Head);
+                            double scalar = OffsetCounter.Avg;
+                            double scalarLimit = 1F;
+                            if (scalar > scalarLimit)
                             {
-
-                                if (lastObj != null)
-                                {
-                                    if (KalmanPredictReseted)
-                                    {
-                                        Kalman2DPredict.SetState(o.Head, 0);
-                                        PredictCounter.Reset();
-                                        PredictCounter.Add(o.Head);
-                                        KalmanPredictReseted = false;
-                                    }
-                                    
-                                    //Vector predicted = objects.Predict(Vector.Subtract(o.Head, lastObj.Head), OffsetCounter.Avg*2);
-                                    Vector delta = Vector.Subtract(o.Head, lastObj.Head);
-                                    double scalar = OffsetCounter.Avg;
-                                    double scalarLimit = 1F;
-                                    if (scalar>scalarLimit)
-                                    {
-                                        scalar = scalarLimit;
-                                    }
-                                    Vector predicted = Vector.Add(o.Head, Vector.Multiply(delta, scalar*3));
-                                    
-                                    PredictCounter.Add(predicted);
-                                    Kalman2DPredict.Correct(PredictCounter.Avg);
-                                    predicted = Kalman2DPredict.State;
-                                    
-                                    o.offsetVector = objects.GetFromCenter(o.Head);
-
-                                    o.DrawCircle(e, predictPen, predicted);
-
-                                } else
-                                {
-                                    PredictCounter.Reset();
-                                    //KalmanPredictReseted = true;
-                                }
-
-                                // инверсия вектора
-                                //o.offsetVector = Vector.Multiply(o.offsetVector, -1);
-                                if (calibrate.Checked)
-                                {
-                                    StartUDPSW();
-                                    //Vector v = objects.GetFromCenter(o.offsetVector);
-                                    Vector v = o.offsetVector;
-                                    AutoCalibrate(v);
-                                    lastLengthMove = v.Length;
-                                    gameController.MoveTo(v);
-                                    AutoMoving = !AutoMoving;
-                                }
-                                else
-                                {
-                                    if (onlyFire.Checked)
-                                    {
-                                        if (objects.IsObjectCrossCenter(o) && FC.IsCanFire())
-                                        {
-                                            //StartUDPSW();
-                                            FC.Fire();
-                                            GameCommand command = new GameCommand();
-                                            command.ClickType = MouseClickTypes.LeftBtn;
-                                            gameController.MakeCommand(command);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        //ML.SetMinMilliseconds(LastUDPTime+ timeDetection);
-                                        if (ML.IsCanMove())
-                                        {
-
-                                            /*if (o.offsetVector.Length>1000) {
-                                                Vector norm = new Vector(o.offsetVector.X, o.offsetVector.Y);
-                                                norm.Normalize();
-                                                o.offsetVector = Vector.Multiply(norm, 100);
-                                            }*/
-
-                                            GameCommand command = new GameCommand();
-                                            ML.Move();
-                                            if (autoCalibration.CheckState == CheckState.Checked)
-                                            {
-                                                AutoCalibrate(o.offsetVector);
-                                            }
-                                            o.offsetVector = Vector.Multiply(CalibrateMouseCoeff, o.offsetVector);
-                                            
-                                            if (CanMouseMove.Checked)
-                                            {
-                                                command.X = (int)o.offsetVector.X;
-                                                command.Y = (int)o.offsetVector.Y;
-                                                //Console.WriteLine(o.offsetVector);
-                                            }
-                                            lastLengthMove = o.offsetVector.Length;
-                                            StartUDPSW();
-                                            if (canFire.Checked && FC.IsCanFire() && objects.IsObjectCrossCenter(o) /*&& OffsetCounter.Avg < 2*/)
-                                            {
-
-                                                FC.Fire();
-                                                // компенсация отдачи
-                                                o.offsetVector = Vector.Add(o.offsetVector, new Vector(0, 3));
-                                                command.X = (int)o.offsetVector.X;
-                                                command.Y = (int)o.offsetVector.Y;
-                                                
-                                                command.ClickType = MouseClickTypes.LeftBtn;
-                                                command.ClickTimeout = TurnTimeOut;
-                                                
-                                            }
-                                            command.LED = AutoMoving;
-
-                                            if (!movingX.Checked)
-                                            {
-                                                command.X = 0;
-                                            }
-                                            if (!movingY.Checked)
-                                            {
-                                                command.Y = 0;
-                                            }
-
-                                            gameController.MakeCommand(command);
-                                            stopedMoving = false;
-                                        }
-                                    }
-                                }
+                                scalar = scalarLimit;
                             }
+                            Vector predicted = Vector.Add(o.Head, Vector.Multiply(delta, scalar * 3));
+
+                            PredictCounter.Add(predicted);
+                            Kalman2DPredict.Correct(PredictCounter.Avg);
+                            predicted = Kalman2DPredict.State;
+
+                            o.offsetVector = objects.GetFromCenter(o.Center);
+
+                            // o.DrawCircle(e, predictPen, predicted);
+
                         }
                         else
                         {
-                            sendedToUDP = true;
+                            PredictCounter.Reset();
+                            //KalmanPredictReseted = true;
+                        }
+
+                        // инверсия вектора
+                        //o.offsetVector = Vector.Multiply(o.offsetVector, -1);
+                        if (calibrate.Checked)
+                        {
+                            StartUDPSW();
+                            //Vector v = objects.GetFromCenter(o.offsetVector);
+                            Vector v = o.offsetVector;
+                            AutoCalibrate(v);
+                            lastLengthMove = v.Length;
+                            gameController.MoveTo(v);
+                            AutoMoving = !AutoMoving;
+                        }
+                        else
+                        {
+                            if (onlyFire.Checked)
+                            {
+                                if (objects.IsObjectCrossCenter(o) && FC.IsCanFire())
+                                {
+                                    //StartUDPSW();
+                                    FC.Fire();
+                                    GameCommand command = new GameCommand();
+                                    command.ClickType = MouseClickTypes.LeftBtn;
+                                    gameController.MakeCommand(command);
+                                }
+                            }
+                            else
+                            {
+                                //ML.SetMinMilliseconds(LastUDPTime+ timeDetection);
+                                if (ML.IsCanMove())
+                                {
+
+                                    /*if (o.offsetVector.Length>1000) {
+                                        Vector norm = new Vector(o.offsetVector.X, o.offsetVector.Y);
+                                        norm.Normalize();
+                                        o.offsetVector = Vector.Multiply(norm, 100);
+                                    }*/
+
+                                    GameCommand command = new GameCommand();
+                                    ML.Move();
+                                    if (autoCalibration.CheckState == CheckState.Checked)
+                                    {
+                                        AutoCalibrate(o.offsetVector);
+                                    }
+                                    o.offsetVector = Vector.Multiply(CalibrateMouseCoeff, o.offsetVector);
+
+                                    if (CanMouseMove.Checked)
+                                    {
+                                        command.X = (int)o.offsetVector.X;
+                                        command.Y = (int)o.offsetVector.Y;
+                                        //Console.WriteLine(o.offsetVector);
+                                    }
+                                    lastLengthMove = o.offsetVector.Length;
+                                    StartUDPSW();
+                                    if (canFire.Checked && FC.IsCanFire() && objects.IsObjectCrossCenter(o) /*&& OffsetCounter.Avg < 2*/)
+                                    {
+
+                                        FC.Fire();
+                                        // компенсация отдачи
+                                        o.offsetVector = Vector.Add(o.offsetVector, new Vector(0, 3));
+                                        command.X = (int)o.offsetVector.X;
+                                        command.Y = (int)o.offsetVector.Y;
+
+                                        command.ClickType = MouseClickTypes.LeftBtn;
+                                        command.ClickTimeout = TurnTimeOut;
+
+                                    }
+                                    command.LED = AutoMoving;
+
+                                    if (!movingX.Checked)
+                                    {
+                                        command.X = 0;
+                                    }
+                                    if (!movingY.Checked)
+                                    {
+                                        command.Y = 0;
+                                    }
+
+                                    gameController.MakeCommand(command);
+                                    stopedMoving = false;
+                                }
+                            }
                         }
                     }
-                    
-                    
                 }
-            } else
+                else
+                {
+                    sendedToUDP = true;
+                }
+            }
+            else
             {
                 KalmanReseted = true;
                 // останавливаем движение
@@ -366,12 +342,12 @@ namespace YoloDetection
                     stopedMoving = true;
                     GameCommand command = new GameCommand();
                     command.LED = AutoMoving;
-                    gameController.MakeCommand(command);
-                } 
-                
+                    //gameController.MakeCommand(command);
+                }
+
                 //OffsetCounter.Reset();
             }
-            if (lastObj != null && o != null )
+            if (lastObj != null && o != null)
             {
                 OffsetCounter.Add(objects.GetDistance(lastObj.offsetVector, o.offsetVector));
                 avgOffsetObject.Text = OffsetCounter.Avg.ToString();
@@ -379,6 +355,26 @@ namespace YoloDetection
             lastObj = o;
             objects.Clear();
             IsDetected = !IsDetected;
+        }
+        private void pictureBox1_Paint(object sender, PaintEventArgs e)
+        {
+            if (savingImg)
+            {
+                return;
+            }
+            
+            /*Stopwatch SW = new Stopwatch(); // Создаем объект
+            SW.Start(); // Запускаем*/
+
+            
+            using (Pen pen = new Pen(Color.Red, 2) )
+            {
+                using (Pen pen2 = new Pen(Color.Yellow, 2))
+                {
+                    
+                }
+            }
+            
             /*SW.Stop();
             calcTimeValue.Text = (SW.ElapsedTicks / (TimeSpan.TicksPerMillisecond / 1000)).ToString() + " µs";*/
 

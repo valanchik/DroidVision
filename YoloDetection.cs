@@ -51,7 +51,7 @@ namespace YoloDetection
                         bbox_t[] items = yolo.Detect(img);
                         foreach (bbox_t box in items)
                         {
-                            if (box.prob > 0.6 && Array.IndexOf(obj_ids, box.obj_id) > -1)
+                            if (box.prob > 0.5 && Array.IndexOf(obj_ids, box.obj_id) > -1)
                             {
                                 OnObject?.Invoke(new DetectedObject(box.obj_id.ToString(), new Rectangle((int)box.x, (int)box.y, (int)box.w, (int)box.h)));
                             }

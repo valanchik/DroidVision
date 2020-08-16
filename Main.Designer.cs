@@ -72,6 +72,7 @@
             this.saveImgPrefix = new System.Windows.Forms.TextBox();
             this.movingX = new System.Windows.Forms.CheckBox();
             this.movingY = new System.Windows.Forms.CheckBox();
+            this.drawImage = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -413,7 +414,7 @@
             this.groupBox4.Controls.Add(this.calibrate);
             this.groupBox4.Location = new System.Drawing.Point(1158, 263);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(160, 169);
+            this.groupBox4.Size = new System.Drawing.Size(160, 108);
             this.groupBox4.TabIndex = 11;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Калибровка мышки";
@@ -479,7 +480,7 @@
             this.CanMouseMove.AutoSize = true;
             this.CanMouseMove.Checked = true;
             this.CanMouseMove.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CanMouseMove.Location = new System.Drawing.Point(1156, 438);
+            this.CanMouseMove.Location = new System.Drawing.Point(1158, 377);
             this.CanMouseMove.Name = "CanMouseMove";
             this.CanMouseMove.Size = new System.Drawing.Size(162, 21);
             this.CanMouseMove.TabIndex = 14;
@@ -491,7 +492,7 @@
             this.canFire.AutoSize = true;
             this.canFire.Checked = true;
             this.canFire.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.canFire.Location = new System.Drawing.Point(1156, 465);
+            this.canFire.Location = new System.Drawing.Point(1158, 404);
             this.canFire.Name = "canFire";
             this.canFire.Size = new System.Drawing.Size(92, 21);
             this.canFire.TabIndex = 15;
@@ -522,7 +523,7 @@
             this.movingX.AutoSize = true;
             this.movingX.Checked = true;
             this.movingX.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.movingX.Location = new System.Drawing.Point(1156, 492);
+            this.movingX.Location = new System.Drawing.Point(1158, 431);
             this.movingX.Name = "movingX";
             this.movingX.Size = new System.Drawing.Size(116, 21);
             this.movingX.TabIndex = 17;
@@ -534,18 +535,31 @@
             this.movingY.AutoSize = true;
             this.movingY.Checked = true;
             this.movingY.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.movingY.Location = new System.Drawing.Point(1156, 519);
+            this.movingY.Location = new System.Drawing.Point(1158, 458);
             this.movingY.Name = "movingY";
             this.movingY.Size = new System.Drawing.Size(120, 21);
             this.movingY.TabIndex = 18;
             this.movingY.Text = "Двигать  по Y";
             this.movingY.UseVisualStyleBackColor = true;
             // 
+            // drawImage
+            // 
+            this.drawImage.AutoSize = true;
+            this.drawImage.Checked = true;
+            this.drawImage.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.drawImage.Location = new System.Drawing.Point(1159, 485);
+            this.drawImage.Name = "drawImage";
+            this.drawImage.Size = new System.Drawing.Size(166, 21);
+            this.drawImage.TabIndex = 19;
+            this.drawImage.Text = "Отрисовка картинки";
+            this.drawImage.UseVisualStyleBackColor = true;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1330, 762);
+            this.Controls.Add(this.drawImage);
             this.Controls.Add(this.movingY);
             this.Controls.Add(this.movingX);
             this.Controls.Add(this.saveImgPrefix);
@@ -629,6 +643,7 @@
         private System.Windows.Forms.TextBox saveImgPrefix;
         private System.Windows.Forms.CheckBox movingX;
         private System.Windows.Forms.CheckBox movingY;
+        private System.Windows.Forms.CheckBox drawImage;
     }
 }
 
