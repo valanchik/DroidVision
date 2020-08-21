@@ -233,7 +233,7 @@ namespace YoloDetection
                             Kalman2DPredict.Correct(PredictCounter.Avg);
                             predicted = Kalman2DPredict.State;
 
-                            o.offsetVector = objects.GetFromCenter(o.Center);
+                            o.offsetVector = objects.GetFromCenter(predicted);
 
                             // o.DrawCircle(e, predictPen, predicted);
 
