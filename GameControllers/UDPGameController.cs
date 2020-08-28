@@ -38,6 +38,10 @@ namespace YoloDetection
                 if (step > 20)
                 {
                     step = 20;
+                } else if (step < 5 && step>0)
+                {
+                    step = Math.Min(Math.Abs(X), Math.Abs(Y));
+                    step = step>0?step:1;
                 }
                 return step;
             }

@@ -36,7 +36,10 @@ namespace YoloDetection
         }
 
 
+        public void DrawRect(Graphics e, Pen pen) => e.DrawRectangle(pen, Rect);
+        public void DrawRect(Graphics e, Pen pen, Rectangle rect) => e.DrawRectangle(pen, rect);
         public void DrawRect(PaintEventArgs e, Pen pen) => e.Graphics.DrawRectangle(pen, Rect);
+        public void DrawCircle(Graphics e, Pen pen, Vector vect) => e.DrawEllipse(pen, new Rectangle(new System.Drawing.Point((int)vect.X, (int)vect.Y), new System.Drawing.Size(3,3)));
         public void DrawCircle(PaintEventArgs e, Pen pen, Vector vect) => e.Graphics.DrawEllipse(pen, new Rectangle(new System.Drawing.Point((int)vect.X, (int)vect.Y), new System.Drawing.Size(3,3)));
 
     }
@@ -90,15 +93,12 @@ namespace YoloDetection
         private Vector ConvertDetectionScreenSizeToScreeSize(Vector detectionSizeVector)
         {
             return new Vector(detectionSizeVector.X*ScreenCoef.X, detectionSizeVector.Y* ScreenCoef.Y);
-        } 
-        public bool IsObjectCrossCenter(DetectedObject obj)
+        }
+        public bool IsObjectCrossCenter(DetectedObject obj) => IsObjectCrossCenter(obj.Rect);
+
+        public bool IsObjectCrossCenter(Rectangle rect)
         {
-            Rectangle rect = obj.Rect;
-/*            rect.X *= (int)ScreenCoef.X;
-            rect.Width *= (int)ScreenCoef.X;
-            rect.Y *= (int)ScreenCoef.Y;
-            rect.Height *= (int)ScreenCoef.Y;*/
-            if ((rect.X< CenterDetectionSize.X && (rect.X+ rect.Width) > CenterDetectionSize.X) 
+            if ((rect.X < CenterDetectionSize.X && (rect.X + rect.Width) > CenterDetectionSize.X)
                 &&
                 (rect.Y < CenterDetectionSize.Y && (rect.Y + rect.Height) > CenterDetectionSize.Y))
             {

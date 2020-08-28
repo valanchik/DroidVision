@@ -17,12 +17,15 @@ using System.Windows;
 using System.Windows.Forms;
 using Darknet;
 using static Darknet.YoloWrapper;
+using OpenCvSharp;
+using System.Drawing.Imaging;
 
 namespace YoloDetection
 {
     public partial class Main : Form
     {
         static ConcurrentBag<DetectedObject> detected = new ConcurrentBag<DetectedObject>();
+        static List<DetectedObject> heads = new List<DetectedObject>();
         readonly UDPServer server;
         readonly udpKeyServer keyServer;
         Stopwatch SW;
@@ -65,6 +68,8 @@ namespace YoloDetection
         private int cnt = 0;
         private Stopwatch SavePicSW = new Stopwatch();
         private bool savingImg = false;
+        private byte[] lastJPEG = new byte[0];
+        private MJPEGWriter mjpegWriter;
         public Main()
         {
 
@@ -74,7 +79,7 @@ namespace YoloDetection
             maxFirePErSecond_TextChanged(null, null);
             turnTimeOutValue_TextChanged(null, null);
             mouseCoeff_TextChanged(null, null);
-
+            mjpegWriter = new MJPEGWriter("video.mjpeg");
             // arduino controller
             gameController = new UDPGameController("192.168.88.177", 8888);
 
@@ -107,8 +112,8 @@ namespace YoloDetection
             {
                 if (IsDetected)
                 {
-                    IsDetected = !IsDetected;
-
+                    
+                    lastJPEG = jpeg;
                     YoloDetection.lastImg = jpeg;
                     if (drawImage.Checked)
                     {
@@ -149,15 +154,10 @@ namespace YoloDetection
             SWController.Restart();
             SWController.Start();
         }
-        private void Make() {
-            if (AutoMoving)
-            {
-                autoMovingStatus.BackColor = Color.Green;
-            }
-            else
-            {
-                autoMovingStatus.BackColor = Color.Red;
-            }
+        async private void Make() {
+            
+            autoMovingStatus.BackColor = AutoMoving ? Color.Green : Color.Red;
+            
             List<DetectedObject> obj = new List<DetectedObject>();
             while (!detected.IsEmpty)
             {
@@ -168,41 +168,86 @@ namespace YoloDetection
                 }
             }
             DetectedObjectController objects = new DetectedObjectController(new Vector(1920, 1080), new Vector(852, 480), obj);
+            //DetectedObjectController objects = new DetectedObjectController(new Vector(1920, 1080), new Vector(1920, 1080), obj);
             DetectedObject o = objects.GetNearestRectFromCenter();
 
             if (o != null)
             {
+                // получем обсласти головы
+                Mat croppedImg = Mat.FromImageData(lastJPEG);
+                try
+                {
+                    croppedImg = new Mat(croppedImg, new OpenCvSharp.Rect(o.Rect.X, o.Rect.Y, o.Rect.Width, o.Rect.Height));
+                    heads = await GetHeads(croppedImg.ToBytes());
+                } catch (Exception e)
+                {
+                    heads.Clear();
+                }
+                Vector Head = o.Head;
+                Rectangle FireRect = o.Rect;
+                if (heads.Count>0)
+                {
+                    Head = new Vector(o.Rect.X+heads[0].Center.X, o.Rect.Y+ heads[0].Center.Y);
+                    FireRect = heads[0].Rect;
+                }
+                
                 if (KalmanReseted)
                 {
-                    Kalman2D.SetState(o.Head, 40);
+                    Kalman2D.SetState(Head, 40);
 
                     KalmanRect.SetState(o.Rect, 40F);
                     KalmanReseted = false;
                 }
                 KalmanRect.Correct(o.Rect);
-                if (createDetectedImg.Checked && SavePicSW.IsRunning && SavePicSW.ElapsedMilliseconds > 1000)
-                {
-                    try
-                    {
-                        cimg = cropImage(pictureBox1.Image, o.Rect);
-                        cimg.Save(@".\pic\" + saveImgPrefix.Text + "_" + cnt + ".png", System.Drawing.Imaging.ImageFormat.Png);
-                        cnt++;
-                    }
-                    catch (Exception ee)
-                    {
-                        Console.WriteLine(ee);
-                    }
-
-                    SavePicSW.Restart();
-                }
+                
                 o.Rect = KalmanRect.State;
-                //o.DrawRect(e, pen);
+                
 
-                Kalman2D.Correct(o.Head);
-                o.Head = Kalman2D.State;
+                Kalman2D.Correct(Head);
+                Head = Kalman2D.State;
+                if (drawImage.Checked && pictureBox1.Image != null)
+                {
+                    if (createDetectedImg.Checked)
+                    {
+                        try
+                        {
+                            /*cimg = cropImage(pictureBox1.Image, o.Rect);
+                            cimg.Save(@".\pic\" + saveImgPrefix.Text + "_" + cnt + ".png", System.Drawing.Imaging.ImageFormat.Png);*/
+                            croppedImg.SaveImage(@".\pic\" + saveImgPrefix.Text + "_" + cnt + ".png");
+                            cnt++;
+                        }
+                        catch (Exception ee)
+                        {
+                            Console.WriteLine(ee);
+                        }
 
-                //o.DrawCircle(e, pen, o.Head);
+                        SavePicSW.Restart();
+                    }
 
+                    using (Pen pen = new Pen(Color.Red, 2))
+                    using (Pen pen2 = new Pen(Color.Yellow, 2))
+                    using (Graphics G = Graphics.FromImage(pictureBox1.Image))
+                    {
+                        o.DrawRect(G, pen);
+                        if (heads.Count>0)
+                        {
+                            //o.DrawCircle(G, pen2, heads[0].Center);
+                            Rectangle rect = new Rectangle(
+                                o.Rect.X+heads[0].Rect.X,
+                                o.Rect.Y+heads[0].Rect.Y,
+                                heads[0].Rect.Width,
+                                heads[0].Rect.Height
+                                );
+                            o.DrawRect(G, pen2, rect);
+                        } else
+                        {
+                            o.DrawCircle(G, pen, Head);
+                        }
+                         
+                    }
+                    
+                    pictureBox1.Refresh();
+                }
                 if (AutoMoving)
                 {
 
@@ -213,29 +258,30 @@ namespace YoloDetection
                         {
                             if (KalmanPredictReseted)
                             {
-                                Kalman2DPredict.SetState(o.Head, 0);
+                                Kalman2DPredict.SetState(Head, 0);
                                 PredictCounter.Reset();
-                                PredictCounter.Add(o.Head);
+                                PredictCounter.Add(Head);
                                 KalmanPredictReseted = false;
                             }
 
-                            //Vector predicted = objects.Predict(Vector.Subtract(o.Head, lastObj.Head), OffsetCounter.Avg*2);
-                            Vector delta = Vector.Subtract(o.Head, lastObj.Head);
+                            //Vector predicted = objects.Predict(Vector.Subtract(Head, lastObj.Head), OffsetCounter.Avg*2);
+                            Vector delta = Vector.Subtract(Head, lastObj.Head);
                             double scalar = OffsetCounter.Avg;
                             double scalarLimit = 1F;
                             if (scalar > scalarLimit)
                             {
                                 scalar = scalarLimit;
                             }
-                            Vector predicted = Vector.Add(o.Head, Vector.Multiply(delta, scalar * 3));
+                            Vector predicted = Vector.Add(Head, Vector.Multiply(delta, scalar));
 
                             PredictCounter.Add(predicted);
                             Kalman2DPredict.Correct(PredictCounter.Avg);
                             predicted = Kalman2DPredict.State;
 
-                            o.offsetVector = objects.GetFromCenter(predicted);
+                            //o.offsetVector = objects.GetFromCenter(predicted);
+                            o.offsetVector = objects.GetFromCenter(Head);
 
-                            // o.DrawCircle(e, predictPen, predicted);
+                            //o.DrawCircle(e, predictPen, predicted);
 
                         }
                         else
@@ -260,7 +306,7 @@ namespace YoloDetection
                         {
                             if (onlyFire.Checked)
                             {
-                                if (objects.IsObjectCrossCenter(o) && FC.IsCanFire())
+                                if (objects.IsObjectCrossCenter(FireRect) && FC.IsCanFire())
                                 {
                                     //StartUDPSW();
                                     FC.Fire();
@@ -302,7 +348,7 @@ namespace YoloDetection
 
                                         FC.Fire();
                                         // компенсация отдачи
-                                        o.offsetVector = Vector.Add(o.offsetVector, new Vector(0, 3));
+                                        o.offsetVector = Vector.Add(o.offsetVector, new Vector(0, 0));
                                         command.X = (int)o.offsetVector.X;
                                         command.Y = (int)o.offsetVector.Y;
 
@@ -332,12 +378,15 @@ namespace YoloDetection
                 {
                     sendedToUDP = true;
                 }
+
+                
+
             }
             else
             {
                 KalmanReseted = true;
                 // останавливаем движение
-                if (!stopedMoving)
+                if (false && !stopedMoving)
                 {
                     stopedMoving = true;
                     GameCommand command = new GameCommand();
@@ -354,7 +403,49 @@ namespace YoloDetection
             }
             lastObj = o;
             objects.Clear();
-            IsDetected = !IsDetected;
+            if (IsWriteStream.Checked)
+            {
+                if (drawImage.Checked && pictureBox1.Image != null)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        pictureBox1.Image.Save(memoryStream, ImageFormat.Jpeg);
+                        mjpegWriter.Add(memoryStream.ToArray());
+                    }
+
+                }
+                else
+                {
+                    mjpegWriter.Add(lastJPEG);
+                }
+            }
+            
+                
+            IsDetected = true;
+        }
+        private Task<List<DetectedObject>> GetHeads(byte[] data)
+        {
+            return Task.Run(() =>
+            {
+
+                List<DetectedObject> tmp = new List<DetectedObject>();
+                YoloDetection.lastImgTiny = data;
+                bool ready = false;
+                YoloDetection.OnTinyObject = (DetectedObject objTiny) =>
+                {
+                    tmp.Add(objTiny);
+                };
+                YoloDetection.OnYoloTinyDetect = (long time) =>
+                {
+                    ready = true;
+                };
+                while (!ready)
+                {
+                    Thread.Sleep(1);
+                }
+
+                return tmp;
+            });
         }
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
@@ -362,18 +453,13 @@ namespace YoloDetection
             {
                 return;
             }
-            
+
             /*Stopwatch SW = new Stopwatch(); // Создаем объект
             SW.Start(); // Запускаем*/
 
+
             
-            using (Pen pen = new Pen(Color.Red, 2) )
-            {
-                using (Pen pen2 = new Pen(Color.Yellow, 2))
-                {
-                    
-                }
-            }
+            
             
             /*SW.Stop();
             calcTimeValue.Text = (SW.ElapsedTicks / (TimeSpan.TicksPerMillisecond / 1000)).ToString() + " µs";*/

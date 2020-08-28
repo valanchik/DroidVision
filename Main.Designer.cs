@@ -73,6 +73,7 @@
             this.movingX = new System.Windows.Forms.CheckBox();
             this.movingY = new System.Windows.Forms.CheckBox();
             this.drawImage = new System.Windows.Forms.CheckBox();
+            this.IsWriteStream = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -425,7 +426,7 @@
             this.mouseCoeff.Name = "mouseCoeff";
             this.mouseCoeff.Size = new System.Drawing.Size(67, 22);
             this.mouseCoeff.TabIndex = 11;
-            this.mouseCoeff.Text = "0,031";
+            this.mouseCoeff.Text = "0,1231";
             this.mouseCoeff.TextChanged += new System.EventHandler(this.mouseCoeff_TextChanged);
             // 
             // autoCalibration
@@ -516,7 +517,7 @@
             this.saveImgPrefix.Name = "saveImgPrefix";
             this.saveImgPrefix.Size = new System.Drawing.Size(149, 22);
             this.saveImgPrefix.TabIndex = 4;
-            this.saveImgPrefix.Text = "a";
+            this.saveImgPrefix.Text = "d";
             // 
             // movingX
             // 
@@ -554,11 +555,22 @@
             this.drawImage.Text = "Отрисовка картинки";
             this.drawImage.UseVisualStyleBackColor = true;
             // 
+            // IsWriteStream
+            // 
+            this.IsWriteStream.AutoSize = true;
+            this.IsWriteStream.Location = new System.Drawing.Point(1159, 512);
+            this.IsWriteStream.Name = "IsWriteStream";
+            this.IsWriteStream.Size = new System.Drawing.Size(109, 21);
+            this.IsWriteStream.TabIndex = 20;
+            this.IsWriteStream.Text = "Записывать";
+            this.IsWriteStream.UseVisualStyleBackColor = true;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1330, 762);
+            this.Controls.Add(this.IsWriteStream);
             this.Controls.Add(this.drawImage);
             this.Controls.Add(this.movingY);
             this.Controls.Add(this.movingX);
@@ -644,6 +656,7 @@
         private System.Windows.Forms.CheckBox movingX;
         private System.Windows.Forms.CheckBox movingY;
         private System.Windows.Forms.CheckBox drawImage;
+        private System.Windows.Forms.CheckBox IsWriteStream;
     }
 }
 
