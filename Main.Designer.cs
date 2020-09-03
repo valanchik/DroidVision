@@ -43,15 +43,6 @@
             this.autoCalibration = new System.Windows.Forms.CheckBox();
             this.label9 = new System.Windows.Forms.Label();
             this.calibrate = new System.Windows.Forms.CheckBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.led13 = new System.Windows.Forms.CheckBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.mouseTimeout = new System.Windows.Forms.TextBox();
-            this.mouseClickType = new System.Windows.Forms.ComboBox();
-            this.gc_commnad = new System.Windows.Forms.TextBox();
-            this.button2 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.avgOffsetObject = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
@@ -83,12 +74,20 @@
             this.createDetectedImg = new System.Windows.Forms.CheckBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.led13 = new System.Windows.Forms.CheckBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.mouseTimeout = new System.Windows.Forms.TextBox();
+            this.mouseClickType = new System.Windows.Forms.ComboBox();
+            this.gc_commnad = new System.Windows.Forms.TextBox();
+            this.button2 = new System.Windows.Forms.Button();
             this.mainTabs.SuspendLayout();
             this.Robot.SuspendLayout();
             this.Marking.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
-            this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox6.SuspendLayout();
@@ -97,6 +96,7 @@
             this.groupBox2.SuspendLayout();
             this.groupBox8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainTabs
@@ -123,7 +123,6 @@
             this.Robot.Controls.Add(this.groupBox1);
             this.Robot.Controls.Add(this.groupBox5);
             this.Robot.Controls.Add(this.groupBox4);
-            this.Robot.Controls.Add(this.groupBox3);
             this.Robot.Location = new System.Drawing.Point(4, 22);
             this.Robot.Name = "Robot";
             this.Robot.Padding = new System.Windows.Forms.Padding(3);
@@ -291,112 +290,6 @@
             this.calibrate.TabIndex = 9;
             this.calibrate.Text = "Калибровать";
             this.calibrate.UseVisualStyleBackColor = true;
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox3.Controls.Add(this.led13);
-            this.groupBox3.Controls.Add(this.label7);
-            this.groupBox3.Controls.Add(this.label6);
-            this.groupBox3.Controls.Add(this.label5);
-            this.groupBox3.Controls.Add(this.mouseTimeout);
-            this.groupBox3.Controls.Add(this.mouseClickType);
-            this.groupBox3.Controls.Add(this.gc_commnad);
-            this.groupBox3.Controls.Add(this.button2);
-            this.groupBox3.Location = new System.Drawing.Point(1207, 7);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(2);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox3.Size = new System.Drawing.Size(133, 197);
-            this.groupBox3.TabIndex = 18;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Тест gameController";
-            // 
-            // led13
-            // 
-            this.led13.AutoSize = true;
-            this.led13.Checked = true;
-            this.led13.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.led13.Location = new System.Drawing.Point(4, 141);
-            this.led13.Margin = new System.Windows.Forms.Padding(2);
-            this.led13.Name = "led13";
-            this.led13.Size = new System.Drawing.Size(102, 17);
-            this.led13.TabIndex = 15;
-            this.led13.Text = "Включить диод";
-            this.led13.UseVisualStyleBackColor = true;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(4, 101);
-            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(91, 13);
-            this.label7.TabIndex = 12;
-            this.label7.Text = "Задержка клика";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(4, 63);
-            this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(32, 13);
-            this.label6.TabIndex = 11;
-            this.label6.Text = "Клик";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(4, 18);
-            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(69, 13);
-            this.label5.TabIndex = 10;
-            this.label5.Text = "Координаты";
-            // 
-            // mouseTimeout
-            // 
-            this.mouseTimeout.Location = new System.Drawing.Point(4, 118);
-            this.mouseTimeout.Margin = new System.Windows.Forms.Padding(2);
-            this.mouseTimeout.Name = "mouseTimeout";
-            this.mouseTimeout.Size = new System.Drawing.Size(112, 20);
-            this.mouseTimeout.TabIndex = 9;
-            this.mouseTimeout.Text = "100";
-            // 
-            // mouseClickType
-            // 
-            this.mouseClickType.AllowDrop = true;
-            this.mouseClickType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.mouseClickType.FormattingEnabled = true;
-            this.mouseClickType.Items.AddRange(new object[] {
-            "None",
-            "LeftBtn",
-            "RightBtn"});
-            this.mouseClickType.Location = new System.Drawing.Point(4, 79);
-            this.mouseClickType.Margin = new System.Windows.Forms.Padding(2);
-            this.mouseClickType.Name = "mouseClickType";
-            this.mouseClickType.Size = new System.Drawing.Size(112, 21);
-            this.mouseClickType.TabIndex = 8;
-            // 
-            // gc_commnad
-            // 
-            this.gc_commnad.Location = new System.Drawing.Point(4, 37);
-            this.gc_commnad.Margin = new System.Windows.Forms.Padding(2);
-            this.gc_commnad.Name = "gc_commnad";
-            this.gc_commnad.Size = new System.Drawing.Size(112, 20);
-            this.gc_commnad.TabIndex = 7;
-            this.gc_commnad.Text = "10x10";
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(7, 173);
-            this.button2.Margin = new System.Windows.Forms.Padding(2);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(111, 19);
-            this.button2.TabIndex = 6;
-            this.button2.Text = "Тест";
-            this.button2.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
@@ -600,6 +493,7 @@
             // 
             // Settings
             // 
+            this.Settings.Controls.Add(this.groupBox3);
             this.Settings.Controls.Add(this.groupBox8);
             this.Settings.Controls.Add(this.groupBox2);
             this.Settings.Controls.Add(this.groupBox7);
@@ -617,7 +511,7 @@
             this.groupBox7.Controls.Add(this.button1);
             this.groupBox7.Location = new System.Drawing.Point(8, 6);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(264, 79);
+            this.groupBox7.Size = new System.Drawing.Size(278, 79);
             this.groupBox7.TabIndex = 0;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "YOLO";
@@ -641,7 +535,7 @@
             this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox2.Size = new System.Drawing.Size(264, 98);
+            this.groupBox2.Size = new System.Drawing.Size(278, 98);
             this.groupBox2.TabIndex = 25;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Фильтр Калмана";
@@ -686,8 +580,7 @@
             // 
             // saveImgPrefix
             // 
-            this.saveImgPrefix.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.saveImgPrefix.Location = new System.Drawing.Point(10, 43);
+            this.saveImgPrefix.Location = new System.Drawing.Point(12, 20);
             this.saveImgPrefix.Margin = new System.Windows.Forms.Padding(2);
             this.saveImgPrefix.Name = "saveImgPrefix";
             this.saveImgPrefix.Size = new System.Drawing.Size(113, 20);
@@ -696,10 +589,9 @@
             // 
             // createDetectedImg
             // 
-            this.createDetectedImg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.createDetectedImg.AutoSize = true;
             this.createDetectedImg.BackColor = System.Drawing.Color.Snow;
-            this.createDetectedImg.Location = new System.Drawing.Point(5, -1);
+            this.createDetectedImg.Location = new System.Drawing.Point(12, -1);
             this.createDetectedImg.Margin = new System.Windows.Forms.Padding(2);
             this.createDetectedImg.Name = "createDetectedImg";
             this.createDetectedImg.Size = new System.Drawing.Size(118, 17);
@@ -711,9 +603,9 @@
             // 
             this.groupBox8.Controls.Add(this.saveImgPrefix);
             this.groupBox8.Controls.Add(this.createDetectedImg);
-            this.groupBox8.Location = new System.Drawing.Point(8, 194);
+            this.groupBox8.Location = new System.Drawing.Point(138, 197);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(264, 100);
+            this.groupBox8.Size = new System.Drawing.Size(146, 52);
             this.groupBox8.TabIndex = 28;
             this.groupBox8.TabStop = false;
             // 
@@ -728,6 +620,111 @@
             this.pictureBox2.Size = new System.Drawing.Size(929, 596);
             this.pictureBox2.TabIndex = 23;
             this.pictureBox2.TabStop = false;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.led13);
+            this.groupBox3.Controls.Add(this.label7);
+            this.groupBox3.Controls.Add(this.label6);
+            this.groupBox3.Controls.Add(this.label5);
+            this.groupBox3.Controls.Add(this.mouseTimeout);
+            this.groupBox3.Controls.Add(this.mouseClickType);
+            this.groupBox3.Controls.Add(this.gc_commnad);
+            this.groupBox3.Controls.Add(this.button2);
+            this.groupBox3.Location = new System.Drawing.Point(8, 192);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox3.Size = new System.Drawing.Size(123, 197);
+            this.groupBox3.TabIndex = 29;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Тест gameController";
+            // 
+            // led13
+            // 
+            this.led13.AutoSize = true;
+            this.led13.Checked = true;
+            this.led13.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.led13.Location = new System.Drawing.Point(4, 141);
+            this.led13.Margin = new System.Windows.Forms.Padding(2);
+            this.led13.Name = "led13";
+            this.led13.Size = new System.Drawing.Size(102, 17);
+            this.led13.TabIndex = 15;
+            this.led13.Text = "Включить диод";
+            this.led13.UseVisualStyleBackColor = true;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(4, 101);
+            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(91, 13);
+            this.label7.TabIndex = 12;
+            this.label7.Text = "Задержка клика";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(4, 63);
+            this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(32, 13);
+            this.label6.TabIndex = 11;
+            this.label6.Text = "Клик";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(4, 18);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(69, 13);
+            this.label5.TabIndex = 10;
+            this.label5.Text = "Координаты";
+            // 
+            // mouseTimeout
+            // 
+            this.mouseTimeout.Location = new System.Drawing.Point(4, 118);
+            this.mouseTimeout.Margin = new System.Windows.Forms.Padding(2);
+            this.mouseTimeout.Name = "mouseTimeout";
+            this.mouseTimeout.Size = new System.Drawing.Size(112, 20);
+            this.mouseTimeout.TabIndex = 9;
+            this.mouseTimeout.Text = "100";
+            // 
+            // mouseClickType
+            // 
+            this.mouseClickType.AllowDrop = true;
+            this.mouseClickType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.mouseClickType.FormattingEnabled = true;
+            this.mouseClickType.Items.AddRange(new object[] {
+            "None",
+            "LeftBtn",
+            "RightBtn"});
+            this.mouseClickType.Location = new System.Drawing.Point(4, 79);
+            this.mouseClickType.Margin = new System.Windows.Forms.Padding(2);
+            this.mouseClickType.Name = "mouseClickType";
+            this.mouseClickType.Size = new System.Drawing.Size(112, 21);
+            this.mouseClickType.TabIndex = 8;
+            // 
+            // gc_commnad
+            // 
+            this.gc_commnad.Location = new System.Drawing.Point(4, 37);
+            this.gc_commnad.Margin = new System.Windows.Forms.Padding(2);
+            this.gc_commnad.Name = "gc_commnad";
+            this.gc_commnad.Size = new System.Drawing.Size(112, 20);
+            this.gc_commnad.TabIndex = 7;
+            this.gc_commnad.Text = "10x10";
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(7, 173);
+            this.button2.Margin = new System.Windows.Forms.Padding(2);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(111, 19);
+            this.button2.TabIndex = 6;
+            this.button2.Text = "Тест";
+            this.button2.UseVisualStyleBackColor = true;
             // 
             // Main
             // 
@@ -747,8 +744,6 @@
             this.groupBox5.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -762,6 +757,8 @@
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -792,15 +789,6 @@
         private System.Windows.Forms.CheckBox autoCalibration;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.CheckBox calibrate;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.CheckBox led13;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox mouseTimeout;
-        private System.Windows.Forms.ComboBox mouseClickType;
-        private System.Windows.Forms.TextBox gc_commnad;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TabPage Marking;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.CheckBox onlyFire;
@@ -822,6 +810,15 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.GroupBox groupBox8;
         private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.CheckBox led13;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox mouseTimeout;
+        private System.Windows.Forms.ComboBox mouseClickType;
+        private System.Windows.Forms.TextBox gc_commnad;
+        private System.Windows.Forms.Button button2;
     }
 }
 
