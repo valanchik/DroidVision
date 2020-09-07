@@ -19,6 +19,7 @@ using Darknet;
 using static Darknet.YoloWrapper;
 using OpenCvSharp;
 using System.Drawing.Imaging;
+using YoloDetection.Marker;
 
 namespace YoloDetection
 {
@@ -70,6 +71,7 @@ namespace YoloDetection
         private bool savingImg = false;
         private byte[] lastJPEG = new byte[0];
         private MJPEGWriter mjpegWriter;
+        private MarkerFasad marker = new MarkerFasad();
         public Main()
         {
 
@@ -686,6 +688,7 @@ namespace YoloDetection
             {
                 //MessageBox.Show(FBD.SelectedPath);
                 dataPath.Text = FBD.FileName;
+                marker.Load(FBD.FileName);
             }
         }
 

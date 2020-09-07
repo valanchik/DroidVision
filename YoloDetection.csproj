@@ -152,6 +152,7 @@
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
+    <Compile Include="Marker\Marker.cs" />
     <Compile Include="MJPEGParser.cs" />
     <Compile Include="MJPEGWriter.cs" />
     <Compile Include="MoveLimitter.cs" />
@@ -203,9 +204,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\46c8ef7ada75656abe6b290f2931fc6c.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="icons\back.png" />
   </ItemGroup>
   <ItemGroup>
@@ -225,6 +223,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="icons\stop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Alturos.Yolo.3.0.6-alpha\build\Alturos.Yolo.targets" Condition="Exists('packages\Alturos.Yolo.3.0.6-alpha\build\Alturos.Yolo.targets')" />

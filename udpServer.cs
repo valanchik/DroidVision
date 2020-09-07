@@ -42,7 +42,7 @@ namespace YoloDetection
                 while (true)
                 {
                     byte[] data = receiver.Receive(ref remoteIp);
-                    mjpegParser.addBytes(data);
+                    mjpegParser.AddBytes(data);
                 }
             }
             catch (Exception ex)
