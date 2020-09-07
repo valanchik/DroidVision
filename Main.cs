@@ -343,18 +343,19 @@ namespace YoloDetection
                                     }
                                     lastLengthMove = o.offsetVector.Length;
                                     StartUDPSW();
-                                    if (canFire.Checked && FC.IsCanFire() && objects.IsObjectCrossCenter(o) /*&& OffsetCounter.Avg < 2*/)
+                                    if (canFire.Checked && FC.IsCanFire() /*&& OffsetCounter.Avg < 2*/)
                                     {
+                                        if (!fireOnlyRect.Checked || (fireOnlyRect.Checked && objects.IsObjectCrossCenter(o)))
+                                        {
+                                            FC.Fire();
+                                            // компенсация отдачи
+                                            o.offsetVector = Vector.Add(o.offsetVector, new Vector(0, 0));
+                                            command.X = (int)o.offsetVector.X;
+                                            command.Y = (int)o.offsetVector.Y;
 
-                                        FC.Fire();
-                                        // компенсация отдачи
-                                        o.offsetVector = Vector.Add(o.offsetVector, new Vector(0, 0));
-                                        command.X = (int)o.offsetVector.X;
-                                        command.Y = (int)o.offsetVector.Y;
-
-                                        command.ClickType = MouseClickTypes.LeftBtn;
-                                        command.ClickTimeout = TurnTimeOut;
-
+                                            command.ClickType = MouseClickTypes.LeftBtn;
+                                            command.ClickTimeout = TurnTimeOut;
+                                        }
                                     }
                                     command.LED = AutoMoving;
 
@@ -480,12 +481,7 @@ namespace YoloDetection
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void button1_Click_1(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
             button1.Enabled = false;
             YoloDetection = new YoloDetection();
@@ -548,28 +544,6 @@ namespace YoloDetection
             kalmanError.Focus();
         }
 
-        private void button2_Click_1(object sender, EventArgs e)
-        {
-            if (FC.IsCanFire())
-            {
-                FC.Fire();
-                Console.WriteLine(FC.Counter);
-                string text = gc_commnad.Text;
-                MouseClickTypes type = (MouseClickTypes)mouseClickType.SelectedIndex;
-                string timeout = mouseTimeout.Text;
-                Vector vect = gameController.StringToVector(text);
-                GameCommand gc = new GameCommand();
-                gc.X = (int)vect.X;
-                gc.Y = (int)vect.Y;
-                gc.ClickType = type;
-                int ct = 0;
-                Int32.TryParse(timeout, out ct);
-                gc.ClickTimeout = ct;
-                gc.LED = led13.Checked;
-                gameController.MakeCommand(gc);
-            }
-            
-        }
 
         private void Main_Load(object sender, EventArgs e)
         {
@@ -660,6 +634,84 @@ namespace YoloDetection
         private void autoMovingStatus_MouseClick(object sender, MouseEventArgs e)
         {
             AutoMoving = !AutoMoving;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (FC.IsCanFire())
+            {
+                FC.Fire();
+                Console.WriteLine(FC.Counter);
+                string text = gc_commnad.Text;
+                MouseClickTypes type = (MouseClickTypes)mouseClickType.SelectedIndex;
+                string timeout = mouseTimeout.Text;
+                Vector vect = gameController.StringToVector(text);
+                GameCommand gc = new GameCommand();
+                gc.X = (int)vect.X;
+                gc.Y = (int)vect.Y;
+                gc.ClickType = type;
+                int ct = 0;
+                Int32.TryParse(timeout, out ct);
+                gc.ClickTimeout = ct;
+                gc.LED = led13.Checked;
+                gameController.MakeCommand(gc);
+            }
+        }
+
+        private void maxFirePErSecond_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CanMouseMove_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void saveImgPrefix_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void gc_commnad_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void openFile_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog FBD = new OpenFileDialog();
+            
+            if (FBD.ShowDialog() == DialogResult.OK)
+            {
+                //MessageBox.Show(FBD.SelectedPath);
+                dataPath.Text = FBD.FileName;
+            }
+        }
+
+        private void groupBox5_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void canFire_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void movingX_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void movingY_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

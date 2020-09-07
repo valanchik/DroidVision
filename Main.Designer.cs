@@ -30,7 +30,24 @@
         {
             this.mainTabs = new System.Windows.Forms.TabControl();
             this.Robot = new System.Windows.Forms.TabPage();
-            this.Marking = new System.Windows.Forms.TabPage();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.onlyFire = new System.Windows.Forms.CheckBox();
+            this.isVectorInverted = new System.Windows.Forms.CheckBox();
+            this.maxFirePErSecond = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.turnTimeOutValue = new System.Windows.Forms.TextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.avgOffsetObject = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.autoMovingStatus = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.timeController = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.calcTimeValue = new System.Windows.Forms.Label();
+            this.calcTimeTitle = new System.Windows.Forms.Label();
+            this.YoloRunTimeValue = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.IsWriteStream = new System.Windows.Forms.CheckBox();
             this.drawImage = new System.Windows.Forms.CheckBox();
@@ -43,37 +60,11 @@
             this.autoCalibration = new System.Windows.Forms.CheckBox();
             this.label9 = new System.Windows.Forms.Label();
             this.calibrate = new System.Windows.Forms.CheckBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.avgOffsetObject = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.autoMovingStatus = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.timeController = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.calcTimeValue = new System.Windows.Forms.Label();
-            this.calcTimeTitle = new System.Windows.Forms.Label();
-            this.YoloRunTimeValue = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.onlyFire = new System.Windows.Forms.CheckBox();
-            this.isVectorInverted = new System.Windows.Forms.CheckBox();
-            this.maxFirePErSecond = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.turnTimeOutValue = new System.Windows.Forms.TextBox();
+            this.Marking = new System.Windows.Forms.TabPage();
+            this.controlPanel = new System.Windows.Forms.GroupBox();
+            this.dataPath = new System.Windows.Forms.TextBox();
+            this.openFile = new System.Windows.Forms.Button();
             this.Settings = new System.Windows.Forms.TabPage();
-            this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.covariance = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.kalmanError = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.saveImgPrefix = new System.Windows.Forms.TextBox();
-            this.createDetectedImg = new System.Windows.Forms.CheckBox();
-            this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.led13 = new System.Windows.Forms.CheckBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -83,20 +74,44 @@
             this.mouseClickType = new System.Windows.Forms.ComboBox();
             this.gc_commnad = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.saveImgPrefix = new System.Windows.Forms.TextBox();
+            this.createDetectedImg = new System.Windows.Forms.CheckBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.covariance = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.kalmanError = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.fireOnlyRect = new System.Windows.Forms.CheckBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.button3 = new System.Windows.Forms.Button();
+            this.imageViewer = new System.Windows.Forms.PictureBox();
+            this.button7 = new System.Windows.Forms.Button();
             this.mainTabs.SuspendLayout();
             this.Robot.SuspendLayout();
-            this.Marking.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.groupBox6.SuspendLayout();
+            this.Marking.SuspendLayout();
+            this.controlPanel.SuspendLayout();
             this.Settings.SuspendLayout();
-            this.groupBox7.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox8.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.groupBox3.SuspendLayout();
+            this.groupBox8.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox7.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageViewer)).BeginInit();
             this.SuspendLayout();
             // 
             // mainTabs
@@ -107,7 +122,7 @@
             this.mainTabs.Controls.Add(this.Robot);
             this.mainTabs.Controls.Add(this.Marking);
             this.mainTabs.Controls.Add(this.Settings);
-            this.mainTabs.Location = new System.Drawing.Point(0, 1);
+            this.mainTabs.Location = new System.Drawing.Point(0, 0);
             this.mainTabs.Multiline = true;
             this.mainTabs.Name = "mainTabs";
             this.mainTabs.Padding = new System.Drawing.Point(0, 0);
@@ -131,165 +146,83 @@
             this.Robot.Text = "Robot";
             this.Robot.UseVisualStyleBackColor = true;
             // 
-            // Marking
+            // groupBox6
             // 
-            this.Marking.Controls.Add(this.pictureBox2);
-            this.Marking.Location = new System.Drawing.Point(4, 22);
-            this.Marking.Name = "Marking";
-            this.Marking.Padding = new System.Windows.Forms.Padding(3);
-            this.Marking.Size = new System.Drawing.Size(1349, 603);
-            this.Marking.TabIndex = 1;
-            this.Marking.Text = "Разметка";
-            this.Marking.UseVisualStyleBackColor = true;
+            this.groupBox6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox6.Controls.Add(this.onlyFire);
+            this.groupBox6.Controls.Add(this.isVectorInverted);
+            this.groupBox6.Controls.Add(this.maxFirePErSecond);
+            this.groupBox6.Controls.Add(this.label8);
+            this.groupBox6.Controls.Add(this.label12);
+            this.groupBox6.Controls.Add(this.turnTimeOutValue);
+            this.groupBox6.Location = new System.Drawing.Point(1058, 109);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(282, 119);
+            this.groupBox6.TabIndex = 23;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = " Управление огнём ";
             // 
-            // groupBox5
+            // onlyFire
             // 
-            this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox5.Controls.Add(this.IsWriteStream);
-            this.groupBox5.Controls.Add(this.drawImage);
-            this.groupBox5.Controls.Add(this.movingY);
-            this.groupBox5.Controls.Add(this.movingX);
-            this.groupBox5.Controls.Add(this.canFire);
-            this.groupBox5.Controls.Add(this.CanMouseMove);
-            this.groupBox5.Location = new System.Drawing.Point(1207, 341);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(133, 155);
-            this.groupBox5.TabIndex = 20;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = " Дополнительно: ";
+            this.onlyFire.AutoSize = true;
+            this.onlyFire.Location = new System.Drawing.Point(5, 49);
+            this.onlyFire.Margin = new System.Windows.Forms.Padding(2);
+            this.onlyFire.Name = "onlyFire";
+            this.onlyFire.Size = new System.Drawing.Size(223, 17);
+            this.onlyFire.TabIndex = 8;
+            this.onlyFire.Text = "стрелять есть объект в районе центра";
+            this.onlyFire.UseVisualStyleBackColor = true;
             // 
-            // IsWriteStream
+            // isVectorInverted
             // 
-            this.IsWriteStream.AutoSize = true;
-            this.IsWriteStream.Location = new System.Drawing.Point(6, 128);
-            this.IsWriteStream.Margin = new System.Windows.Forms.Padding(2);
-            this.IsWriteStream.Name = "IsWriteStream";
-            this.IsWriteStream.Size = new System.Drawing.Size(88, 17);
-            this.IsWriteStream.TabIndex = 26;
-            this.IsWriteStream.Text = "Записывать";
-            this.IsWriteStream.UseVisualStyleBackColor = true;
+            this.isVectorInverted.AutoSize = true;
+            this.isVectorInverted.Location = new System.Drawing.Point(5, 23);
+            this.isVectorInverted.Margin = new System.Windows.Forms.Padding(2);
+            this.isVectorInverted.Name = "isVectorInverted";
+            this.isVectorInverted.Size = new System.Drawing.Size(212, 17);
+            this.isVectorInverted.TabIndex = 4;
+            this.isVectorInverted.Text = "Инверсия вектора движения мышки";
+            this.isVectorInverted.UseVisualStyleBackColor = true;
             // 
-            // drawImage
+            // maxFirePErSecond
             // 
-            this.drawImage.AutoSize = true;
-            this.drawImage.Checked = true;
-            this.drawImage.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.drawImage.Location = new System.Drawing.Point(6, 106);
-            this.drawImage.Margin = new System.Windows.Forms.Padding(2);
-            this.drawImage.Name = "drawImage";
-            this.drawImage.Size = new System.Drawing.Size(131, 17);
-            this.drawImage.TabIndex = 25;
-            this.drawImage.Text = "Отрисовка картинки";
-            this.drawImage.UseVisualStyleBackColor = true;
+            this.maxFirePErSecond.Location = new System.Drawing.Point(134, 67);
+            this.maxFirePErSecond.Margin = new System.Windows.Forms.Padding(2);
+            this.maxFirePErSecond.Name = "maxFirePErSecond";
+            this.maxFirePErSecond.Size = new System.Drawing.Size(53, 20);
+            this.maxFirePErSecond.TabIndex = 9;
+            this.maxFirePErSecond.Text = "6";
+            this.maxFirePErSecond.TextChanged += new System.EventHandler(this.maxFirePErSecond_TextChanged);
             // 
-            // movingY
+            // label8
             // 
-            this.movingY.AutoSize = true;
-            this.movingY.Checked = true;
-            this.movingY.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.movingY.Location = new System.Drawing.Point(5, 84);
-            this.movingY.Margin = new System.Windows.Forms.Padding(2);
-            this.movingY.Name = "movingY";
-            this.movingY.Size = new System.Drawing.Size(97, 17);
-            this.movingY.TabIndex = 24;
-            this.movingY.Text = "Двигать  по Y";
-            this.movingY.UseVisualStyleBackColor = true;
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(5, 70);
+            this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(128, 13);
+            this.label8.TabIndex = 10;
+            this.label8.Text = "Макс. выстрелов в сек.";
             // 
-            // movingX
+            // label12
             // 
-            this.movingX.AutoSize = true;
-            this.movingX.Checked = true;
-            this.movingX.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.movingX.Location = new System.Drawing.Point(5, 62);
-            this.movingX.Margin = new System.Windows.Forms.Padding(2);
-            this.movingX.Name = "movingX";
-            this.movingX.Size = new System.Drawing.Size(94, 17);
-            this.movingX.TabIndex = 23;
-            this.movingX.Text = "Двигать по X";
-            this.movingX.UseVisualStyleBackColor = true;
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(5, 93);
+            this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(128, 13);
+            this.label12.TabIndex = 13;
+            this.label12.Text = "Задержка авт. очереди:";
             // 
-            // canFire
+            // turnTimeOutValue
             // 
-            this.canFire.AutoSize = true;
-            this.canFire.Checked = true;
-            this.canFire.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.canFire.Location = new System.Drawing.Point(5, 40);
-            this.canFire.Margin = new System.Windows.Forms.Padding(2);
-            this.canFire.Name = "canFire";
-            this.canFire.Size = new System.Drawing.Size(73, 17);
-            this.canFire.TabIndex = 22;
-            this.canFire.Text = "Стрелять";
-            this.canFire.UseVisualStyleBackColor = true;
-            // 
-            // CanMouseMove
-            // 
-            this.CanMouseMove.AutoSize = true;
-            this.CanMouseMove.Checked = true;
-            this.CanMouseMove.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CanMouseMove.Location = new System.Drawing.Point(5, 18);
-            this.CanMouseMove.Margin = new System.Windows.Forms.Padding(2);
-            this.CanMouseMove.Name = "CanMouseMove";
-            this.CanMouseMove.Size = new System.Drawing.Size(130, 17);
-            this.CanMouseMove.TabIndex = 21;
-            this.CanMouseMove.Text = "Перемещать мышку";
-            this.CanMouseMove.UseVisualStyleBackColor = true;
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox4.Controls.Add(this.mouseCoeff);
-            this.groupBox4.Controls.Add(this.autoCalibration);
-            this.groupBox4.Controls.Add(this.label9);
-            this.groupBox4.Controls.Add(this.calibrate);
-            this.groupBox4.Location = new System.Drawing.Point(1207, 209);
-            this.groupBox4.Margin = new System.Windows.Forms.Padding(2);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox4.Size = new System.Drawing.Size(133, 127);
-            this.groupBox4.TabIndex = 19;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = " Калибровка мышки ";
-            // 
-            // mouseCoeff
-            // 
-            this.mouseCoeff.Location = new System.Drawing.Point(65, 38);
-            this.mouseCoeff.Margin = new System.Windows.Forms.Padding(2);
-            this.mouseCoeff.Name = "mouseCoeff";
-            this.mouseCoeff.Size = new System.Drawing.Size(51, 20);
-            this.mouseCoeff.TabIndex = 11;
-            this.mouseCoeff.Text = "0,1231";
-            // 
-            // autoCalibration
-            // 
-            this.autoCalibration.AutoSize = true;
-            this.autoCalibration.Location = new System.Drawing.Point(7, 74);
-            this.autoCalibration.Margin = new System.Windows.Forms.Padding(2);
-            this.autoCalibration.Name = "autoCalibration";
-            this.autoCalibration.Size = new System.Drawing.Size(113, 17);
-            this.autoCalibration.TabIndex = 13;
-            this.autoCalibration.Text = "Авто калибровка";
-            this.autoCalibration.UseVisualStyleBackColor = true;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 41);
-            this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(63, 13);
-            this.label9.TabIndex = 11;
-            this.label9.Text = "Поправка: ";
-            // 
-            // calibrate
-            // 
-            this.calibrate.AutoSize = true;
-            this.calibrate.Location = new System.Drawing.Point(7, 17);
-            this.calibrate.Margin = new System.Windows.Forms.Padding(2);
-            this.calibrate.Name = "calibrate";
-            this.calibrate.Size = new System.Drawing.Size(92, 17);
-            this.calibrate.TabIndex = 9;
-            this.calibrate.Text = "Калибровать";
-            this.calibrate.UseVisualStyleBackColor = true;
+            this.turnTimeOutValue.Location = new System.Drawing.Point(134, 91);
+            this.turnTimeOutValue.Margin = new System.Windows.Forms.Padding(2);
+            this.turnTimeOutValue.Name = "turnTimeOutValue";
+            this.turnTimeOutValue.Size = new System.Drawing.Size(54, 20);
+            this.turnTimeOutValue.TabIndex = 10;
+            this.turnTimeOutValue.Text = "0";
+            this.turnTimeOutValue.TextChanged += new System.EventHandler(this.turnTimeOutValue_TextChanged);
             // 
             // groupBox1
             // 
@@ -305,10 +238,10 @@
             this.groupBox1.Controls.Add(this.calcTimeTitle);
             this.groupBox1.Controls.Add(this.YoloRunTimeValue);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(938, 7);
+            this.groupBox1.Location = new System.Drawing.Point(1058, 6);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.groupBox1.Size = new System.Drawing.Size(264, 100);
+            this.groupBox1.Size = new System.Drawing.Size(282, 100);
             this.groupBox1.TabIndex = 21;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Информация";
@@ -403,93 +336,205 @@
             this.label1.TabIndex = 4;
             this.label1.Text = "Время детекта: ";
             // 
-            // pictureBox1
+            // groupBox5
             // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 4);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(929, 596);
-            this.pictureBox1.TabIndex = 22;
-            this.pictureBox1.TabStop = false;
+            this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox5.Controls.Add(this.fireOnlyRect);
+            this.groupBox5.Controls.Add(this.IsWriteStream);
+            this.groupBox5.Controls.Add(this.drawImage);
+            this.groupBox5.Controls.Add(this.movingY);
+            this.groupBox5.Controls.Add(this.movingX);
+            this.groupBox5.Controls.Add(this.canFire);
+            this.groupBox5.Controls.Add(this.CanMouseMove);
+            this.groupBox5.Location = new System.Drawing.Point(1196, 233);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(144, 221);
+            this.groupBox5.TabIndex = 20;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = " Дополнительно: ";
+            this.groupBox5.Enter += new System.EventHandler(this.groupBox5_Enter);
             // 
-            // groupBox6
+            // IsWriteStream
             // 
-            this.groupBox6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox6.Controls.Add(this.onlyFire);
-            this.groupBox6.Controls.Add(this.isVectorInverted);
-            this.groupBox6.Controls.Add(this.maxFirePErSecond);
-            this.groupBox6.Controls.Add(this.label8);
-            this.groupBox6.Controls.Add(this.label12);
-            this.groupBox6.Controls.Add(this.turnTimeOutValue);
-            this.groupBox6.Location = new System.Drawing.Point(938, 110);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(264, 119);
-            this.groupBox6.TabIndex = 23;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = " Управление огнём ";
+            this.IsWriteStream.AutoSize = true;
+            this.IsWriteStream.Location = new System.Drawing.Point(6, 144);
+            this.IsWriteStream.Margin = new System.Windows.Forms.Padding(2);
+            this.IsWriteStream.Name = "IsWriteStream";
+            this.IsWriteStream.Size = new System.Drawing.Size(88, 17);
+            this.IsWriteStream.TabIndex = 26;
+            this.IsWriteStream.Text = "Записывать";
+            this.IsWriteStream.UseVisualStyleBackColor = true;
             // 
-            // onlyFire
+            // drawImage
             // 
-            this.onlyFire.AutoSize = true;
-            this.onlyFire.Location = new System.Drawing.Point(5, 49);
-            this.onlyFire.Margin = new System.Windows.Forms.Padding(2);
-            this.onlyFire.Name = "onlyFire";
-            this.onlyFire.Size = new System.Drawing.Size(223, 17);
-            this.onlyFire.TabIndex = 8;
-            this.onlyFire.Text = "стрелять есть объект в районе центра";
-            this.onlyFire.UseVisualStyleBackColor = true;
+            this.drawImage.AutoSize = true;
+            this.drawImage.Checked = true;
+            this.drawImage.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.drawImage.Location = new System.Drawing.Point(6, 122);
+            this.drawImage.Margin = new System.Windows.Forms.Padding(2);
+            this.drawImage.Name = "drawImage";
+            this.drawImage.Size = new System.Drawing.Size(131, 17);
+            this.drawImage.TabIndex = 25;
+            this.drawImage.Text = "Отрисовка картинки";
+            this.drawImage.UseVisualStyleBackColor = true;
             // 
-            // isVectorInverted
+            // movingY
             // 
-            this.isVectorInverted.AutoSize = true;
-            this.isVectorInverted.Location = new System.Drawing.Point(5, 23);
-            this.isVectorInverted.Margin = new System.Windows.Forms.Padding(2);
-            this.isVectorInverted.Name = "isVectorInverted";
-            this.isVectorInverted.Size = new System.Drawing.Size(212, 17);
-            this.isVectorInverted.TabIndex = 4;
-            this.isVectorInverted.Text = "Инверсия вектора движения мышки";
-            this.isVectorInverted.UseVisualStyleBackColor = true;
+            this.movingY.AutoSize = true;
+            this.movingY.Checked = true;
+            this.movingY.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.movingY.Location = new System.Drawing.Point(5, 100);
+            this.movingY.Margin = new System.Windows.Forms.Padding(2);
+            this.movingY.Name = "movingY";
+            this.movingY.Size = new System.Drawing.Size(97, 17);
+            this.movingY.TabIndex = 24;
+            this.movingY.Text = "Двигать  по Y";
+            this.movingY.UseVisualStyleBackColor = true;
+            this.movingY.CheckedChanged += new System.EventHandler(this.movingY_CheckedChanged);
             // 
-            // maxFirePErSecond
+            // movingX
             // 
-            this.maxFirePErSecond.Location = new System.Drawing.Point(132, 67);
-            this.maxFirePErSecond.Margin = new System.Windows.Forms.Padding(2);
-            this.maxFirePErSecond.Name = "maxFirePErSecond";
-            this.maxFirePErSecond.Size = new System.Drawing.Size(53, 20);
-            this.maxFirePErSecond.TabIndex = 9;
-            this.maxFirePErSecond.Text = "6";
+            this.movingX.AutoSize = true;
+            this.movingX.Checked = true;
+            this.movingX.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.movingX.Location = new System.Drawing.Point(5, 78);
+            this.movingX.Margin = new System.Windows.Forms.Padding(2);
+            this.movingX.Name = "movingX";
+            this.movingX.Size = new System.Drawing.Size(94, 17);
+            this.movingX.TabIndex = 23;
+            this.movingX.Text = "Двигать по X";
+            this.movingX.UseVisualStyleBackColor = true;
+            this.movingX.CheckedChanged += new System.EventHandler(this.movingX_CheckedChanged);
             // 
-            // label8
+            // canFire
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(5, 70);
-            this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(128, 13);
-            this.label8.TabIndex = 10;
-            this.label8.Text = "Макс. выстрелов в сек.";
+            this.canFire.AutoSize = true;
+            this.canFire.Checked = true;
+            this.canFire.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.canFire.Location = new System.Drawing.Point(5, 56);
+            this.canFire.Margin = new System.Windows.Forms.Padding(2);
+            this.canFire.Name = "canFire";
+            this.canFire.Size = new System.Drawing.Size(73, 17);
+            this.canFire.TabIndex = 22;
+            this.canFire.Text = "Стрелять";
+            this.canFire.UseVisualStyleBackColor = true;
+            this.canFire.CheckedChanged += new System.EventHandler(this.canFire_CheckedChanged);
             // 
-            // label12
+            // CanMouseMove
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(5, 93);
-            this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(128, 13);
-            this.label12.TabIndex = 13;
-            this.label12.Text = "Задержка авт. очереди:";
+            this.CanMouseMove.AutoSize = true;
+            this.CanMouseMove.Checked = true;
+            this.CanMouseMove.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CanMouseMove.Location = new System.Drawing.Point(5, 18);
+            this.CanMouseMove.Margin = new System.Windows.Forms.Padding(2);
+            this.CanMouseMove.Name = "CanMouseMove";
+            this.CanMouseMove.Size = new System.Drawing.Size(130, 17);
+            this.CanMouseMove.TabIndex = 21;
+            this.CanMouseMove.Text = "Перемещать мышку";
+            this.CanMouseMove.UseVisualStyleBackColor = true;
+            this.CanMouseMove.CheckedChanged += new System.EventHandler(this.CanMouseMove_CheckedChanged);
             // 
-            // turnTimeOutValue
+            // groupBox4
             // 
-            this.turnTimeOutValue.Location = new System.Drawing.Point(131, 91);
-            this.turnTimeOutValue.Margin = new System.Windows.Forms.Padding(2);
-            this.turnTimeOutValue.Name = "turnTimeOutValue";
-            this.turnTimeOutValue.Size = new System.Drawing.Size(51, 20);
-            this.turnTimeOutValue.TabIndex = 10;
-            this.turnTimeOutValue.Text = "0";
+            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox4.Controls.Add(this.mouseCoeff);
+            this.groupBox4.Controls.Add(this.autoCalibration);
+            this.groupBox4.Controls.Add(this.label9);
+            this.groupBox4.Controls.Add(this.calibrate);
+            this.groupBox4.Location = new System.Drawing.Point(1058, 233);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox4.Size = new System.Drawing.Size(133, 127);
+            this.groupBox4.TabIndex = 19;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = " Калибровка мышки ";
+            // 
+            // mouseCoeff
+            // 
+            this.mouseCoeff.Location = new System.Drawing.Point(65, 38);
+            this.mouseCoeff.Margin = new System.Windows.Forms.Padding(2);
+            this.mouseCoeff.Name = "mouseCoeff";
+            this.mouseCoeff.Size = new System.Drawing.Size(51, 20);
+            this.mouseCoeff.TabIndex = 11;
+            this.mouseCoeff.Text = "0,1231";
+            this.mouseCoeff.TextChanged += new System.EventHandler(this.mouseCoeff_TextChanged);
+            // 
+            // autoCalibration
+            // 
+            this.autoCalibration.AutoSize = true;
+            this.autoCalibration.Location = new System.Drawing.Point(5, 62);
+            this.autoCalibration.Margin = new System.Windows.Forms.Padding(2);
+            this.autoCalibration.Name = "autoCalibration";
+            this.autoCalibration.Size = new System.Drawing.Size(113, 17);
+            this.autoCalibration.TabIndex = 13;
+            this.autoCalibration.Text = "Авто калибровка";
+            this.autoCalibration.UseVisualStyleBackColor = true;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 41);
+            this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(63, 13);
+            this.label9.TabIndex = 11;
+            this.label9.Text = "Поправка: ";
+            // 
+            // calibrate
+            // 
+            this.calibrate.AutoSize = true;
+            this.calibrate.Location = new System.Drawing.Point(5, 17);
+            this.calibrate.Margin = new System.Windows.Forms.Padding(2);
+            this.calibrate.Name = "calibrate";
+            this.calibrate.Size = new System.Drawing.Size(92, 17);
+            this.calibrate.TabIndex = 9;
+            this.calibrate.Text = "Калибровать";
+            this.calibrate.UseVisualStyleBackColor = true;
+            // 
+            // Marking
+            // 
+            this.Marking.Controls.Add(this.panel1);
+            this.Marking.Controls.Add(this.controlPanel);
+            this.Marking.Controls.Add(this.imageViewer);
+            this.Marking.Location = new System.Drawing.Point(4, 22);
+            this.Marking.Name = "Marking";
+            this.Marking.Padding = new System.Windows.Forms.Padding(3);
+            this.Marking.Size = new System.Drawing.Size(1349, 603);
+            this.Marking.TabIndex = 1;
+            this.Marking.Text = "Разметка";
+            this.Marking.UseVisualStyleBackColor = true;
+            // 
+            // controlPanel
+            // 
+            this.controlPanel.Controls.Add(this.dataPath);
+            this.controlPanel.Controls.Add(this.openFile);
+            this.controlPanel.Location = new System.Drawing.Point(1074, 6);
+            this.controlPanel.Name = "controlPanel";
+            this.controlPanel.Size = new System.Drawing.Size(266, 577);
+            this.controlPanel.TabIndex = 24;
+            this.controlPanel.TabStop = false;
+            this.controlPanel.Text = "Контрольная панель";
+            // 
+            // dataPath
+            // 
+            this.dataPath.Location = new System.Drawing.Point(5, 20);
+            this.dataPath.Margin = new System.Windows.Forms.Padding(2);
+            this.dataPath.Name = "dataPath";
+            this.dataPath.Size = new System.Drawing.Size(224, 20);
+            this.dataPath.TabIndex = 28;
+            this.dataPath.Text = "D:\\googleDrive\\train\\valorant\\data";
+            // 
+            // openFile
+            // 
+            this.openFile.Location = new System.Drawing.Point(233, 18);
+            this.openFile.Margin = new System.Windows.Forms.Padding(2);
+            this.openFile.Name = "openFile";
+            this.openFile.Size = new System.Drawing.Size(28, 22);
+            this.openFile.TabIndex = 27;
+            this.openFile.Text = "...";
+            this.openFile.UseVisualStyleBackColor = true;
+            this.openFile.Click += new System.EventHandler(this.openFile_Click);
             // 
             // Settings
             // 
@@ -504,122 +549,6 @@
             this.Settings.TabIndex = 2;
             this.Settings.Text = "Настройки";
             this.Settings.UseVisualStyleBackColor = true;
-            // 
-            // groupBox7
-            // 
-            this.groupBox7.AutoSize = true;
-            this.groupBox7.Controls.Add(this.button1);
-            this.groupBox7.Location = new System.Drawing.Point(8, 6);
-            this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(278, 79);
-            this.groupBox7.TabIndex = 0;
-            this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "YOLO";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(6, 19);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 41);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "Загрузить YOLO";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.covariance);
-            this.groupBox2.Controls.Add(this.label10);
-            this.groupBox2.Controls.Add(this.kalmanError);
-            this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Location = new System.Drawing.Point(8, 90);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox2.Size = new System.Drawing.Size(278, 98);
-            this.groupBox2.TabIndex = 25;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Фильтр Калмана";
-            // 
-            // covariance
-            // 
-            this.covariance.Location = new System.Drawing.Point(130, 49);
-            this.covariance.Margin = new System.Windows.Forms.Padding(2);
-            this.covariance.Name = "covariance";
-            this.covariance.Size = new System.Drawing.Size(51, 20);
-            this.covariance.TabIndex = 3;
-            this.covariance.Text = "15";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(4, 49);
-            this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(64, 13);
-            this.label10.TabIndex = 2;
-            this.label10.Text = "Ковариант:";
-            // 
-            // kalmanError
-            // 
-            this.kalmanError.Location = new System.Drawing.Point(130, 26);
-            this.kalmanError.Margin = new System.Windows.Forms.Padding(2);
-            this.kalmanError.Name = "kalmanError";
-            this.kalmanError.Size = new System.Drawing.Size(51, 20);
-            this.kalmanError.TabIndex = 1;
-            this.kalmanError.Text = "1";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(4, 26);
-            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(123, 13);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "Ошибка измерения(R):";
-            // 
-            // saveImgPrefix
-            // 
-            this.saveImgPrefix.Location = new System.Drawing.Point(12, 20);
-            this.saveImgPrefix.Margin = new System.Windows.Forms.Padding(2);
-            this.saveImgPrefix.Name = "saveImgPrefix";
-            this.saveImgPrefix.Size = new System.Drawing.Size(113, 20);
-            this.saveImgPrefix.TabIndex = 17;
-            this.saveImgPrefix.Text = "d";
-            // 
-            // createDetectedImg
-            // 
-            this.createDetectedImg.AutoSize = true;
-            this.createDetectedImg.BackColor = System.Drawing.Color.Snow;
-            this.createDetectedImg.Location = new System.Drawing.Point(12, -1);
-            this.createDetectedImg.Margin = new System.Windows.Forms.Padding(2);
-            this.createDetectedImg.Name = "createDetectedImg";
-            this.createDetectedImg.Size = new System.Drawing.Size(118, 17);
-            this.createDetectedImg.TabIndex = 27;
-            this.createDetectedImg.Text = "Создать картинки";
-            this.createDetectedImg.UseVisualStyleBackColor = false;
-            // 
-            // groupBox8
-            // 
-            this.groupBox8.Controls.Add(this.saveImgPrefix);
-            this.groupBox8.Controls.Add(this.createDetectedImg);
-            this.groupBox8.Location = new System.Drawing.Point(138, 197);
-            this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(146, 52);
-            this.groupBox8.TabIndex = 28;
-            this.groupBox8.TabStop = false;
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox2.Location = new System.Drawing.Point(3, 4);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(929, 596);
-            this.pictureBox2.TabIndex = 23;
-            this.pictureBox2.TabStop = false;
             // 
             // groupBox3
             // 
@@ -715,6 +644,7 @@
             this.gc_commnad.Size = new System.Drawing.Size(112, 20);
             this.gc_commnad.TabIndex = 7;
             this.gc_commnad.Text = "10x10";
+            this.gc_commnad.TextChanged += new System.EventHandler(this.gc_commnad_TextChanged);
             // 
             // button2
             // 
@@ -725,6 +655,254 @@
             this.button2.TabIndex = 6;
             this.button2.Text = "Тест";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.saveImgPrefix);
+            this.groupBox8.Controls.Add(this.createDetectedImg);
+            this.groupBox8.Location = new System.Drawing.Point(138, 197);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(146, 52);
+            this.groupBox8.TabIndex = 28;
+            this.groupBox8.TabStop = false;
+            // 
+            // saveImgPrefix
+            // 
+            this.saveImgPrefix.Location = new System.Drawing.Point(12, 20);
+            this.saveImgPrefix.Margin = new System.Windows.Forms.Padding(2);
+            this.saveImgPrefix.Name = "saveImgPrefix";
+            this.saveImgPrefix.Size = new System.Drawing.Size(113, 20);
+            this.saveImgPrefix.TabIndex = 17;
+            this.saveImgPrefix.Text = "d";
+            this.saveImgPrefix.TextChanged += new System.EventHandler(this.saveImgPrefix_TextChanged);
+            // 
+            // createDetectedImg
+            // 
+            this.createDetectedImg.AutoSize = true;
+            this.createDetectedImg.BackColor = System.Drawing.Color.Snow;
+            this.createDetectedImg.Location = new System.Drawing.Point(12, -1);
+            this.createDetectedImg.Margin = new System.Windows.Forms.Padding(2);
+            this.createDetectedImg.Name = "createDetectedImg";
+            this.createDetectedImg.Size = new System.Drawing.Size(118, 17);
+            this.createDetectedImg.TabIndex = 27;
+            this.createDetectedImg.Text = "Создать картинки";
+            this.createDetectedImg.UseVisualStyleBackColor = false;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.covariance);
+            this.groupBox2.Controls.Add(this.label10);
+            this.groupBox2.Controls.Add(this.kalmanError);
+            this.groupBox2.Controls.Add(this.label4);
+            this.groupBox2.Location = new System.Drawing.Point(8, 90);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox2.Size = new System.Drawing.Size(278, 98);
+            this.groupBox2.TabIndex = 25;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Фильтр Калмана";
+            // 
+            // covariance
+            // 
+            this.covariance.Location = new System.Drawing.Point(130, 49);
+            this.covariance.Margin = new System.Windows.Forms.Padding(2);
+            this.covariance.Name = "covariance";
+            this.covariance.Size = new System.Drawing.Size(51, 20);
+            this.covariance.TabIndex = 3;
+            this.covariance.Text = "15";
+            this.covariance.TextChanged += new System.EventHandler(this.covariance_TextChanged);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(4, 49);
+            this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(64, 13);
+            this.label10.TabIndex = 2;
+            this.label10.Text = "Ковариант:";
+            // 
+            // kalmanError
+            // 
+            this.kalmanError.Location = new System.Drawing.Point(130, 26);
+            this.kalmanError.Margin = new System.Windows.Forms.Padding(2);
+            this.kalmanError.Name = "kalmanError";
+            this.kalmanError.Size = new System.Drawing.Size(51, 20);
+            this.kalmanError.TabIndex = 1;
+            this.kalmanError.Text = "1";
+            this.kalmanError.TextChanged += new System.EventHandler(this.kalmanError_TextChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(4, 26);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(123, 13);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Ошибка измерения(R):";
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.AutoSize = true;
+            this.groupBox7.Controls.Add(this.button1);
+            this.groupBox7.Location = new System.Drawing.Point(8, 6);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(278, 79);
+            this.groupBox7.TabIndex = 0;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "YOLO";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(6, 19);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 41);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "Загрузить YOLO";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // fireOnlyRect
+            // 
+            this.fireOnlyRect.AutoSize = true;
+            this.fireOnlyRect.Checked = true;
+            this.fireOnlyRect.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.fireOnlyRect.Location = new System.Drawing.Point(5, 37);
+            this.fireOnlyRect.Margin = new System.Windows.Forms.Padding(2);
+            this.fireOnlyRect.Name = "fireOnlyRect";
+            this.fireOnlyRect.Size = new System.Drawing.Size(130, 17);
+            this.fireOnlyRect.TabIndex = 27;
+            this.fireOnlyRect.Text = "Стрелять в прямоуг.";
+            this.fireOnlyRect.UseVisualStyleBackColor = true;
+            this.fireOnlyRect.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.tableLayoutPanel1);
+            this.panel1.Location = new System.Drawing.Point(164, 24);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(683, 52);
+            this.panel1.TabIndex = 29;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.ColumnCount = 5;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.Controls.Add(this.button7, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.button6, 3, 0);
+            this.tableLayoutPanel1.Controls.Add(this.button5, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.button4, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.button3, 0, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(677, 46);
+            this.tableLayoutPanel1.TabIndex = 30;
+            // 
+            // button4
+            // 
+            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button4.BackColor = System.Drawing.Color.Transparent;
+            this.button4.BackgroundImage = global::YoloDetection.Properties.Resources.play;
+            this.button4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.button4.Location = new System.Drawing.Point(273, 3);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(129, 40);
+            this.button4.TabIndex = 1;
+            this.button4.UseVisualStyleBackColor = false;
+            // 
+            // button5
+            // 
+            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button5.BackgroundImage = global::YoloDetection.Properties.Resources.forward;
+            this.button5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.button5.Location = new System.Drawing.Point(408, 3);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(129, 40);
+            this.button5.TabIndex = 2;
+            this.button5.UseVisualStyleBackColor = true;
+            // 
+            // button6
+            // 
+            this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button6.BackgroundImage = global::YoloDetection.Properties.Resources.many_forward;
+            this.button6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.button6.Location = new System.Drawing.Point(543, 3);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(131, 40);
+            this.button6.TabIndex = 3;
+            this.button6.UseVisualStyleBackColor = true;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox1.Location = new System.Drawing.Point(3, 4);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(1049, 596);
+            this.pictureBox1.TabIndex = 22;
+            this.pictureBox1.TabStop = false;
+            // 
+            // button3
+            // 
+            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button3.BackgroundImage = global::YoloDetection.Properties.Resources.many_back;
+            this.button3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.button3.Location = new System.Drawing.Point(3, 3);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(129, 40);
+            this.button3.TabIndex = 0;
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // imageViewer
+            // 
+            this.imageViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.imageViewer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.imageViewer.Location = new System.Drawing.Point(3, 4);
+            this.imageViewer.Name = "imageViewer";
+            this.imageViewer.Size = new System.Drawing.Size(1065, 579);
+            this.imageViewer.TabIndex = 23;
+            this.imageViewer.TabStop = false;
+            // 
+            // button7
+            // 
+            this.button7.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button7.BackgroundImage = global::YoloDetection.Properties.Resources.back;
+            this.button7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.button7.Location = new System.Drawing.Point(138, 3);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(129, 40);
+            this.button7.TabIndex = 4;
+            this.button7.UseVisualStyleBackColor = true;
             // 
             // Main
             // 
@@ -739,26 +917,30 @@
             this.Load += new System.EventHandler(this.Main_Load);
             this.mainTabs.ResumeLayout(false);
             this.Robot.ResumeLayout(false);
-            this.Marking.ResumeLayout(false);
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.groupBox6.ResumeLayout(false);
-            this.groupBox6.PerformLayout();
+            this.Marking.ResumeLayout(false);
+            this.controlPanel.ResumeLayout(false);
+            this.controlPanel.PerformLayout();
             this.Settings.ResumeLayout(false);
             this.Settings.PerformLayout();
-            this.groupBox7.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.groupBox8.ResumeLayout(false);
-            this.groupBox8.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox7.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageViewer)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -809,7 +991,7 @@
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.GroupBox groupBox8;
-        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox imageViewer;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.CheckBox led13;
         private System.Windows.Forms.Label label7;
@@ -819,6 +1001,18 @@
         private System.Windows.Forms.ComboBox mouseClickType;
         private System.Windows.Forms.TextBox gc_commnad;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.GroupBox controlPanel;
+        private System.Windows.Forms.TextBox dataPath;
+        private System.Windows.Forms.Button openFile;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.CheckBox fireOnlyRect;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button7;
     }
 }
 
