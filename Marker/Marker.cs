@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace YoloDetection.Marker
 {
-    interface IMarkerData
+    interface IMarkerFrame
     {
         bool IsEmpty();
         int GetFrameId();
@@ -19,16 +19,16 @@ namespace YoloDetection.Marker
     class MarkerFasad
     {
         private  ImageConverter imgConverter = new ImageConverter();
-        private  byte[] buffer = new byte[5000000];
-        private  int bytesRead;
-        private List<IMarkerData> Data = new List<IMarkerData>();
+        private List<IMarkerFrame> Data = new List<IMarkerFrame>();
         private string FilePath;
         private PictureBox Window;
+        private Timer Timer;
         public int CurrentFrame;
 
-        public MarkerFasad(PictureBox window)
+        public MarkerFasad(PictureBox window, Timer timer)
         {
             Window = window;
+            Timer = timer;
         }
         public void Load (string path)
         {
@@ -37,6 +37,8 @@ namespace YoloDetection.Marker
             int frameId = 1;
             using (Stream source = File.OpenRead(FilePath))
             {
+                byte[] buffer = new byte[2048];
+                int bytesRead;
                 while ((bytesRead = source.Read(buffer, 0, buffer.Length)) > 0)
                 {
                     if (bytesRead == buffer.Length)
@@ -50,7 +52,7 @@ namespace YoloDetection.Marker
                     }
                     if (mjpegParser.finded)
                     {
-                        IMarkerData d = new MarkerData(
+                        IMarkerFrame d = new MarkerFrame(
                             (Image)imgConverter.ConvertFrom(mjpegParser.GetJPEG().ToArray()),
                             frameId
                         );
@@ -60,23 +62,28 @@ namespace YoloDetection.Marker
                 }
             }
         }
-
-        public void ShowFrame (int frame)
+        public bool ShowFrame (int frame)
         {
-            IMarkerData f = Data.Find(o=>o.GetFrameId() == frame);
+            IMarkerFrame f = GetFrameById(frame);
             if (f != null)
             {
                 CurrentFrame = f.GetFrameId();
                 Window.Image = f.GetImage();
+                return true;
             }
+            return false;
+        }
+        private IMarkerFrame GetFrameById(int frame)
+        {
+            return Data.Find(o => o.GetFrameId() == frame);
         }
     }
-    struct MarkerData: IMarkerData
+    struct MarkerFrame: IMarkerFrame
     {
         public Image Image;
         public int FrameId;
 
-        public MarkerData (Image image, int frameId)
+        public MarkerFrame (Image image, int frameId)
         {
             Image = image;
             FrameId = frameId;

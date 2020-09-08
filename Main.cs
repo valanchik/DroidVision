@@ -76,7 +76,7 @@ namespace YoloDetection
         {
 
             InitializeComponent();
-            marker = new MarkerFasad(imageViewer);
+            marker = new MarkerFasad(imageViewer, playTimer);
             kalmanError_TextChanged(null, null);
             covariance_TextChanged(null, null);
             maxFirePErSecond_TextChanged(null, null);
@@ -719,12 +719,27 @@ namespace YoloDetection
 
         private void mPlay_Click(object sender, EventArgs e)
         {
-            marker.ShowFrame(1);
+            playTimer.Enabled = !playTimer.Enabled;
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
             marker.ShowFrame(marker.CurrentFrame+1);
+        }
+
+        private void trackBar1_ValueChanged(object sender, EventArgs e)
+        {
+            playTimer.Interval = trackBar1.Value;
+        }
+
+        private void trackBar1_Move(object sender, EventArgs e)
+        {
+            Console.WriteLine(trackBar1.Value);
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            marker.ShowFrame(marker.CurrentFrame - 1);
         }
     }
 }
