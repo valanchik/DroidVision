@@ -9,12 +9,7 @@ using System.Windows.Forms;
 
 namespace YoloDetection.Marker
 {
-    interface IMarkerFrame
-    {
-        bool IsEmpty();
-        int GetFrameId();
-        Image GetImage();
-    }
+    
    
     class MarkerFasad
     {
@@ -124,11 +119,16 @@ namespace YoloDetection.Marker
             FrameRemoved = frameRemoved;
         }
     }
-
+    interface IMarkerFrame
+    {
+        bool IsEmpty();
+        int GetFrameId();
+        Image GetImage();
+    }
     struct MarkerFrame: IMarkerFrame
     {
-        public Image Image;
-        public int FrameId;
+        private Image Image;
+        private int FrameId;
 
         public MarkerFrame (Image image, int frameId)
         {
