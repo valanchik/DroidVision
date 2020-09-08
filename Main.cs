@@ -724,7 +724,7 @@ namespace YoloDetection
 
         private void button5_Click(object sender, EventArgs e)
         {
-            marker.ShowFrame(marker.CurrentFrame+1);
+            marker.ShowForwardFrame();
         }
 
         private void trackBar1_ValueChanged(object sender, EventArgs e)
@@ -734,12 +734,12 @@ namespace YoloDetection
 
         private void trackBar1_Move(object sender, EventArgs e)
         {
-            Console.WriteLine(trackBar1.Value);
+            
         }
 
         private void button7_Click(object sender, EventArgs e)
         {
-            marker.ShowFrame(marker.CurrentFrame - 1);
+            marker.ShowBackwardFrame();
         }
     }
 }

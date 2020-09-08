@@ -73,10 +73,43 @@ namespace YoloDetection.Marker
             }
             return false;
         }
+        public bool ShowForwardFrame()
+        {
+            IMarkerFrame f = GetForwardActiveFrame();
+            if (f != null)
+            {
+                CurrentFrame = f.GetFrameId();
+                Window.Image = f.GetImage();
+                return true;
+            }
+            return false;
+        }
+        public bool ShowBackwardFrame()
+        {
+            IMarkerFrame f = GetBackwardActiveFrame();
+            if (f != null)
+            {
+                CurrentFrame = f.GetFrameId();
+                Window.Image = f.GetImage();
+                return true;
+            }
+            return false;
+        }
         private IMarkerFrame GetFrameById(int frame)
         {
             return Data.Find(o => o.GetFrameId() == frame);
         }
+        private IMarkerFrame GetForwardActiveFrame()
+        {
+            int frame = CurrentFrame + 1;
+            return Data.Find(o => o.GetFrameId() == frame);
+        }
+        private IMarkerFrame GetBackwardActiveFrame()
+        {
+            int frame = CurrentFrame - 1;
+            return Data.Find(o => o.GetFrameId() == frame);
+        }
+
     }
     struct MarkerFrame: IMarkerFrame
     {
