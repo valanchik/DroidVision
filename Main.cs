@@ -71,11 +71,12 @@ namespace YoloDetection
         private bool savingImg = false;
         private byte[] lastJPEG = new byte[0];
         private MJPEGWriter mjpegWriter;
-        private MarkerFasad marker = new MarkerFasad();
+        private MarkerFasad marker;
         public Main()
         {
 
             InitializeComponent();
+            marker = new MarkerFasad(imageViewer);
             kalmanError_TextChanged(null, null);
             covariance_TextChanged(null, null);
             maxFirePErSecond_TextChanged(null, null);
@@ -430,7 +431,6 @@ namespace YoloDetection
         {
             return Task.Run(() =>
             {
-
                 List<DetectedObject> tmp = new List<DetectedObject>();
                 YoloDetection.lastImgTiny = data;
                 bool ready = false;
@@ -715,6 +715,16 @@ namespace YoloDetection
         private void movingY_CheckedChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void mPlay_Click(object sender, EventArgs e)
+        {
+            marker.ShowFrame(1);
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            marker.ShowFrame(marker.CurrentFrame+1);
         }
     }
 }
