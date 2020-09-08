@@ -77,6 +77,7 @@ namespace YoloDetection
 
             InitializeComponent();
             marker = new MarkerFasad(imageViewer, playTimer);
+
             kalmanError_TextChanged(null, null);
             covariance_TextChanged(null, null);
             maxFirePErSecond_TextChanged(null, null);

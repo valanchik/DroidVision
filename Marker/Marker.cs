@@ -24,7 +24,7 @@ namespace YoloDetection.Marker
         private PictureBox Window;
         private Timer Timer;
         public int CurrentFrame;
-
+        public ElementController ElementController;
         public MarkerFasad(PictureBox window, Timer timer)
         {
             Window = window;
@@ -111,6 +111,20 @@ namespace YoloDetection.Marker
         }
 
     }
+    
+    struct ElementController
+    {
+        CheckBox FrameInBookmarks;
+        CheckBox FrameHided;
+        CheckBox FrameRemoved;
+        public ElementController(CheckBox frameInBookmarks, CheckBox frameHided, CheckBox frameRemoved)
+        {
+            FrameInBookmarks = frameInBookmarks;
+            FrameHided = frameHided;
+            FrameRemoved = frameRemoved;
+        }
+    }
+
     struct MarkerFrame: IMarkerFrame
     {
         public Image Image;

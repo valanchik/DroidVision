@@ -934,12 +934,12 @@
             // trackBar1
             // 
             this.trackBar1.AutoSize = false;
-            this.trackBar1.Location = new System.Drawing.Point(4, 542);
+            this.trackBar1.Location = new System.Drawing.Point(0, 542);
             this.trackBar1.Maximum = 1000;
             this.trackBar1.Minimum = 1;
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.trackBar1.Size = new System.Drawing.Size(256, 29);
+            this.trackBar1.Size = new System.Drawing.Size(266, 29);
             this.trackBar1.TabIndex = 29;
             this.trackBar1.Value = 11;
             this.trackBar1.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
@@ -956,15 +956,17 @@
             this.frameProperty.Controls.Add(this.frameHided);
             this.frameProperty.Location = new System.Drawing.Point(6, 45);
             this.frameProperty.Name = "frameProperty";
-            this.frameProperty.Size = new System.Drawing.Size(254, 154);
+            this.frameProperty.Size = new System.Drawing.Size(254, 104);
             this.frameProperty.TabIndex = 30;
             this.frameProperty.TabStop = false;
             this.frameProperty.Text = "Параметры кадра";
             // 
             // frameHided
             // 
+            this.frameHided.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.frameHided.AutoSize = true;
-            this.frameHided.Location = new System.Drawing.Point(6, 82);
+            this.frameHided.Location = new System.Drawing.Point(15, 58);
             this.frameHided.Name = "frameHided";
             this.frameHided.Size = new System.Drawing.Size(72, 17);
             this.frameHided.TabIndex = 0;
@@ -973,8 +975,10 @@
             // 
             // frameRemoved
             // 
+            this.frameRemoved.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.frameRemoved.AutoSize = true;
-            this.frameRemoved.Location = new System.Drawing.Point(6, 105);
+            this.frameRemoved.Location = new System.Drawing.Point(15, 81);
             this.frameRemoved.Name = "frameRemoved";
             this.frameRemoved.Size = new System.Drawing.Size(64, 17);
             this.frameRemoved.TabIndex = 1;
@@ -983,8 +987,10 @@
             // 
             // frameInBookmarks
             // 
+            this.frameInBookmarks.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.frameInBookmarks.AutoSize = true;
-            this.frameInBookmarks.Location = new System.Drawing.Point(6, 59);
+            this.frameInBookmarks.Location = new System.Drawing.Point(15, 35);
             this.frameInBookmarks.Name = "frameInBookmarks";
             this.frameInBookmarks.Size = new System.Drawing.Size(89, 17);
             this.frameInBookmarks.TabIndex = 2;
@@ -993,8 +999,10 @@
             // 
             // label13
             // 
+            this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(7, 20);
+            this.label13.Location = new System.Drawing.Point(12, 18);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(80, 13);
             this.label13.TabIndex = 3;
@@ -1002,8 +1010,10 @@
             // 
             // frameId
             // 
+            this.frameId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.frameId.AutoSize = true;
-            this.frameId.Location = new System.Drawing.Point(83, 20);
+            this.frameId.Location = new System.Drawing.Point(88, 19);
             this.frameId.Name = "frameId";
             this.frameId.Size = new System.Drawing.Size(13, 13);
             this.frameId.TabIndex = 4;
