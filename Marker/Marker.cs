@@ -103,14 +103,14 @@ namespace YoloDetection.Marker
     
     class ElementController
     {
-        Dictionary<string, CheckBox> Checkboxes;
+        Dictionary<StateElementType, CheckBox> Checkboxes;
         public ElementController()
         {
-            Checkboxes = new Dictionary<string, CheckBox>();
+            Checkboxes = new Dictionary<StateElementType, CheckBox>();
         }
-        public ElementController Add(CheckBox val)
+        public ElementController Add(StateElementType type, CheckBox val)
         {
-            Checkboxes.Add(val.Name, val);
+            Checkboxes.Add(type, val);
             return this;
         }
         public void SetState(FrameState state)
@@ -136,21 +136,49 @@ namespace YoloDetection.Marker
     }
     enum StateElementType
     {
-        Checkbox
+        InBookmarks,
+        Hided,
+        Removed
+    }
+    interface IStateElement
+    {
+        string GetText();
+        bool GetBool();
     }
     class StateElement
     {
-        public StateElementType Type;
+
     }
-    class StateElementCheckbox: StateElement {
+    class StateElementText : StateElement, IStateElement
+    {
+        public string Text;
+        public string GetText()
+        {
+            return Text;
+        }
+        public bool GetBool()
+        {
+            return Text!="";
+        }
+    }
+    class StateElementCheckbox: StateElement, IStateElement
+    {
         public bool Checked;
+        public string GetText()
+        {
+            return Checked.ToString();
+        }
+        public bool GetBool()
+        {
+            return Checked;
+        }
     } 
     class FrameState
     {
-        public Dictionary<string, StateElementCheckbox> StateCheckbox = new Dictionary<string, StateElementCheckbox>();
-        public bool GetState(string name)
+        public Dictionary<StateElementType, IStateElement> StateCheckbox = new Dictionary<StateElementType, IStateElement>();
+        public bool GetBoolState(StateElementType name)
         {
-            return StateCheckbox[name].Checked;
+            return StateCheckbox[name].GetBool();
         }
 
     }
