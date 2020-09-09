@@ -14,7 +14,7 @@ namespace YoloDetection.Marker
     class MarkerFasad
     {
         private  ImageConverter imgConverter = new ImageConverter();
-        private List<IMarkerFrame> Data = new List<IMarkerFrame>();
+        private List<IFrame> Data = new List<IFrame>();
         private string FilePath;
         private PictureBox Window;
         private Timer Timer;
@@ -47,9 +47,10 @@ namespace YoloDetection.Marker
                     }
                     if (mjpegParser.finded)
                     {
-                        IMarkerFrame d = new MarkerFrame(
+                        IFrame d = new Frame(
                             (Image)imgConverter.ConvertFrom(mjpegParser.GetJPEG().ToArray()),
-                            frameId
+                            frameId,
+                            new FrameState()
                         );
                         Data.Add(d);
                         frameId++;
@@ -57,54 +58,46 @@ namespace YoloDetection.Marker
                 }
             }
         }
+        private IFrame GetFrameById(int frame)
+        {
+            return Data.Find(o => o.GetFrameId() == frame);
+        }
         public bool ShowFrame (int frame)
         {
-            IMarkerFrame f = GetFrameById(frame);
-            if (f != null)
+            IFrame f = GetFrameById(frame);
+            return ShowFrame(f);
+        }
+        public bool ShowFrame(IFrame frame)
+        {
+            if (frame != null)
             {
-                CurrentFrame = f.GetFrameId();
-                Window.Image = f.GetImage();
+                CurrentFrame = frame.GetFrameId();
+                Window.Image = frame.GetImage();
+                ElementController.SetState(frame.GetState());
                 return true;
             }
             return false;
         }
         public bool ShowForwardFrame()
         {
-            IMarkerFrame f = GetForwardActiveFrame();
-            if (f != null)
-            {
-                CurrentFrame = f.GetFrameId();
-                Window.Image = f.GetImage();
-                return true;
-            }
-            return false;
+            IFrame f = GetForwardActiveFrame();
+            return ShowFrame(f);
         }
         public bool ShowBackwardFrame()
         {
-            IMarkerFrame f = GetBackwardActiveFrame();
-            if (f != null)
-            {
-                CurrentFrame = f.GetFrameId();
-                Window.Image = f.GetImage();
-                return true;
-            }
-            return false;
+            IFrame f = GetBackwardActiveFrame();
+            return ShowFrame(f);
         }
-        private IMarkerFrame GetFrameById(int frame)
-        {
-            return Data.Find(o => o.GetFrameId() == frame);
-        }
-        private IMarkerFrame GetForwardActiveFrame()
+        private IFrame GetForwardActiveFrame()
         {
             int frame = CurrentFrame + 1;
             return Data.Find(o => o.GetFrameId() == frame);
         }
-        private IMarkerFrame GetBackwardActiveFrame()
+        private IFrame GetBackwardActiveFrame()
         {
             int frame = CurrentFrame - 1;
             return Data.Find(o => o.GetFrameId() == frame);
         }
-
     }
     
     struct ElementController
@@ -118,22 +111,37 @@ namespace YoloDetection.Marker
             FrameHided = frameHided;
             FrameRemoved = frameRemoved;
         }
+        public void SetState(FrameState state)
+        {
+            FrameInBookmarks.Checked = state.Inbookmarks;
+            FrameHided.Checked = state.Hided;
+            FrameRemoved.Checked = state.Removed;
+        }
     }
-    interface IMarkerFrame
+    interface IFrame
     {
         bool IsEmpty();
         int GetFrameId();
         Image GetImage();
+        FrameState GetState();
     }
-    struct MarkerFrame: IMarkerFrame
+    struct FrameState
+    {
+        public bool Inbookmarks;
+        public bool Hided;
+        public bool Removed;
+    }
+    struct Frame: IFrame
     {
         private Image Image;
         private int FrameId;
+        private FrameState State;
 
-        public MarkerFrame (Image image, int frameId)
+        public Frame (Image image, int frameId, FrameState state)
         {
             Image = image;
             FrameId = frameId;
+            State = state;
         }
         public bool IsEmpty()
         {
@@ -146,6 +154,11 @@ namespace YoloDetection.Marker
         public Image GetImage()
         {
             return Image;
+        }
+
+        public FrameState GetState()
+        {
+            return State;
         }
     }
 }
