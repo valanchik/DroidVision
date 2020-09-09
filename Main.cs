@@ -76,7 +76,11 @@ namespace YoloDetection
         {
 
             InitializeComponent();
-            marker = new MarkerFasad(imageViewer, playTimer);
+            ElementController ec = new ElementController()
+                .Add(frameInBookmarks)
+                .Add(frameHided)
+                .Add(frameRemoved);
+            marker = new MarkerFasad(imageViewer, playTimer, ec);
 
             kalmanError_TextChanged(null, null);
             covariance_TextChanged(null, null);

@@ -19,11 +19,12 @@ namespace YoloDetection.Marker
         private PictureBox Window;
         private Timer Timer;
         public int CurrentFrame;
-        public ElementController ElementController;
-        public MarkerFasad(PictureBox window, Timer timer)
+        private ElementController ElementController;
+        public MarkerFasad(PictureBox window, Timer timer, ElementController elementController)
         {
             Window = window;
             Timer = timer;
+            ElementController = elementController;
         }
         public void Load (string path)
         {
@@ -100,22 +101,30 @@ namespace YoloDetection.Marker
         }
     }
     
-    struct ElementController
+    class ElementController
     {
-        CheckBox FrameInBookmarks;
-        CheckBox FrameHided;
-        CheckBox FrameRemoved;
-        public ElementController(CheckBox frameInBookmarks, CheckBox frameHided, CheckBox frameRemoved)
+        Dictionary<string, CheckBox> Checkboxes;
+        public ElementController()
         {
-            FrameInBookmarks = frameInBookmarks;
-            FrameHided = frameHided;
-            FrameRemoved = frameRemoved;
+            Checkboxes = new Dictionary<string, CheckBox>();
+        }
+        public ElementController Add(CheckBox val)
+        {
+            Checkboxes.Add(val.Name, val);
+            return this;
         }
         public void SetState(FrameState state)
         {
-            FrameInBookmarks.Checked = state.Inbookmarks;
-            FrameHided.Checked = state.Hided;
-            FrameRemoved.Checked = state.Removed;
+            if (Checkboxes.Count>0)
+            {
+                foreach (KeyValuePair<string, StateElementCheckbox> entry in state.StateCheckbox)
+                {
+                    if (Checkboxes.ContainsKey(entry.Key))
+                    {
+                        Checkboxes[entry.Key].Checked = entry.Value.Checked;
+                    }
+                }
+            }
         }
     }
     interface IFrame
@@ -125,11 +134,25 @@ namespace YoloDetection.Marker
         Image GetImage();
         FrameState GetState();
     }
-    struct FrameState
+    enum StateElementType
     {
-        public bool Inbookmarks;
-        public bool Hided;
-        public bool Removed;
+        Checkbox
+    }
+    class StateElement
+    {
+        public StateElementType Type;
+    }
+    class StateElementCheckbox: StateElement {
+        public bool Checked;
+    } 
+    class FrameState
+    {
+        public Dictionary<string, StateElementCheckbox> StateCheckbox = new Dictionary<string, StateElementCheckbox>();
+        public bool GetState(string name)
+        {
+            return StateCheckbox[name].Checked;
+        }
+
     }
     struct Frame: IFrame
     {
