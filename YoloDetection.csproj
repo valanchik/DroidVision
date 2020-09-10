@@ -141,6 +141,7 @@
   <ItemGroup>
     <Compile Include="Counter2d.cs" />
     <Compile Include="DetectedObject.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="FireController.cs" />
     <Compile Include="GameControllers\IGameController.cs" />
     <Compile Include="GameControllers\UDPGameController.cs" />
@@ -152,6 +153,9 @@
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
+    <Compile Include="Marker\ElementController.cs" />
+    <Compile Include="Marker\Frame.cs" />
+    <Compile Include="Marker\FrameState.cs" />
     <Compile Include="Marker\Marker.cs" />
     <Compile Include="MJPEGParser.cs" />
     <Compile Include="MJPEGWriter.cs" />
