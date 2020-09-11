@@ -8,9 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace YoloDetection.Marker
-{
-    
-   
+{   
     class MarkerFasad
     {
         private  ImageConverter imgConverter = new ImageConverter();
@@ -18,13 +16,14 @@ namespace YoloDetection.Marker
         private string FilePath;
         private PictureBox Window;
         private Timer Timer;
-        public int CurrentFrame;
         private ElementController ElementController;
+        public IFrame CurrentFrame;
         public MarkerFasad(PictureBox window, Timer timer, ElementController elementController)
         {
             Window = window;
             Timer = timer;
             ElementController = elementController;
+            ElementController.SetMarker(this);
         }
         public void Load (string path)
         {
@@ -37,28 +36,57 @@ namespace YoloDetection.Marker
                 int bytesRead;
                 while ((bytesRead = source.Read(buffer, 0, buffer.Length)) > 0)
                 {
-                    if (bytesRead == buffer.Length)
-                    {
-                        mjpegParser.AddBytes(buffer);
-                    } else
-                    {
-                        byte[] lastBytes = new byte[bytesRead];
-                        Array.Copy(buffer, 0, lastBytes, 0, bytesRead);
-                        mjpegParser.AddBytes(lastBytes);
-                    }
-                    if (mjpegParser.finded)
-                    {
-                        IFrame d = new Frame(
-                            (Image)imgConverter.ConvertFrom(mjpegParser.GetJPEG().ToArray()),
-                            frameId,
-                            new FrameState()
-                        );
-                        Data.Add(d);
-                        frameId++;
-                    }
+                    
+                    if (!TryGetJPEG(mjpegParser, buffer, bytesRead, out var jpeg)) continue;
+
+                    IFrame d = CreateFrame(jpeg, frameId);
+
+                    Data.Add(d);
+                    frameId++;
                 }
+
+                if (Data.Count == 0) return;
+
+                ShowFrame(Data[0]);
+
+
             }
         }
+
+        private IFrame CreateFrame(byte[] jpeg, int frameId)
+        {
+            FrameState state = new FrameState();
+
+            state.States = ElementController.GetNewDefaultStates();
+
+            state.States[StateElementName.FrameId].SetText(frameId.ToString());
+
+            IFrame d = new Frame(
+                (Image)imgConverter.ConvertFrom(jpeg),
+                frameId,
+                state
+            );
+            return d;
+        }
+
+        private bool TryGetJPEG(MJPEGParser mjpegParser, byte[] buffer, int bytesRead, out byte[] jpeg)
+        {
+            jpeg = null;
+            if (bytesRead == buffer.Length)
+            {
+                mjpegParser.AddBytes(buffer);
+            }
+            else
+            {
+                byte[] lastBytes = new byte[bytesRead];
+                Array.Copy(buffer, 0, lastBytes, 0, bytesRead);
+                mjpegParser.AddBytes(lastBytes);
+            }
+            if (!mjpegParser.finded) return false;
+            jpeg = mjpegParser.GetJPEG().ToArray();
+            return true;
+        }
+
         private IFrame GetFrameById(int frame)
         {
             return Data.Find(o => o.GetFrameId() == frame);
@@ -72,9 +100,9 @@ namespace YoloDetection.Marker
         {
             if (frame != null)
             {
-                CurrentFrame = frame.GetFrameId();
+                CurrentFrame = frame;
                 Window.Image = frame.GetImage();
-                ElementController.SetState(frame.GetState());
+                ElementController.SetFrameState(frame.GetState());
                 return true;
             }
             return false;
@@ -91,13 +119,21 @@ namespace YoloDetection.Marker
         }
         private IFrame GetForwardActiveFrame()
         {
-            int frame = CurrentFrame + 1;
-            return Data.Find(o => o.GetFrameId() == frame);
+            if (CurrentFrame!=null)
+            {
+                int frame = CurrentFrame.GetFrameId() + 1;
+                return Data.Find(o => o.GetFrameId() == frame);
+            }
+            return null;
         }
         private IFrame GetBackwardActiveFrame()
         {
-            int frame = CurrentFrame - 1;
-            return Data.Find(o => o.GetFrameId() == frame);
+            if (CurrentFrame != null)
+            {
+                int frame = CurrentFrame.GetFrameId() - 1;
+                return Data.Find(o => o.GetFrameId() == frame);
+            }
+            return null;
         }
     }
     

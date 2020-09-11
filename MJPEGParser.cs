@@ -10,7 +10,7 @@ namespace YoloDetection
     class MJPEGParser
     {
         
-        public List<byte> Data = new List<byte>();
+        private List<byte> Data = new List<byte>();
         public delegate void OnBytes(byte[] jpeg);
         public OnBytes OnJPEG;
         public byte[] Example = new byte[] { 0xFD, 0xFF, 0xD8, 0xFF,0xFF,0xFF, 0xFF, 0xD9, 0xFE };

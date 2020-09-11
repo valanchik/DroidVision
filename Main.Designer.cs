@@ -72,6 +72,15 @@
             this.mPlay = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.controlPanel = new System.Windows.Forms.GroupBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.frameProperty = new System.Windows.Forms.GroupBox();
+            this.frameId = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.frameInBookmarks = new System.Windows.Forms.CheckBox();
+            this.frameRemoved = new System.Windows.Forms.CheckBox();
+            this.frameHided = new System.Windows.Forms.CheckBox();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.dataPath = new System.Windows.Forms.TextBox();
             this.openFile = new System.Windows.Forms.Button();
             this.imageViewer = new System.Windows.Forms.PictureBox();
@@ -97,15 +106,9 @@
             this.button1 = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.playTimer = new System.Windows.Forms.Timer(this.components);
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
-            this.frameProperty = new System.Windows.Forms.GroupBox();
-            this.frameHided = new System.Windows.Forms.CheckBox();
-            this.frameRemoved = new System.Windows.Forms.CheckBox();
-            this.frameInBookmarks = new System.Windows.Forms.CheckBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.frameId = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.button4 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.mainTabs.SuspendLayout();
             this.Robot.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -117,14 +120,15 @@
             this.panel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.controlPanel.SuspendLayout();
+            this.frameProperty.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageViewer)).BeginInit();
             this.Settings.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
-            this.frameProperty.SuspendLayout();
+            this.groupBox9.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainTabs
@@ -647,6 +651,7 @@
             // 
             this.controlPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.controlPanel.Controls.Add(this.groupBox9);
             this.controlPanel.Controls.Add(this.label15);
             this.controlPanel.Controls.Add(this.label14);
             this.controlPanel.Controls.Add(this.frameProperty);
@@ -659,6 +664,112 @@
             this.controlPanel.TabIndex = 24;
             this.controlPanel.TabStop = false;
             this.controlPanel.Text = "Контрольная панель";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(130, 523);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(13, 13);
+            this.label15.TabIndex = 32;
+            this.label15.Text = "1";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(5, 523);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(129, 13);
+            this.label14.TabIndex = 31;
+            this.label14.Text = "Скорость кадров/сек. : ";
+            // 
+            // frameProperty
+            // 
+            this.frameProperty.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.frameProperty.Controls.Add(this.frameId);
+            this.frameProperty.Controls.Add(this.label13);
+            this.frameProperty.Controls.Add(this.frameInBookmarks);
+            this.frameProperty.Controls.Add(this.frameRemoved);
+            this.frameProperty.Controls.Add(this.frameHided);
+            this.frameProperty.Location = new System.Drawing.Point(6, 45);
+            this.frameProperty.Name = "frameProperty";
+            this.frameProperty.Size = new System.Drawing.Size(254, 104);
+            this.frameProperty.TabIndex = 30;
+            this.frameProperty.TabStop = false;
+            this.frameProperty.Text = "Параметры кадра";
+            // 
+            // frameId
+            // 
+            this.frameId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.frameId.AutoSize = true;
+            this.frameId.Location = new System.Drawing.Point(88, 19);
+            this.frameId.Name = "frameId";
+            this.frameId.Size = new System.Drawing.Size(13, 13);
+            this.frameId.TabIndex = 4;
+            this.frameId.Text = "0";
+            // 
+            // label13
+            // 
+            this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(12, 18);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(80, 13);
+            this.label13.TabIndex = 3;
+            this.label13.Text = "Номер кадра: ";
+            // 
+            // frameInBookmarks
+            // 
+            this.frameInBookmarks.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.frameInBookmarks.AutoSize = true;
+            this.frameInBookmarks.Location = new System.Drawing.Point(15, 35);
+            this.frameInBookmarks.Name = "frameInBookmarks";
+            this.frameInBookmarks.Size = new System.Drawing.Size(89, 17);
+            this.frameInBookmarks.TabIndex = 2;
+            this.frameInBookmarks.Text = "В закладках";
+            this.frameInBookmarks.UseVisualStyleBackColor = true;
+            // 
+            // frameRemoved
+            // 
+            this.frameRemoved.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.frameRemoved.AutoSize = true;
+            this.frameRemoved.Location = new System.Drawing.Point(15, 81);
+            this.frameRemoved.Name = "frameRemoved";
+            this.frameRemoved.Size = new System.Drawing.Size(64, 17);
+            this.frameRemoved.TabIndex = 1;
+            this.frameRemoved.Text = "Удалён";
+            this.frameRemoved.UseVisualStyleBackColor = true;
+            // 
+            // frameHided
+            // 
+            this.frameHided.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.frameHided.AutoSize = true;
+            this.frameHided.Location = new System.Drawing.Point(15, 58);
+            this.frameHided.Name = "frameHided";
+            this.frameHided.Size = new System.Drawing.Size(72, 17);
+            this.frameHided.TabIndex = 0;
+            this.frameHided.Text = "Скрытый";
+            this.frameHided.UseVisualStyleBackColor = true;
+            // 
+            // trackBar1
+            // 
+            this.trackBar1.AutoSize = false;
+            this.trackBar1.Location = new System.Drawing.Point(0, 542);
+            this.trackBar1.Maximum = 1000;
+            this.trackBar1.Minimum = 1;
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.trackBar1.Size = new System.Drawing.Size(266, 29);
+            this.trackBar1.TabIndex = 29;
+            this.trackBar1.Value = 11;
+            this.trackBar1.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
+            this.trackBar1.Move += new System.EventHandler(this.trackBar1_Move);
             // 
             // dataPath
             // 
@@ -931,111 +1042,32 @@
             this.playTimer.Interval = 1;
             this.playTimer.Tick += new System.EventHandler(this.button5_Click);
             // 
-            // trackBar1
+            // groupBox9
             // 
-            this.trackBar1.AutoSize = false;
-            this.trackBar1.Location = new System.Drawing.Point(0, 542);
-            this.trackBar1.Maximum = 1000;
-            this.trackBar1.Minimum = 1;
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.trackBar1.Size = new System.Drawing.Size(266, 29);
-            this.trackBar1.TabIndex = 29;
-            this.trackBar1.Value = 11;
-            this.trackBar1.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
-            this.trackBar1.Move += new System.EventHandler(this.trackBar1_Move);
+            this.groupBox9.Controls.Add(this.textBox1);
+            this.groupBox9.Controls.Add(this.button4);
+            this.groupBox9.Location = new System.Drawing.Point(6, 149);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(255, 100);
+            this.groupBox9.TabIndex = 33;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "Действия";
             // 
-            // frameProperty
+            // button4
             // 
-            this.frameProperty.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.frameProperty.Controls.Add(this.frameId);
-            this.frameProperty.Controls.Add(this.label13);
-            this.frameProperty.Controls.Add(this.frameInBookmarks);
-            this.frameProperty.Controls.Add(this.frameRemoved);
-            this.frameProperty.Controls.Add(this.frameHided);
-            this.frameProperty.Location = new System.Drawing.Point(6, 45);
-            this.frameProperty.Name = "frameProperty";
-            this.frameProperty.Size = new System.Drawing.Size(254, 104);
-            this.frameProperty.TabIndex = 30;
-            this.frameProperty.TabStop = false;
-            this.frameProperty.Text = "Параметры кадра";
+            this.button4.Location = new System.Drawing.Point(6, 19);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(98, 23);
+            this.button4.TabIndex = 0;
+            this.button4.Text = "Показать кадр";
+            this.button4.UseVisualStyleBackColor = true;
             // 
-            // frameHided
+            // textBox1
             // 
-            this.frameHided.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.frameHided.AutoSize = true;
-            this.frameHided.Location = new System.Drawing.Point(15, 58);
-            this.frameHided.Name = "frameHided";
-            this.frameHided.Size = new System.Drawing.Size(72, 17);
-            this.frameHided.TabIndex = 0;
-            this.frameHided.Text = "Скрытый";
-            this.frameHided.UseVisualStyleBackColor = true;
-            // 
-            // frameRemoved
-            // 
-            this.frameRemoved.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.frameRemoved.AutoSize = true;
-            this.frameRemoved.Location = new System.Drawing.Point(15, 81);
-            this.frameRemoved.Name = "frameRemoved";
-            this.frameRemoved.Size = new System.Drawing.Size(64, 17);
-            this.frameRemoved.TabIndex = 1;
-            this.frameRemoved.Text = "Удалён";
-            this.frameRemoved.UseVisualStyleBackColor = true;
-            // 
-            // frameInBookmarks
-            // 
-            this.frameInBookmarks.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.frameInBookmarks.AutoSize = true;
-            this.frameInBookmarks.Location = new System.Drawing.Point(15, 35);
-            this.frameInBookmarks.Name = "frameInBookmarks";
-            this.frameInBookmarks.Size = new System.Drawing.Size(89, 17);
-            this.frameInBookmarks.TabIndex = 2;
-            this.frameInBookmarks.Text = "В закладках";
-            this.frameInBookmarks.UseVisualStyleBackColor = true;
-            // 
-            // label13
-            // 
-            this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(12, 18);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(80, 13);
-            this.label13.TabIndex = 3;
-            this.label13.Text = "Номер кадра: ";
-            // 
-            // frameId
-            // 
-            this.frameId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.frameId.AutoSize = true;
-            this.frameId.Location = new System.Drawing.Point(88, 19);
-            this.frameId.Name = "frameId";
-            this.frameId.Size = new System.Drawing.Size(13, 13);
-            this.frameId.TabIndex = 4;
-            this.frameId.Text = "0";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(5, 523);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(129, 13);
-            this.label14.TabIndex = 31;
-            this.label14.Text = "Скорость кадров/сек. : ";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(130, 523);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(13, 13);
-            this.label15.TabIndex = 32;
-            this.label15.Text = "1";
+            this.textBox1.Location = new System.Drawing.Point(110, 22);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(66, 20);
+            this.textBox1.TabIndex = 1;
             // 
             // Main
             // 
@@ -1064,6 +1096,9 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.controlPanel.ResumeLayout(false);
             this.controlPanel.PerformLayout();
+            this.frameProperty.ResumeLayout(false);
+            this.frameProperty.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageViewer)).EndInit();
             this.Settings.ResumeLayout(false);
             this.Settings.PerformLayout();
@@ -1074,9 +1109,8 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox7.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
-            this.frameProperty.ResumeLayout(false);
-            this.frameProperty.PerformLayout();
+            this.groupBox9.ResumeLayout(false);
+            this.groupBox9.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1159,6 +1193,9 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.GroupBox groupBox9;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button button4;
     }
 }
 

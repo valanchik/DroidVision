@@ -16,5 +16,6 @@ namespace YoloDetection
 
             return true;
         }
+
     }
 }

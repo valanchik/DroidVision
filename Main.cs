@@ -77,9 +77,11 @@ namespace YoloDetection
 
             InitializeComponent();
             ElementController ec = new ElementController()
+                .Add(StateElementName.FrameId,  frameId)
                 .Add(StateElementName.InBookmarks,  frameInBookmarks)
                 .Add(StateElementName.Hided,        frameHided)
                 .Add(StateElementName.Removed,      frameRemoved);
+
             marker = new MarkerFasad(imageViewer, playTimer, ec);
 
             kalmanError_TextChanged(null, null);
@@ -746,5 +748,6 @@ namespace YoloDetection
         {
             marker.ShowBackwardFrame();
         }
+
     }
 }
