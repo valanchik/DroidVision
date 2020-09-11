@@ -109,6 +109,7 @@
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.button4 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.timeLineBar = new System.Windows.Forms.TrackBar();
             this.mainTabs.SuspendLayout();
             this.Robot.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -129,6 +130,7 @@
             this.groupBox2.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.groupBox9.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.timeLineBar)).BeginInit();
             this.SuspendLayout();
             // 
             // mainTabs
@@ -537,6 +539,7 @@
             // 
             // Marking
             // 
+            this.Marking.Controls.Add(this.timeLineBar);
             this.Marking.Controls.Add(this.panel1);
             this.Marking.Controls.Add(this.controlPanel);
             this.Marking.Controls.Add(this.imageViewer);
@@ -660,15 +663,17 @@
             this.controlPanel.Controls.Add(this.openFile);
             this.controlPanel.Location = new System.Drawing.Point(1074, 6);
             this.controlPanel.Name = "controlPanel";
-            this.controlPanel.Size = new System.Drawing.Size(266, 577);
+            this.controlPanel.Size = new System.Drawing.Size(266, 597);
             this.controlPanel.TabIndex = 24;
             this.controlPanel.TabStop = false;
             this.controlPanel.Text = "Контрольная панель";
             // 
             // label15
             // 
+            this.label15.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(130, 523);
+            this.label15.Location = new System.Drawing.Point(132, 547);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(13, 13);
             this.label15.TabIndex = 32;
@@ -676,8 +681,10 @@
             // 
             // label14
             // 
+            this.label14.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(5, 523);
+            this.label14.Location = new System.Drawing.Point(6, 547);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(129, 13);
             this.label14.TabIndex = 31;
@@ -759,8 +766,10 @@
             // 
             // trackBar1
             // 
+            this.trackBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.trackBar1.AutoSize = false;
-            this.trackBar1.Location = new System.Drawing.Point(0, 542);
+            this.trackBar1.Location = new System.Drawing.Point(1, 566);
             this.trackBar1.Maximum = 1000;
             this.trackBar1.Minimum = 1;
             this.trackBar1.Name = "trackBar1";
@@ -798,9 +807,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.imageViewer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.imageViewer.Location = new System.Drawing.Point(3, 4);
+            this.imageViewer.Location = new System.Drawing.Point(0, 4);
             this.imageViewer.Name = "imageViewer";
-            this.imageViewer.Size = new System.Drawing.Size(1065, 579);
+            this.imageViewer.Size = new System.Drawing.Size(1068, 562);
             this.imageViewer.TabIndex = 23;
             this.imageViewer.TabStop = false;
             // 
@@ -1069,6 +1078,19 @@
             this.textBox1.Size = new System.Drawing.Size(66, 20);
             this.textBox1.TabIndex = 1;
             // 
+            // timeLineBar
+            // 
+            this.timeLineBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.timeLineBar.AutoSize = false;
+            this.timeLineBar.LargeChange = 1;
+            this.timeLineBar.Location = new System.Drawing.Point(0, 572);
+            this.timeLineBar.Minimum = 1;
+            this.timeLineBar.Name = "timeLineBar";
+            this.timeLineBar.Size = new System.Drawing.Size(1068, 31);
+            this.timeLineBar.TabIndex = 34;
+            this.timeLineBar.Value = 1;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1111,6 +1133,7 @@
             this.groupBox7.ResumeLayout(false);
             this.groupBox9.ResumeLayout(false);
             this.groupBox9.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.timeLineBar)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1196,6 +1219,7 @@
         private System.Windows.Forms.GroupBox groupBox9;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.TrackBar timeLineBar;
     }
 }
 

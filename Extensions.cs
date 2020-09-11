@@ -8,7 +8,7 @@ namespace YoloDetection
 {
     public static class Extensions
     {
-        public static bool TryAdd<Key,Value>(this Dictionary<Key, Value> dict, Key key, Value value)
+        public static bool TryAdd<TKey,TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue value)
         {
             if (dict.ContainsKey(key)) return false;
 

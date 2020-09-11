@@ -48,8 +48,6 @@ namespace YoloDetection.Marker
                 if (Data.Count == 0) return;
 
                 ShowFrame(Data[0]);
-
-
             }
         }
 
@@ -58,8 +56,7 @@ namespace YoloDetection.Marker
             FrameState state = new FrameState();
 
             state.States = ElementController.GetNewDefaultStates();
-
-            state.States[StateElementName.FrameId].SetText(frameId.ToString());
+            state.SetTextState(StateElementName.FrameId, frameId.ToString());
 
             IFrame d = new Frame(
                 (Image)imgConverter.ConvertFrom(jpeg),
@@ -89,7 +86,7 @@ namespace YoloDetection.Marker
 
         private IFrame GetFrameById(int frame)
         {
-            return Data.Find(o => o.GetFrameId() == frame);
+            return Data.Find(o => o.FrameId == frame);
         }
         public bool ShowFrame (int frame)
         {
@@ -101,8 +98,8 @@ namespace YoloDetection.Marker
             if (frame != null)
             {
                 CurrentFrame = frame;
-                Window.Image = frame.GetImage();
-                ElementController.SetFrameState(frame.GetState());
+                Window.Image = frame.Image;
+                ElementController.SetFrameState(frame.State);
                 return true;
             }
             return false;
@@ -121,8 +118,8 @@ namespace YoloDetection.Marker
         {
             if (CurrentFrame!=null)
             {
-                int frame = CurrentFrame.GetFrameId() + 1;
-                return Data.Find(o => o.GetFrameId() == frame);
+                int frame = CurrentFrame.FrameId + 1;
+                return Data.Find(o => o.FrameId == frame);
             }
             return null;
         }
@@ -130,8 +127,8 @@ namespace YoloDetection.Marker
         {
             if (CurrentFrame != null)
             {
-                int frame = CurrentFrame.GetFrameId() - 1;
-                return Data.Find(o => o.GetFrameId() == frame);
+                int frame = CurrentFrame.FrameId - 1;
+                return Data.Find(o => o.FrameId == frame);
             }
             return null;
         }

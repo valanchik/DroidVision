@@ -19,6 +19,7 @@ namespace YoloDetection.Marker
 
         private Dictionary<StateElementName, CheckBox> Checkboxes = new Dictionary<StateElementName, CheckBox>();
         private Dictionary<StateElementName, Label> Labels = new Dictionary<StateElementName, Label>();
+        private Dictionary<StateElementName, TrackBar> Trackbars = new Dictionary<StateElementName, TrackBar>();
         public Dictionary<StateElementName, ElementValueTypes> ValueTypes = new Dictionary<StateElementName, ElementController.ElementValueTypes>();
         private MarkerFasad Marker;
         public ElementController()
@@ -37,9 +38,7 @@ namespace YoloDetection.Marker
             {
                 if (Marker!=null && Marker.CurrentFrame != null)
                 {
-                    FrameState state = Marker.CurrentFrame.GetState();
-
-                    state.SetBoolState(name, val.Checked);
+                    Marker.CurrentFrame.State.SetBoolState(name, val.Checked);
                 }
             };
             return this;
@@ -48,6 +47,12 @@ namespace YoloDetection.Marker
         {
             Labels.Add(name, val);
             ValueTypes.TryAdd(name, ElementValueTypes.String);
+            return this;
+        }
+        public ElementController Add(StateElementName name, TrackBar val)
+        {
+            Trackbars.Add(name, val);
+            ValueTypes.TryAdd(name, ElementValueTypes.Int);
             return this;
         }
         public void SetFrameState(FrameState state)
@@ -79,11 +84,15 @@ namespace YoloDetection.Marker
             ElementValueTypes type = ValueTypes[state.Key];
             if (type == ElementValueTypes.Boolean && Checkboxes.ContainsKey(state.Key))
             {
-                Checkboxes[state.Key].Checked = state.Value.GetBool();
+                Checkboxes[state.Key].Checked = state.Value.Checked;
             }
             if (type == ElementValueTypes.String && Labels.ContainsKey(state.Key))
             {
-                Labels[state.Key].Text = state.Value.GetText();
+                Labels[state.Key].Text = state.Value.Text;
+            }
+            if (type == ElementValueTypes.Int && Trackbars.ContainsKey(state.Key))
+            {
+                Trackbars[state.Key].Value = state.Value.Value;
             }
         }
     }

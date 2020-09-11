@@ -9,17 +9,17 @@ namespace YoloDetection.Marker
 {
     interface IFrame
     {
+        Image Image { get; set; }
+        int FrameId { get; set; }
+        FrameState State { get; set; }
         bool IsEmpty();
-        int GetFrameId();
-        Image GetImage();
-        FrameState GetState();
     }
 
     struct Frame : IFrame
     {
-        private Image Image;
-        private int FrameId;
-        private FrameState State;
+        public Image Image { get; set; }
+        public int FrameId { get; set; }
+        public FrameState State { get; set; }
 
         public Frame(Image image, int frameId, FrameState state)
         {
@@ -30,19 +30,6 @@ namespace YoloDetection.Marker
         public bool IsEmpty()
         {
             return false;
-        }
-        public int GetFrameId()
-        {
-            return FrameId;
-        }
-        public Image GetImage()
-        {
-            return Image;
-        }
-
-        public FrameState GetState()
-        {
-            return State;
         }
     }
 }

@@ -11,84 +11,45 @@ namespace YoloDetection.Marker
         FrameId,
         InBookmarks,
         Hided,
-        Removed
+        Removed,
+        TimeLineBar
     }
     interface IStateElement
     {
-        string GetText();
-        void SetText(string text);
-        bool GetBool();
-        void SetBool(bool val);
+        string Text { get; set; }
+        bool Checked { get; set; }
+        int Value { get; set; }
     }
-    abstract class StateElement: IStateElement
+    class StateElementText : IStateElement
     {
-        public abstract string GetText();
-        public abstract bool GetBool();
-        public abstract void SetText(string text);
-        public abstract void SetBool(bool val);
+        public string Text { get; set; }
+        public int Value { get; set; }
+        public bool Checked { get; set; }
     }
-    class StateElementText : StateElement, IStateElement
+    class StateElementCheckbox : IStateElement
     {
-        public string Text;
-        public override string GetText()
-        {
-            return Text;
-        }
-        public override bool GetBool()
-        {
-            return Text != "";
-        }
-
-        public override void SetText(string text)
-        {
-            Text = text;
-        }
-
-        public override void  SetBool(bool val)
-        {
-            Text = val ? bool.TrueString : bool.FalseString;
-        }
-    }
-    class StateElementCheckbox : StateElement, IStateElement
-    {
-        public bool Checked;
-        public override string GetText()
-        {
-            return Checked.ToString();
-        }
-        public override bool GetBool()
-        {
-            return Checked;
-        }
-
-        public override void SetText(string text)
-        {
-            Checked = text != "";
-        }
-
-        public override void SetBool(bool val)
-        {
-            Checked = val;
-        }
+        public string Text { get; set; }
+        public int Value { get; set; }
+        public bool Checked { get; set; }
     }
     class FrameState
     {
         public Dictionary<StateElementName, IStateElement> States = new Dictionary<StateElementName, IStateElement>();
         public bool GetBoolState(StateElementName name)
         {
-            return States[name].GetBool();
+            return States[name].Checked;
         }
         public void SetBoolState(StateElementName name, bool state)
         {
-            States[name].SetBool(state);
+            States[name].Checked = state;
         }
         public string GetTextState(StateElementName name)
         {
-            return States[name].GetText();
+            return States[name].Text;
         }
         public void SetTextState(StateElementName name, string text)
         {
-            States[name].SetText(text);
+            States[name].Text = text;
         }
 
     }

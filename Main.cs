@@ -80,7 +80,8 @@ namespace YoloDetection
                 .Add(StateElementName.FrameId,  frameId)
                 .Add(StateElementName.InBookmarks,  frameInBookmarks)
                 .Add(StateElementName.Hided,        frameHided)
-                .Add(StateElementName.Removed,      frameRemoved);
+                .Add(StateElementName.Removed,      frameRemoved)
+                .Add(StateElementName.TimeLineBar,  timeLineBar);
 
             marker = new MarkerFasad(imageViewer, playTimer, ec);
 
