@@ -157,6 +157,7 @@
     <Compile Include="Marker\Frame.cs" />
     <Compile Include="Marker\FrameState.cs" />
     <Compile Include="Marker\Marker.cs" />
+    <Compile Include="Marker\Mediator.cs" />
     <Compile Include="Marker\ObjectSelector.cs" />
     <Compile Include="MJPEGParser.cs" />
     <Compile Include="MJPEGWriter.cs" />

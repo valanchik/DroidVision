@@ -71,28 +71,33 @@ namespace YoloDetection
         private bool savingImg = false;
         private byte[] lastJPEG = new byte[0];
         private MJPEGWriter mjpegWriter;
-        private MarkerFasad marker;
+        private Marker.Marker marker;
         public Main()
         {
 
             InitializeComponent();
+            
             Dictionary<ElementControllerType, IElementController> ElementControllers = new Dictionary<ElementControllerType, IElementController>();
 
             IElementController ecCommon = new ElementControllerCommon()
-                .Add(StateElementName.playRepeat, playRepeat)
-                .Add(StateElementName.TimeLineBar, timeLineBar);
+                .Add(ElementName.playRepeat, playRepeat)
+                .Add(ElementName.TimeLineBar, timeLineBar);
 
             IElementController ecFrame = new ElementControllerFrame()
-                .Add(StateElementName.FrameId, frameId)
-                .Add(StateElementName.InBookmarks, frameInBookmarks)
-                .Add(StateElementName.Hided, frameHided)
-                .Add(StateElementName.Removed, frameRemoved);                
+                .Add(ElementName.FrameId, frameId)
+                .Add(ElementName.InBookmarks, frameInBookmarks)
+                .Add(ElementName.Hided, frameHided)
+                .Add(ElementName.Removed, frameRemoved)
+                .Add(ElementName.TimeLineBar, timeLineBar);                
 
             ElementControllers.Add(ElementControllerType.Common, ecCommon);
             ElementControllers.Add(ElementControllerType.Frame, ecFrame);
-            
-            
-            marker = new MarkerFasad(imageViewer, playTimer, ElementControllers);
+
+
+            marker = new Marker.Marker(imageViewer, playTimer);
+
+            MarkerMediator Mediator = new MarkerMediator(marker, ElementControllers);
+
 
             kalmanError_TextChanged(null, null);
             covariance_TextChanged(null, null);

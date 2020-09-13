@@ -8,32 +8,41 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace YoloDetection.Marker
-{   
+{
     public enum ElementControllerType
     {
         Common,
         Frame
     }
-    class MarkerFasad
+
+    
+    interface IMarker: IMediatorSetter
+    {
+        IFrame CurrentFrame { get; set; }
+        void Load(string path);
+        bool ShowBackwardFrame();
+        bool ShowForwardFrame();
+        bool ShowFrame(int frame);
+        bool ShowFrame(IFrame frame);
+    }
+    class Marker: IMarker
     {
         private  ImageConverter imgConverter = new ImageConverter();
         private List<IFrame> Data = new List<IFrame>();
         private string FilePath;
         private PictureBox Window;
         private Timer Timer;
-        private Dictionary<ElementControllerType, IElementController> ElementControllers;
-        public IFrame CurrentFrame;
-        public MarkerFasad(PictureBox window, Timer timer, Dictionary<ElementControllerType, IElementController> elementControllers)
+        
+        public IFrame CurrentFrame { get; set; }
+
+        public IMediator Mediator { get; set; }
+
+        public Marker(PictureBox window, Timer timer)
         {
             Window = window;
             Timer = timer;
-            ElementControllers = elementControllers;
-            foreach (KeyValuePair< ElementControllerType, IElementController>  entry in ElementControllers)
-            {
-                entry.Value.SetMarker(this);
-            }
         }
-        public void Load (string path)
+        public void Load(string path)
         {
             FilePath = path;
             MJPEGParser mjpegParser = new MJPEGParser();
@@ -55,26 +64,23 @@ namespace YoloDetection.Marker
 
                 if (Data.Count == 0) return;
 
-                TrackBar timeline = GetElementController(ElementControllerType.Common).GetTrackBar(StateElementName.TimeLineBar);
+                TrackBar timeline = Mediator.GetElementController(ElementControllerType.Common).GetTrackBar(ElementName.TimeLineBar);
 
                 timeline.Maximum = Data.Count;
 
                 ShowFrame(Data[0]);
             }
         }
-        private IElementController GetElementController(ElementControllerType type)
-        {
-            return ElementControllers[type];
-        }
+        
 
         private IFrame CreateFrame(byte[] jpeg, int frameId)
         {
             FrameState state = new FrameState
             {
-                States = ((ElementControllerFrame)GetElementController(ElementControllerType.Frame)).GetNewDefaultStates()
+                States = ((ElementControllerFrame)Mediator.GetElementController(ElementControllerType.Frame)).GetNewDefaultStates()
             };
-            state.SetTextState(StateElementName.FrameId, frameId.ToString());
-            state.SetIntState(StateElementName.TimeLineBar, frameId);
+            state.SetTextState(ElementName.FrameId, frameId.ToString());
+            state.SetIntState(ElementName.TimeLineBar, frameId);
 
             IFrame d = new Frame(
                 (Image)imgConverter.ConvertFrom(jpeg),
@@ -117,7 +123,7 @@ namespace YoloDetection.Marker
             {
                 CurrentFrame = frame;
                 Window.Image = frame.Image;
-                ((ElementControllerFrame)GetElementController(ElementControllerType.Frame)).SetFrameState(frame.State);
+                ((ElementControllerFrame)Mediator.GetElementController(ElementControllerType.Frame)).SetFrameState(frame.State);
                 return true;
             }
             return false;
@@ -149,6 +155,11 @@ namespace YoloDetection.Marker
                 return Data.Find(o => o.FrameId == frame);
             }
             return null;
+        }
+
+        public void SetMediator(IMediator mediator)
+        {
+            Mediator = mediator;
         }
     }
     

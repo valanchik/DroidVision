@@ -6,15 +6,7 @@ using System.Threading.Tasks;
 
 namespace YoloDetection.Marker
 {
-    enum StateElementName
-    {
-        FrameId,
-        InBookmarks,
-        Hided,
-        Removed,
-        TimeLineBar,
-        playRepeat
-    }
+    
     interface IStateElement
     {
         string Text { get; set; }
@@ -38,28 +30,28 @@ namespace YoloDetection.Marker
     }
     class FrameState
     {
-        public Dictionary<StateElementName, IStateElement> States = new Dictionary<StateElementName, IStateElement>();
-        public bool GetBoolState(StateElementName name)
+        public Dictionary<ElementName, IStateElement> States = new Dictionary<ElementName, IStateElement>();
+        public bool GetBoolState(ElementName name)
         {
             return States[name].Checked;
         }
-        public void SetBoolState(StateElementName name, bool state)
+        public void SetBoolState(ElementName name, bool state)
         {
             States[name].Checked = state;
         }
-        public string GetTextState(StateElementName name)
+        public string GetTextState(ElementName name)
         {
             return States[name].Text;
         }
-        public void SetTextState(StateElementName name, string text)
+        public void SetTextState(ElementName name, string text)
         {
             States[name].Text = text;
         }
-        public int GetIntState(StateElementName name)
+        public int GetIntState(ElementName name)
         {
             return States[name].Value;
         }
-        public void SetIntState(StateElementName name, int value)
+        public void SetIntState(ElementName name, int value)
         {
             States[name].Value = value;
         }
