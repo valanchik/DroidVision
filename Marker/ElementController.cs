@@ -62,14 +62,10 @@ namespace YoloDetection.Marker
             ValueTypes.TryAdd(name, ElementValueTypes.Int);
             return this;
         }
-        
         public virtual void SetMarker(MarkerFasad marker)
         {
             Marker = marker;
         }
-        
-
-
     }
     class ElementControllerCommon : ElementController, IElementController
     {
@@ -89,15 +85,13 @@ namespace YoloDetection.Marker
         {
             return base.Add(name, val);
         }
-        
-        
     }
     class ElementControllerFrame : ElementController, IElementController
     {
         public ElementControllerFrame() : base() { }
         public override IElementController Add(StateElementName name, CheckBox val)
         {
-            
+            base.Add(name, val);
             val.CheckStateChanged += (object sender, EventArgs e) =>
             {
                 if (Marker != null && Marker.CurrentFrame != null)
@@ -109,12 +103,12 @@ namespace YoloDetection.Marker
         }
         public override IElementController Add(StateElementName name, Label val)
         {
-            
+            base.Add(name, val);
             return this;
         }
         public override IElementController Add(StateElementName name, TrackBar val)
         {
-            
+            base.Add(name, val);
             val.Scroll += (object sender, EventArgs e) =>
             {
                 Marker.ShowFrame(val.Value);

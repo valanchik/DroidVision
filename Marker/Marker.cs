@@ -21,14 +21,14 @@ namespace YoloDetection.Marker
         private string FilePath;
         private PictureBox Window;
         private Timer Timer;
-        private Dictionary<ElementControllerType, IElementController> ElementController;
+        private Dictionary<ElementControllerType, IElementController> ElementControllers;
         public IFrame CurrentFrame;
-        public MarkerFasad(PictureBox window, Timer timer, Dictionary<ElementControllerType, IElementController> elementController)
+        public MarkerFasad(PictureBox window, Timer timer, Dictionary<ElementControllerType, IElementController> elementControllers)
         {
             Window = window;
             Timer = timer;
-            ElementController = elementController;
-            foreach (KeyValuePair< ElementControllerType, IElementController>  entry in elementController)
+            ElementControllers = elementControllers;
+            foreach (KeyValuePair< ElementControllerType, IElementController>  entry in ElementControllers)
             {
                 entry.Value.SetMarker(this);
             }
@@ -55,19 +55,24 @@ namespace YoloDetection.Marker
 
                 if (Data.Count == 0) return;
 
-                TrackBar timeline = ElementController.GetTrackBar(StateElementName.TimeLineBar);
+                TrackBar timeline = GetElementController(ElementControllerType.Common).GetTrackBar(StateElementName.TimeLineBar);
 
                 timeline.Maximum = Data.Count;
 
                 ShowFrame(Data[0]);
             }
         }
+        private IElementController GetElementController(ElementControllerType type)
+        {
+            return ElementControllers[type];
+        }
 
         private IFrame CreateFrame(byte[] jpeg, int frameId)
         {
-            FrameState state = new FrameState();
-
-            state.States = ElementController.GetNewDefaultStates();
+            FrameState state = new FrameState
+            {
+                States = ((ElementControllerFrame)GetElementController(ElementControllerType.Frame)).GetNewDefaultStates()
+            };
             state.SetTextState(StateElementName.FrameId, frameId.ToString());
             state.SetIntState(StateElementName.TimeLineBar, frameId);
 
@@ -112,7 +117,7 @@ namespace YoloDetection.Marker
             {
                 CurrentFrame = frame;
                 Window.Image = frame.Image;
-                ElementController.SetFrameState(frame.State);
+                ((ElementControllerFrame)GetElementController(ElementControllerType.Frame)).SetFrameState(frame.State);
                 return true;
             }
             return false;
