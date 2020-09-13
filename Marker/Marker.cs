@@ -9,6 +9,11 @@ using System.Windows.Forms;
 
 namespace YoloDetection.Marker
 {   
+    public enum ElementControllerType
+    {
+        Common,
+        Frame
+    }
     class MarkerFasad
     {
         private  ImageConverter imgConverter = new ImageConverter();
@@ -16,14 +21,17 @@ namespace YoloDetection.Marker
         private string FilePath;
         private PictureBox Window;
         private Timer Timer;
-        private ElementController ElementController;
+        private Dictionary<ElementControllerType, IElementController> ElementController;
         public IFrame CurrentFrame;
-        public MarkerFasad(PictureBox window, Timer timer, ElementController elementController)
+        public MarkerFasad(PictureBox window, Timer timer, Dictionary<ElementControllerType, IElementController> elementController)
         {
             Window = window;
             Timer = timer;
             ElementController = elementController;
-            ElementController.SetMarker(this);
+            foreach (KeyValuePair< ElementControllerType, IElementController>  entry in elementController)
+            {
+                entry.Value.SetMarker(this);
+            }
         }
         public void Load (string path)
         {

@@ -12,7 +12,8 @@ namespace YoloDetection.Marker
         InBookmarks,
         Hided,
         Removed,
-        TimeLineBar
+        TimeLineBar,
+        playRepeat
     }
     interface IStateElement
     {

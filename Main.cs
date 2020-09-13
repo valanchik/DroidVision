@@ -76,14 +76,23 @@ namespace YoloDetection
         {
 
             InitializeComponent();
-            ElementController ec = new ElementController()
-                .Add(StateElementName.FrameId,  frameId)
-                .Add(StateElementName.InBookmarks,  frameInBookmarks)
-                .Add(StateElementName.Hided,        frameHided)
-                .Add(StateElementName.Removed,      frameRemoved)
-                .Add(StateElementName.TimeLineBar,  timeLineBar);
+            Dictionary<ElementControllerType, IElementController> ElementControllers = new Dictionary<ElementControllerType, IElementController>();
 
-            marker = new MarkerFasad(imageViewer, playTimer, ec);
+            IElementController ecCommon = new ElementControllerCommon()
+                .Add(StateElementName.playRepeat, playRepeat)
+                .Add(StateElementName.TimeLineBar, timeLineBar);
+
+            IElementController ecFrame = new ElementControllerFrame()
+                .Add(StateElementName.FrameId, frameId)
+                .Add(StateElementName.InBookmarks, frameInBookmarks)
+                .Add(StateElementName.Hided, frameHided)
+                .Add(StateElementName.Removed, frameRemoved);                
+
+            ElementControllers.Add(ElementControllerType.Common, ecCommon);
+            ElementControllers.Add(ElementControllerType.Frame, ecFrame);
+            
+            
+            marker = new MarkerFasad(imageViewer, playTimer, ElementControllers);
 
             kalmanError_TextChanged(null, null);
             covariance_TextChanged(null, null);
