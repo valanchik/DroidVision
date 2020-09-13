@@ -64,6 +64,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.calibrate = new System.Windows.Forms.CheckBox();
             this.Marking = new System.Windows.Forms.TabPage();
+            this.timeLineBar = new System.Windows.Forms.TrackBar();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.button7 = new System.Windows.Forms.Button();
@@ -72,6 +73,9 @@
             this.mPlay = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.controlPanel = new System.Windows.Forms.GroupBox();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.button4 = new System.Windows.Forms.Button();
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.frameProperty = new System.Windows.Forms.GroupBox();
@@ -106,10 +110,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.playTimer = new System.Windows.Forms.Timer(this.components);
-            this.groupBox9 = new System.Windows.Forms.GroupBox();
-            this.button4 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.timeLineBar = new System.Windows.Forms.TrackBar();
+            this.playRepeat = new System.Windows.Forms.CheckBox();
             this.mainTabs.SuspendLayout();
             this.Robot.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -118,9 +119,11 @@
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.Marking.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.timeLineBar)).BeginInit();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.controlPanel.SuspendLayout();
+            this.groupBox9.SuspendLayout();
             this.frameProperty.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageViewer)).BeginInit();
@@ -129,8 +132,6 @@
             this.groupBox8.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox7.SuspendLayout();
-            this.groupBox9.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.timeLineBar)).BeginInit();
             this.SuspendLayout();
             // 
             // mainTabs
@@ -539,6 +540,7 @@
             // 
             // Marking
             // 
+            this.Marking.Controls.Add(this.playRepeat);
             this.Marking.Controls.Add(this.timeLineBar);
             this.Marking.Controls.Add(this.panel1);
             this.Marking.Controls.Add(this.controlPanel);
@@ -550,6 +552,19 @@
             this.Marking.TabIndex = 1;
             this.Marking.Text = "Разметка";
             this.Marking.UseVisualStyleBackColor = true;
+            // 
+            // timeLineBar
+            // 
+            this.timeLineBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.timeLineBar.AutoSize = false;
+            this.timeLineBar.LargeChange = 1;
+            this.timeLineBar.Location = new System.Drawing.Point(0, 572);
+            this.timeLineBar.Minimum = 1;
+            this.timeLineBar.Name = "timeLineBar";
+            this.timeLineBar.Size = new System.Drawing.Size(960, 31);
+            this.timeLineBar.TabIndex = 34;
+            this.timeLineBar.Value = 1;
             // 
             // panel1
             // 
@@ -667,6 +682,33 @@
             this.controlPanel.TabIndex = 24;
             this.controlPanel.TabStop = false;
             this.controlPanel.Text = "Контрольная панель";
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.textBox1);
+            this.groupBox9.Controls.Add(this.button4);
+            this.groupBox9.Location = new System.Drawing.Point(6, 149);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(255, 100);
+            this.groupBox9.TabIndex = 33;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "Действия";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(110, 22);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(66, 20);
+            this.textBox1.TabIndex = 1;
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(6, 19);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(98, 23);
+            this.button4.TabIndex = 0;
+            this.button4.Text = "Показать кадр";
+            this.button4.UseVisualStyleBackColor = true;
             // 
             // label15
             // 
@@ -1051,45 +1093,15 @@
             this.playTimer.Interval = 1;
             this.playTimer.Tick += new System.EventHandler(this.button5_Click);
             // 
-            // groupBox9
+            // playRepeat
             // 
-            this.groupBox9.Controls.Add(this.textBox1);
-            this.groupBox9.Controls.Add(this.button4);
-            this.groupBox9.Location = new System.Drawing.Point(6, 149);
-            this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(255, 100);
-            this.groupBox9.TabIndex = 33;
-            this.groupBox9.TabStop = false;
-            this.groupBox9.Text = "Действия";
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(6, 19);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(98, 23);
-            this.button4.TabIndex = 0;
-            this.button4.Text = "Показать кадр";
-            this.button4.UseVisualStyleBackColor = true;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(110, 22);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(66, 20);
-            this.textBox1.TabIndex = 1;
-            // 
-            // timeLineBar
-            // 
-            this.timeLineBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.timeLineBar.AutoSize = false;
-            this.timeLineBar.LargeChange = 1;
-            this.timeLineBar.Location = new System.Drawing.Point(0, 572);
-            this.timeLineBar.Minimum = 1;
-            this.timeLineBar.Name = "timeLineBar";
-            this.timeLineBar.Size = new System.Drawing.Size(1068, 31);
-            this.timeLineBar.TabIndex = 34;
-            this.timeLineBar.Value = 1;
+            this.playRepeat.AutoSize = true;
+            this.playRepeat.Location = new System.Drawing.Point(966, 579);
+            this.playRepeat.Name = "playRepeat";
+            this.playRepeat.Size = new System.Drawing.Size(80, 17);
+            this.playRepeat.TabIndex = 35;
+            this.playRepeat.Text = "Повторять";
+            this.playRepeat.UseVisualStyleBackColor = true;
             // 
             // Main
             // 
@@ -1114,10 +1126,14 @@
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.Marking.ResumeLayout(false);
+            this.Marking.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.timeLineBar)).EndInit();
             this.panel1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.controlPanel.ResumeLayout(false);
             this.controlPanel.PerformLayout();
+            this.groupBox9.ResumeLayout(false);
+            this.groupBox9.PerformLayout();
             this.frameProperty.ResumeLayout(false);
             this.frameProperty.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
@@ -1131,9 +1147,6 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox7.ResumeLayout(false);
-            this.groupBox9.ResumeLayout(false);
-            this.groupBox9.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.timeLineBar)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1220,6 +1233,7 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.TrackBar timeLineBar;
+        private System.Windows.Forms.CheckBox playRepeat;
     }
 }
 

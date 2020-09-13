@@ -26,6 +26,10 @@ namespace YoloDetection.Marker
         {
             
         }
+        public TrackBar GetTrackBar(StateElementName name)
+        {
+            return Trackbars[name];
+        }
         public void SetMarker(MarkerFasad marker)
         {
             Marker = marker;
@@ -53,6 +57,10 @@ namespace YoloDetection.Marker
         {
             Trackbars.Add(name, val);
             ValueTypes.TryAdd(name, ElementValueTypes.Int);
+            val.Scroll += (object sender, EventArgs e) =>
+            {
+                Marker.ShowFrame(val.Value);
+            };
             return this;
         }
         public void SetFrameState(FrameState state)
@@ -70,10 +78,13 @@ namespace YoloDetection.Marker
                 switch(entry.Value)
                 {
                     case (ElementValueTypes.Boolean):
-                        data.Add(entry.Key, new StateElementCheckbox());
+                        data.Add(entry.Key, new StateElementBool());
                         break;
                     case (ElementValueTypes.String):
                         data.Add(entry.Key, new StateElementText());
+                        break;
+                    case (ElementValueTypes.Int):
+                        data.Add(entry.Key, new StateElementInt());
                         break;
                 }
             }
@@ -92,7 +103,7 @@ namespace YoloDetection.Marker
             }
             if (type == ElementValueTypes.Int && Trackbars.ContainsKey(state.Key))
             {
-                Trackbars[state.Key].Value = state.Value.Value;
+                Trackbars[state.Key].Value = state.Value.Value>0? state.Value.Value:1;
             }
         }
     }

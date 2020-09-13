@@ -47,6 +47,10 @@ namespace YoloDetection.Marker
 
                 if (Data.Count == 0) return;
 
+                TrackBar timeline = ElementController.GetTrackBar(StateElementName.TimeLineBar);
+
+                timeline.Maximum = Data.Count;
+
                 ShowFrame(Data[0]);
             }
         }
@@ -57,6 +61,7 @@ namespace YoloDetection.Marker
 
             state.States = ElementController.GetNewDefaultStates();
             state.SetTextState(StateElementName.FrameId, frameId.ToString());
+            state.SetIntState(StateElementName.TimeLineBar, frameId);
 
             IFrame d = new Frame(
                 (Image)imgConverter.ConvertFrom(jpeg),

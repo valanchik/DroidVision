@@ -20,17 +20,20 @@ namespace YoloDetection.Marker
         bool Checked { get; set; }
         int Value { get; set; }
     }
-    class StateElementText : IStateElement
+    class StateElement : IStateElement
     {
         public string Text { get; set; }
         public int Value { get; set; }
         public bool Checked { get; set; }
     }
-    class StateElementCheckbox : IStateElement
+    class StateElementText : StateElement
     {
-        public string Text { get; set; }
-        public int Value { get; set; }
-        public bool Checked { get; set; }
+    }
+    class StateElementBool : StateElement
+    {
+    }
+    class StateElementInt : StateElement
+    {
     }
     class FrameState
     {
@@ -50,6 +53,14 @@ namespace YoloDetection.Marker
         public void SetTextState(StateElementName name, string text)
         {
             States[name].Text = text;
+        }
+        public int GetIntState(StateElementName name)
+        {
+            return States[name].Value;
+        }
+        public void SetIntState(StateElementName name, int value)
+        {
+            States[name].Value = value;
         }
 
     }
