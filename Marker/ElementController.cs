@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,14 +15,17 @@ namespace YoloDetection.Marker
         Hided,
         Removed,
         TimeLineBar,
-        playRepeat
+        PlayRepeat,
+        PlaySpeeed,
+        Image
     }
     public enum ElementValueTypes
     {
         Boolean,
         String,
         Int,
-        Float
+        Float,
+        Image
     }
     interface IElementController: IMediatorSetter
     {
@@ -29,15 +33,21 @@ namespace YoloDetection.Marker
         IElementController Add(ElementName name, CheckBox val);
         IElementController Add(ElementName name, Label val);
         IElementController Add(ElementName name, TrackBar val);
+        IElementController Add(ElementName name, PictureBox val);
+        IElementController Add(ElementName name, Timer val);
         CheckBox    GetCheckbox(ElementName name);
         Label       GetLabel(ElementName name);
         TrackBar    GetTrackBar(ElementName name);
+        PictureBox    GetPictureBox(ElementName name);
+        Timer    GetTimer(ElementName name);
     }
     class ElementController: IElementController
     {
         protected Dictionary<ElementName, CheckBox> Checkboxes = new Dictionary<ElementName, CheckBox>();
         protected Dictionary<ElementName, Label> Labels = new Dictionary<ElementName, Label>();
         protected Dictionary<ElementName, TrackBar> Trackbars = new Dictionary<ElementName, TrackBar>();
+        protected Dictionary<ElementName, PictureBox> PictureBoxes = new Dictionary<ElementName, PictureBox>();
+        protected Dictionary<ElementName, Timer> Timers = new Dictionary<ElementName, Timer>();
         public IMediator Mediator { get; set; }
         protected Dictionary<ElementName, ElementValueTypes> ValueTypes = new Dictionary<ElementName, ElementValueTypes>();
         public ElementController()
@@ -59,6 +69,15 @@ namespace YoloDetection.Marker
         {
             return Trackbars[name];
         }
+        public PictureBox GetPictureBox(ElementName name)
+        {
+            return PictureBoxes[name];
+        }
+
+        public Timer GetTimer(ElementName name)
+        {
+            return Timers[name];
+        }
         public virtual IElementController Add(ElementName name, CheckBox val)
         {
             Checkboxes.Add(name, val);
@@ -77,25 +96,44 @@ namespace YoloDetection.Marker
             ValueTypes.TryAdd(name, ElementValueTypes.Int);
             return this;
         }
-        
+        public virtual IElementController Add(ElementName name, PictureBox val)
+        {
+            PictureBoxes.Add(name, val);
+            ValueTypes.TryAdd(name, ElementValueTypes.Image);
+            return this;
+        }
+        public virtual IElementController Add(ElementName name, Timer val)
+        {
+            Timers.Add(name, val);
+            ValueTypes.TryAdd(name, ElementValueTypes.Int);
+            return this;
+        }
     }
     class ElementControllerCommon : ElementController
     {
         public ElementControllerCommon(): base() { }
-
-        public override IElementController Add(ElementName name, CheckBox val)
-        {
-            return base.Add(name, val);
-        }
-
-        public override IElementController Add(ElementName name, Label val)
-        {
-            return base.Add(name, val);
-        }
-
+    }
+    class ElementControllerPlaySpped : ElementController
+    {
+        public ElementControllerPlaySpped() : base() { }
         public override IElementController Add(ElementName name, TrackBar val)
         {
-            return base.Add(name, val);
+            base.Add(name, val);
+            val.Scroll += (object sender, EventArgs e) =>
+            {
+                Mediator.ChangePlaySpeed(val.Value);
+            };
+            return this;
+        }
+    }
+
+    class ElementControllerImage : ElementController
+    {
+        public ElementControllerImage() : base() { }
+        public override IElementController Add(ElementName name, PictureBox val)
+        {
+            base.Add(name, val);
+            return this;
         }
     }
     class ElementControllerFrame : ElementController

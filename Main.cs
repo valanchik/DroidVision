@@ -79,9 +79,17 @@ namespace YoloDetection
             
             Dictionary<ElementControllerType, IElementController> ElementControllers = new Dictionary<ElementControllerType, IElementController>();
 
+            
+
             IElementController ecCommon = new ElementControllerCommon()
-                .Add(ElementName.playRepeat, playRepeat)
+                .Add(ElementName.PlayRepeat, playRepeat)
                 .Add(ElementName.TimeLineBar, timeLineBar);
+
+            IElementController ecPlaySpeed = new ElementControllerPlaySpped()
+                .Add(ElementName.PlaySpeeed, playSpeed);
+
+            IElementController ecImage = new ElementControllerImage()
+                .Add(ElementName.Image, pictureBox1);
 
             IElementController ecFrame = new ElementControllerFrame()
                 .Add(ElementName.FrameId, frameId)
@@ -91,12 +99,14 @@ namespace YoloDetection
                 .Add(ElementName.TimeLineBar, timeLineBar);                
 
             ElementControllers.Add(ElementControllerType.Common, ecCommon);
+            ElementControllers.Add(ElementControllerType.PlaySpeeed, ecPlaySpeed);
+            ElementControllers.Add(ElementControllerType.Window, ecImage);
             ElementControllers.Add(ElementControllerType.Frame, ecFrame);
 
 
             marker = new Marker.Marker(imageViewer, playTimer);
 
-           // MarkerMediator Mediator = new MarkerMediator(marker, ElementControllers);
+            MarkerMediator Mediator = new MarkerMediator(marker, ElementControllers);
 
 
             kalmanError_TextChanged(null, null);
@@ -751,7 +761,7 @@ namespace YoloDetection
 
         private void trackBar1_ValueChanged(object sender, EventArgs e)
         {
-            playTimer.Interval = trackBar1.Value;
+            playTimer.Interval = playSpeed.Value;
         }
 
         private void trackBar1_Move(object sender, EventArgs e)

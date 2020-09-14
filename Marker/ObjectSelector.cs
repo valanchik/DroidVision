@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace YoloDetection.Marker
 {
-    interface IObject
+    interface IFrameObject
     {
         Rectangle Rect { get; set; }
     }
-    class ObjectSelector
+    class FrameObject: IFrameObject
     {
-        public IObject CreateObject(Rectangle rect)
+        public Rectangle Rect { get; set; }
+        public FrameObject(Rectangle rect)
         {
-
-            return null;
+            Rect = rect;
         }
     }
 }

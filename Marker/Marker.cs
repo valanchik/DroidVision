@@ -12,12 +12,17 @@ namespace YoloDetection.Marker
     public enum ElementControllerType
     {
         Common,
-        Frame
+        Frame,
+        PlaySpeeed,
+        Window,
+        Timer
     }
 
     
     interface IMarker: IMediatorSetter
     {
+        PictureBox Window { get; set; }
+        Timer Timer { get; set; }
         IFrame CurrentFrame { get; set; }
         void Load(string path);
         bool ShowBackwardFrame();
@@ -30,8 +35,8 @@ namespace YoloDetection.Marker
         private  ImageConverter imgConverter = new ImageConverter();
         private List<IFrame> Data = new List<IFrame>();
         private string FilePath;
-        private PictureBox Window;
-        private Timer Timer;
+        public PictureBox Window { get; set; }
+        public Timer Timer { get; set; }
         
         public IFrame CurrentFrame { get; set; }
 
@@ -121,9 +126,8 @@ namespace YoloDetection.Marker
         {
             if (frame != null)
             {
-                CurrentFrame = frame;
-                Window.Image = frame.Image;
-                ((ElementControllerFrame)Mediator.GetElementController(ElementControllerType.Frame)).SetFrameState(frame.State);
+                
+                Mediator.ShowFrame(frame);
                 return true;
             }
             return false;

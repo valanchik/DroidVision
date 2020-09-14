@@ -11,6 +11,8 @@ namespace YoloDetection.Marker
         IFrame GetCurrentFrame();
         IElementController GetElementController(ElementControllerType type);
         IMarker GetMarker();
+        void ShowFrame(IFrame frame);
+        void ChangePlaySpeed(int spped);
     }
     interface IMediatorSetter
     {
@@ -48,6 +50,16 @@ namespace YoloDetection.Marker
             return ElementControllers[type];
         }
 
+        public void ShowFrame(IFrame frame)
+        {
+            Marker.CurrentFrame = frame;
+            Marker.Window.Image = Marker.CurrentFrame.Image;
+            ((ElementControllerFrame)GetElementController(ElementControllerType.Frame)).SetFrameState(Marker.CurrentFrame.State);
+        }
 
+        public void ChangePlaySpeed(int speed)
+        {
+            Marker.Timer.Interval = speed;
+        }
     }
 }

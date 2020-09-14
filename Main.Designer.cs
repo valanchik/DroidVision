@@ -64,6 +64,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.calibrate = new System.Windows.Forms.CheckBox();
             this.Marking = new System.Windows.Forms.TabPage();
+            this.playRepeat = new System.Windows.Forms.CheckBox();
             this.timeLineBar = new System.Windows.Forms.TrackBar();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -84,7 +85,7 @@
             this.frameInBookmarks = new System.Windows.Forms.CheckBox();
             this.frameRemoved = new System.Windows.Forms.CheckBox();
             this.frameHided = new System.Windows.Forms.CheckBox();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.playSpeed = new System.Windows.Forms.TrackBar();
             this.dataPath = new System.Windows.Forms.TextBox();
             this.openFile = new System.Windows.Forms.Button();
             this.imageViewer = new System.Windows.Forms.PictureBox();
@@ -110,7 +111,6 @@
             this.button1 = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.playTimer = new System.Windows.Forms.Timer(this.components);
-            this.playRepeat = new System.Windows.Forms.CheckBox();
             this.mainTabs.SuspendLayout();
             this.Robot.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -125,7 +125,7 @@
             this.controlPanel.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.frameProperty.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.playSpeed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageViewer)).BeginInit();
             this.Settings.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -553,6 +553,16 @@
             this.Marking.Text = "Разметка";
             this.Marking.UseVisualStyleBackColor = true;
             // 
+            // playRepeat
+            // 
+            this.playRepeat.AutoSize = true;
+            this.playRepeat.Location = new System.Drawing.Point(966, 579);
+            this.playRepeat.Name = "playRepeat";
+            this.playRepeat.Size = new System.Drawing.Size(80, 17);
+            this.playRepeat.TabIndex = 35;
+            this.playRepeat.Text = "Повторять";
+            this.playRepeat.UseVisualStyleBackColor = true;
+            // 
             // timeLineBar
             // 
             this.timeLineBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -673,7 +683,7 @@
             this.controlPanel.Controls.Add(this.label15);
             this.controlPanel.Controls.Add(this.label14);
             this.controlPanel.Controls.Add(this.frameProperty);
-            this.controlPanel.Controls.Add(this.trackBar1);
+            this.controlPanel.Controls.Add(this.playSpeed);
             this.controlPanel.Controls.Add(this.dataPath);
             this.controlPanel.Controls.Add(this.openFile);
             this.controlPanel.Location = new System.Drawing.Point(1074, 6);
@@ -806,21 +816,21 @@
             this.frameHided.Text = "Скрытый";
             this.frameHided.UseVisualStyleBackColor = true;
             // 
-            // trackBar1
+            // playSpeed
             // 
-            this.trackBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.playSpeed.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.trackBar1.AutoSize = false;
-            this.trackBar1.Location = new System.Drawing.Point(1, 566);
-            this.trackBar1.Maximum = 1000;
-            this.trackBar1.Minimum = 1;
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.trackBar1.Size = new System.Drawing.Size(266, 29);
-            this.trackBar1.TabIndex = 29;
-            this.trackBar1.Value = 11;
-            this.trackBar1.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
-            this.trackBar1.Move += new System.EventHandler(this.trackBar1_Move);
+            this.playSpeed.AutoSize = false;
+            this.playSpeed.Location = new System.Drawing.Point(1, 566);
+            this.playSpeed.Maximum = 1000;
+            this.playSpeed.Minimum = 1;
+            this.playSpeed.Name = "playSpeed";
+            this.playSpeed.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.playSpeed.Size = new System.Drawing.Size(266, 29);
+            this.playSpeed.TabIndex = 29;
+            this.playSpeed.Value = 11;
+            this.playSpeed.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
+            this.playSpeed.Move += new System.EventHandler(this.trackBar1_Move);
             // 
             // dataPath
             // 
@@ -1093,16 +1103,6 @@
             this.playTimer.Interval = 1;
             this.playTimer.Tick += new System.EventHandler(this.button5_Click);
             // 
-            // playRepeat
-            // 
-            this.playRepeat.AutoSize = true;
-            this.playRepeat.Location = new System.Drawing.Point(966, 579);
-            this.playRepeat.Name = "playRepeat";
-            this.playRepeat.Size = new System.Drawing.Size(80, 17);
-            this.playRepeat.TabIndex = 35;
-            this.playRepeat.Text = "Повторять";
-            this.playRepeat.UseVisualStyleBackColor = true;
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1136,7 +1136,7 @@
             this.groupBox9.PerformLayout();
             this.frameProperty.ResumeLayout(false);
             this.frameProperty.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.playSpeed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageViewer)).EndInit();
             this.Settings.ResumeLayout(false);
             this.Settings.PerformLayout();
@@ -1220,7 +1220,7 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Timer playTimer;
-        private System.Windows.Forms.TrackBar trackBar1;
+        private System.Windows.Forms.TrackBar playSpeed;
         private System.Windows.Forms.GroupBox frameProperty;
         private System.Windows.Forms.CheckBox frameInBookmarks;
         private System.Windows.Forms.CheckBox frameRemoved;
