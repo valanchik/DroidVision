@@ -33,7 +33,7 @@ namespace YoloDetection.Marker
         }
         public void AddElementController()
         {
-            
+
         }
         public IMarker GetMarker()
         {
@@ -48,6 +48,6 @@ namespace YoloDetection.Marker
             return ElementControllers[type];
         }
 
-        
+
     }
 }

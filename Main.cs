@@ -96,7 +96,7 @@ namespace YoloDetection
 
             marker = new Marker.Marker(imageViewer, playTimer);
 
-            MarkerMediator Mediator = new MarkerMediator(marker, ElementControllers);
+           // MarkerMediator Mediator = new MarkerMediator(marker, ElementControllers);
 
 
             kalmanError_TextChanged(null, null);
