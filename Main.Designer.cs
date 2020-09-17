@@ -66,11 +66,11 @@
             this.Marking = new System.Windows.Forms.TabPage();
             this.playRepeat = new System.Windows.Forms.CheckBox();
             this.timeLineBar = new System.Windows.Forms.TrackBar();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.playControls = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.button7 = new System.Windows.Forms.Button();
+            this.backwardOne = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
+            this.forwardOne = new System.Windows.Forms.Button();
             this.mPlay = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.controlPanel = new System.Windows.Forms.GroupBox();
@@ -111,6 +111,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.playTimer = new System.Windows.Forms.Timer(this.components);
+            this.ImageViewerWraper = new System.Windows.Forms.Panel();
             this.mainTabs.SuspendLayout();
             this.Robot.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -120,7 +121,7 @@
             this.groupBox4.SuspendLayout();
             this.Marking.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.timeLineBar)).BeginInit();
-            this.panel1.SuspendLayout();
+            this.playControls.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.controlPanel.SuspendLayout();
             this.groupBox9.SuspendLayout();
@@ -132,6 +133,7 @@
             this.groupBox8.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox7.SuspendLayout();
+            this.ImageViewerWraper.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainTabs
@@ -540,11 +542,10 @@
             // 
             // Marking
             // 
+            this.Marking.Controls.Add(this.ImageViewerWraper);
             this.Marking.Controls.Add(this.playRepeat);
             this.Marking.Controls.Add(this.timeLineBar);
-            this.Marking.Controls.Add(this.panel1);
             this.Marking.Controls.Add(this.controlPanel);
-            this.Marking.Controls.Add(this.imageViewer);
             this.Marking.Location = new System.Drawing.Point(4, 22);
             this.Marking.Name = "Marking";
             this.Marking.Padding = new System.Windows.Forms.Padding(3);
@@ -576,13 +577,13 @@
             this.timeLineBar.TabIndex = 34;
             this.timeLineBar.Value = 1;
             // 
-            // panel1
+            // playControls
             // 
-            this.panel1.Controls.Add(this.tableLayoutPanel1);
-            this.panel1.Location = new System.Drawing.Point(164, 24);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(683, 52);
-            this.panel1.TabIndex = 29;
+            this.playControls.Controls.Add(this.tableLayoutPanel1);
+            this.playControls.Location = new System.Drawing.Point(206, 3);
+            this.playControls.Name = "playControls";
+            this.playControls.Size = new System.Drawing.Size(683, 52);
+            this.playControls.TabIndex = 29;
             // 
             // tableLayoutPanel1
             // 
@@ -594,9 +595,9 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel1.Controls.Add(this.button7, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.backwardOne, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.button6, 3, 0);
-            this.tableLayoutPanel1.Controls.Add(this.button5, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.forwardOne, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.mPlay, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.button3, 0, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
@@ -606,19 +607,19 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(677, 46);
             this.tableLayoutPanel1.TabIndex = 30;
             // 
-            // button7
+            // backwardOne
             // 
-            this.button7.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.backwardOne.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.button7.BackgroundImage = global::YoloDetection.Properties.Resources.back;
-            this.button7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.button7.Location = new System.Drawing.Point(138, 3);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(129, 40);
-            this.button7.TabIndex = 4;
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
+            this.backwardOne.BackgroundImage = global::YoloDetection.Properties.Resources.back;
+            this.backwardOne.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.backwardOne.Location = new System.Drawing.Point(138, 3);
+            this.backwardOne.Name = "backwardOne";
+            this.backwardOne.Size = new System.Drawing.Size(129, 40);
+            this.backwardOne.TabIndex = 4;
+            this.backwardOne.UseVisualStyleBackColor = true;
+            this.backwardOne.Click += new System.EventHandler(this.button7_Click);
             // 
             // button6
             // 
@@ -633,19 +634,19 @@
             this.button6.TabIndex = 3;
             this.button6.UseVisualStyleBackColor = true;
             // 
-            // button5
+            // forwardOne
             // 
-            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.forwardOne.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.button5.BackgroundImage = global::YoloDetection.Properties.Resources.forward;
-            this.button5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.button5.Location = new System.Drawing.Point(408, 3);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(129, 40);
-            this.button5.TabIndex = 2;
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.forwardOne.BackgroundImage = global::YoloDetection.Properties.Resources.forward;
+            this.forwardOne.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.forwardOne.Location = new System.Drawing.Point(408, 3);
+            this.forwardOne.Name = "forwardOne";
+            this.forwardOne.Size = new System.Drawing.Size(129, 40);
+            this.forwardOne.TabIndex = 2;
+            this.forwardOne.UseVisualStyleBackColor = true;
+            this.forwardOne.Click += new System.EventHandler(this.button5_Click);
             // 
             // mPlay
             // 
@@ -859,9 +860,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.imageViewer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.imageViewer.Location = new System.Drawing.Point(0, 4);
+            this.imageViewer.Location = new System.Drawing.Point(0, 0);
             this.imageViewer.Name = "imageViewer";
-            this.imageViewer.Size = new System.Drawing.Size(1068, 562);
+            this.imageViewer.Size = new System.Drawing.Size(1062, 567);
             this.imageViewer.TabIndex = 23;
             this.imageViewer.TabStop = false;
             // 
@@ -1103,6 +1104,15 @@
             this.playTimer.Interval = 1;
             this.playTimer.Tick += new System.EventHandler(this.button5_Click);
             // 
+            // ImageViewerWraper
+            // 
+            this.ImageViewerWraper.Controls.Add(this.playControls);
+            this.ImageViewerWraper.Controls.Add(this.imageViewer);
+            this.ImageViewerWraper.Location = new System.Drawing.Point(3, 3);
+            this.ImageViewerWraper.Name = "ImageViewerWraper";
+            this.ImageViewerWraper.Size = new System.Drawing.Size(1065, 570);
+            this.ImageViewerWraper.TabIndex = 36;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1128,7 +1138,7 @@
             this.Marking.ResumeLayout(false);
             this.Marking.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.timeLineBar)).EndInit();
-            this.panel1.ResumeLayout(false);
+            this.playControls.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.controlPanel.ResumeLayout(false);
             this.controlPanel.PerformLayout();
@@ -1147,6 +1157,7 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox7.ResumeLayout(false);
+            this.ImageViewerWraper.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1212,13 +1223,13 @@
         private System.Windows.Forms.Button openFile;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.CheckBox fireOnlyRect;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel playControls;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button forwardOne;
         private System.Windows.Forms.Button mPlay;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button backwardOne;
         private System.Windows.Forms.Timer playTimer;
         private System.Windows.Forms.TrackBar playSpeed;
         private System.Windows.Forms.GroupBox frameProperty;
@@ -1234,6 +1245,7 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.TrackBar timeLineBar;
         private System.Windows.Forms.CheckBox playRepeat;
+        private System.Windows.Forms.Panel ImageViewerWraper;
     }
 }
 

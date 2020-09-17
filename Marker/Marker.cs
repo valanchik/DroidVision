@@ -21,8 +21,6 @@ namespace YoloDetection.Marker
     
     interface IMarker: IMediatorSetter
     {
-        PictureBox Window { get; set; }
-        Timer Timer { get; set; }
         IFrame CurrentFrame { get; set; }
         void Load(string path);
         bool ShowBackwardFrame();
@@ -35,17 +33,13 @@ namespace YoloDetection.Marker
         private  ImageConverter imgConverter = new ImageConverter();
         private List<IFrame> Data = new List<IFrame>();
         private string FilePath;
-        public PictureBox Window { get; set; }
-        public Timer Timer { get; set; }
         
         public IFrame CurrentFrame { get; set; }
 
         public IMediator Mediator { get; set; }
 
-        public Marker(PictureBox window, Timer timer)
+        public Marker()
         {
-            Window = window;
-            Timer = timer;
         }
         public void Load(string path)
         {
@@ -126,7 +120,6 @@ namespace YoloDetection.Marker
         {
             if (frame != null)
             {
-                
                 Mediator.ShowFrame(frame);
                 return true;
             }

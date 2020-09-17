@@ -17,7 +17,8 @@ namespace YoloDetection.Marker
         TimeLineBar,
         PlayRepeat,
         PlaySpeeed,
-        Image
+        ViewBox,
+        playTimer
     }
     public enum ElementValueTypes
     {
@@ -131,6 +132,23 @@ namespace YoloDetection.Marker
     {
         public ElementControllerImage() : base() { }
         public override IElementController Add(ElementName name, PictureBox val)
+        {
+            base.Add(name, val);
+            val.MouseDown += (object sender, MouseEventArgs e) =>
+            {
+                Console.WriteLine(e.Location);
+            };
+            val.MouseUp += (object sender, MouseEventArgs e) =>
+            {
+                Console.WriteLine(e.Location);
+            };
+            return this;
+        }
+    }
+    class ElementControllerTimer : ElementController
+    {
+        public ElementControllerTimer() : base() { }
+        public override IElementController Add(ElementName name, Timer val)
         {
             base.Add(name, val);
             return this;

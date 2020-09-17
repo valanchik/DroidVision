@@ -79,8 +79,6 @@ namespace YoloDetection
             
             Dictionary<ElementControllerType, IElementController> ElementControllers = new Dictionary<ElementControllerType, IElementController>();
 
-            
-
             IElementController ecCommon = new ElementControllerCommon()
                 .Add(ElementName.PlayRepeat, playRepeat)
                 .Add(ElementName.TimeLineBar, timeLineBar);
@@ -89,7 +87,10 @@ namespace YoloDetection
                 .Add(ElementName.PlaySpeeed, playSpeed);
 
             IElementController ecImage = new ElementControllerImage()
-                .Add(ElementName.Image, pictureBox1);
+                .Add(ElementName.ViewBox, imageViewer);
+
+            IElementController ecPlayTimer = new ElementControllerTimer()
+                .Add(ElementName.playTimer, playTimer);
 
             IElementController ecFrame = new ElementControllerFrame()
                 .Add(ElementName.FrameId, frameId)
@@ -101,13 +102,12 @@ namespace YoloDetection
             ElementControllers.Add(ElementControllerType.Common, ecCommon);
             ElementControllers.Add(ElementControllerType.PlaySpeeed, ecPlaySpeed);
             ElementControllers.Add(ElementControllerType.Window, ecImage);
+            ElementControllers.Add(ElementControllerType.Timer, ecPlayTimer);
             ElementControllers.Add(ElementControllerType.Frame, ecFrame);
 
-
-            marker = new Marker.Marker(imageViewer, playTimer);
+            marker = new Marker.Marker();
 
             MarkerMediator Mediator = new MarkerMediator(marker, ElementControllers);
-
 
             kalmanError_TextChanged(null, null);
             covariance_TextChanged(null, null);
@@ -121,7 +121,6 @@ namespace YoloDetection
             UDPGameController.OnReceive += (string message) =>
             {
                 lastOffset = Vector.Parse(message);
-                //Console.WriteLine(message);
                 sendedToUDP = true;
                 SWController.Stop();
                 TimePerLenght = lastLengthMove / SWController.ElapsedMilliseconds;

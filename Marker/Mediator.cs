@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace YoloDetection.Marker
 {
@@ -49,17 +50,33 @@ namespace YoloDetection.Marker
         {
             return ElementControllers[type];
         }
+        public void ShowFrame(int frame)
+        {
 
+        }
         public void ShowFrame(IFrame frame)
         {
+            
             Marker.CurrentFrame = frame;
-            Marker.Window.Image = Marker.CurrentFrame.Image;
-            ((ElementControllerFrame)GetElementController(ElementControllerType.Frame)).SetFrameState(Marker.CurrentFrame.State);
+            GetViewBox().Image = Marker.CurrentFrame.Image;
+                
+            ((ElementControllerFrame)GetElementController(ElementControllerType.Frame))
+            .SetFrameState(Marker.CurrentFrame.State);
+                        
         }
-
         public void ChangePlaySpeed(int speed)
         {
-            Marker.Timer.Interval = speed;
+            GetPlayTimer().Interval = speed;
+        }
+        private Timer GetPlayTimer ()
+        {
+            return ((ElementControllerTimer)GetElementController(ElementControllerType.Timer))
+                   .GetTimer(ElementName.playTimer);
+        }
+        private PictureBox GetViewBox()
+        {
+            return ((ElementControllerImage)GetElementController(ElementControllerType.Window))
+                   .GetPictureBox(ElementName.ViewBox);
         }
     }
 }
