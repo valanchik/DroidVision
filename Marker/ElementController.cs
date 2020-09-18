@@ -131,19 +131,6 @@ namespace YoloDetection.Marker
     class ElementControllerImage : ElementController
     {
         public ElementControllerImage() : base() { }
-        public override IElementController Add(ElementName name, PictureBox val)
-        {
-            base.Add(name, val);
-            val.MouseDown += (object sender, MouseEventArgs e) =>
-            {
-                Console.WriteLine(e.Location);
-            };
-            val.MouseUp += (object sender, MouseEventArgs e) =>
-            {
-                Console.WriteLine(e.Location);
-            };
-            return this;
-        }
     }
     class ElementControllerTimer : ElementController
     {

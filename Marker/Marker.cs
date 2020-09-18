@@ -46,6 +46,7 @@ namespace YoloDetection.Marker
             FilePath = path;
             MJPEGParser mjpegParser = new MJPEGParser();
             int frameId = 1;
+            Data.Clear();
             using (Stream source = File.OpenRead(FilePath))
             {
                 byte[] buffer = new byte[2048];

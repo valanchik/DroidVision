@@ -856,13 +856,12 @@
             // 
             // imageViewer
             // 
-            this.imageViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.imageViewer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.imageViewer.Location = new System.Drawing.Point(0, 0);
+            this.imageViewer.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.imageViewer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.imageViewer.Location = new System.Drawing.Point(72, 48);
             this.imageViewer.Name = "imageViewer";
-            this.imageViewer.Size = new System.Drawing.Size(1062, 567);
+            this.imageViewer.Size = new System.Drawing.Size(902, 471);
+            this.imageViewer.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.imageViewer.TabIndex = 23;
             this.imageViewer.TabStop = false;
             // 
@@ -1158,6 +1157,7 @@
             this.groupBox2.PerformLayout();
             this.groupBox7.ResumeLayout(false);
             this.ImageViewerWraper.ResumeLayout(false);
+            this.ImageViewerWraper.PerformLayout();
             this.ResumeLayout(false);
 
         }

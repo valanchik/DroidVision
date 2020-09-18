@@ -9,11 +9,14 @@ namespace YoloDetection.Marker
 {
     interface IMediator
     {
+        RectController rectController { get; set; }
+
         IFrame GetCurrentFrame();
         IElementController GetElementController(ElementControllerType type);
         IMarker GetMarker();
         void ShowFrame(IFrame frame);
         void ChangePlaySpeed(int spped);
+        void SetPictureBoxToRectController(PictureBox pictureBox);
     }
     interface IMediatorSetter
     {
@@ -22,6 +25,7 @@ namespace YoloDetection.Marker
     }
     class MarkerMediator : IMediator
     {
+        public RectController rectController { get; set; }
         private IMarker Marker;
         private Dictionary<ElementControllerType, IElementController> ElementControllers;
         public MarkerMediator(IMarker marker, Dictionary<ElementControllerType, IElementController> elementControllers)
@@ -33,10 +37,7 @@ namespace YoloDetection.Marker
             {
                 entry.Value.SetMediator(this);
             }
-        }
-        public void AddElementController()
-        {
-
+            SetPictureBoxToRectController(GetViewBox());
         }
         public IMarker GetMarker()
         {
@@ -49,10 +50,6 @@ namespace YoloDetection.Marker
         public IElementController GetElementController(ElementControllerType type)
         {
             return ElementControllers[type];
-        }
-        public void ShowFrame(int frame)
-        {
-
         }
         public void ShowFrame(IFrame frame)
         {
@@ -68,6 +65,12 @@ namespace YoloDetection.Marker
         {
             GetPlayTimer().Interval = speed;
         }
+        public void SetPictureBoxToRectController(PictureBox pictureBox)
+        {
+            if (pictureBox == null) return;
+
+            rectController = new RectController(pictureBox);
+        }
         private Timer GetPlayTimer ()
         {
             return ((ElementControllerTimer)GetElementController(ElementControllerType.Timer))
@@ -78,5 +81,7 @@ namespace YoloDetection.Marker
             return ((ElementControllerImage)GetElementController(ElementControllerType.Window))
                    .GetPictureBox(ElementName.ViewBox);
         }
+
+        
     }
 }
