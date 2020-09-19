@@ -7,28 +7,28 @@ using System.Threading.Tasks;
 namespace YoloDetection.Marker
 {
     
-    interface IStateElement
+    public interface IStateElement
     {
         string Text { get; set; }
         bool Checked { get; set; }
         int Value { get; set; }
     }
-    class StateElement : IStateElement
+    public class StateElement : IStateElement
     {
         public string Text { get; set; }
         public int Value { get; set; }
         public bool Checked { get; set; }
     }
-    class StateElementText : StateElement
+    public class StateElementText : StateElement
     {
     }
-    class StateElementBool : StateElement
+    public class StateElementBool : StateElement
     {
     }
-    class StateElementInt : StateElement
+    public class StateElementInt : StateElement
     {
     }
-    class FrameState
+    public class FrameState
     {
         public Dictionary<ElementName, IStateElement> States = new Dictionary<ElementName, IStateElement>();
         public bool GetBoolState(ElementName name)

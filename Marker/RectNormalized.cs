@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace YoloDetection.Marker
 {
-    interface IControlPoint
+    public interface IControlPoint
     {
         Point Point { get; set; }
         int Size { get; set; }
@@ -27,20 +27,24 @@ namespace YoloDetection.Marker
             Size = size;
             Rect = rect;
         }
+        public bool Contains(Point point)
+        {
+            return Rect.Contains(point);
+        }
     }
     interface IRectNormalized
     {
         Vector2 Start { get; set; }
         Vector2 End { get; set; }
-        List<ControlPoint> ControlPoints { get; set; }
+        List<IControlPoint> ControlPoints { get; set; }
     }
     public class RectNormalized: IRectNormalized
     {
         public Vector2 Start { get; set; }
         public Vector2 End { get; set; }
-        public List<ControlPoint> ControlPoints { get; set; }
-        public RectNormalized() : this(new Vector2(), new Vector2(), new List<ControlPoint>()) { }
-        public RectNormalized(Vector2 start, Vector2 end, List<ControlPoint> controlPoints)
+        public List<IControlPoint> ControlPoints { get; set; }
+        public RectNormalized() : this(new Vector2(), new Vector2(), new List<IControlPoint>()) { }
+        public RectNormalized(Vector2 start, Vector2 end, List<IControlPoint> controlPoints)
         {
             Start = start;
             End = end;

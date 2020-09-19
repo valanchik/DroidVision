@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace YoloDetection.Marker
 {
-    enum ElementName
+    public enum ElementName
     {
         FrameId,
         InBookmarks,
@@ -28,7 +28,7 @@ namespace YoloDetection.Marker
         Float,
         Image
     }
-    interface IElementController: IMediatorSetter
+    public interface IElementController: IMediatorSetter
     {
         
         IElementController Add(ElementName name, CheckBox val);

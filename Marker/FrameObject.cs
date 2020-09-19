@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace YoloDetection.Marker
 {
-    interface IFrameObject
+    public interface IFrameObject
     {
         int Id { get; set; }
         string Name { get; set; }
         RectNormalized Rect { get; set; }
     }
-    struct FrameObject: IFrameObject
+    public struct FrameObject: IFrameObject
     {
         public int Id { get; set; }
         public string Name { get; set; }

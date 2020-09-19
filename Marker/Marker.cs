@@ -19,7 +19,7 @@ namespace YoloDetection.Marker
     }
 
     
-    interface IMarker: IMediatorSetter
+    public interface IMarker: IMediatorSetter
     {
         IFrame CurrentFrame { get; set; }
         void Load(string path);
@@ -28,7 +28,7 @@ namespace YoloDetection.Marker
         bool ShowFrame(int frame);
         bool ShowFrame(IFrame frame);
     }
-    class Marker: IMarker
+    public class Marker: IMarker
     {
         private  ImageConverter imgConverter = new ImageConverter();
         private List<IFrame> Data = new List<IFrame>();

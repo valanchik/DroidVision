@@ -7,27 +7,28 @@ using System.Windows.Forms;
 
 namespace YoloDetection.Marker
 {
-    interface IMediator
+    public interface IMediator
     {
         RectController rectController { get; set; }
-
+        IViewBoxControler ViewBoxController { get; set; }
         IFrame GetCurrentFrame();
         IElementController GetElementController(ElementControllerType type);
         IMarker GetMarker();
         void ShowFrame(IFrame frame);
         void ChangePlaySpeed(int spped);
-        void SetPictureBoxToRectController(PictureBox pictureBox);
+        void AddFrameObjectToCurrentFrame(IFrameObject frameObject);
     }
-    interface IMediatorSetter
+    public interface IMediatorSetter
     {
         IMediator Mediator { get; set; }
         void SetMediator(IMediator mediator);
     }
-    class MarkerMediator : IMediator
+    public class MarkerMediator : IMediator
     {
         public RectController rectController { get; set; }
         private IMarker Marker;
         private Dictionary<ElementControllerType, IElementController> ElementControllers;
+        public IViewBoxControler ViewBoxController { get; set; }
         public MarkerMediator(IMarker marker, Dictionary<ElementControllerType, IElementController> elementControllers)
         {
             Marker = marker;
@@ -37,7 +38,8 @@ namespace YoloDetection.Marker
             {
                 entry.Value.SetMediator(this);
             }
-            SetPictureBoxToRectController(GetViewBox());
+            ViewBoxController = new ViewBoxController(GetViewBox());
+            ViewBoxController.SetMediator(this);
         }
         public IMarker GetMarker()
         {
@@ -55,7 +57,8 @@ namespace YoloDetection.Marker
         {
             
             Marker.CurrentFrame = frame;
-            GetViewBox().Image = Marker.CurrentFrame.Image;
+            
+            ViewBoxController.SetImage(Marker.CurrentFrame.Image);
                 
             ((ElementControllerFrame)GetElementController(ElementControllerType.Frame))
             .SetFrameState(Marker.CurrentFrame.State);
@@ -64,12 +67,6 @@ namespace YoloDetection.Marker
         public void ChangePlaySpeed(int speed)
         {
             GetPlayTimer().Interval = speed;
-        }
-        public void SetPictureBoxToRectController(PictureBox pictureBox)
-        {
-            if (pictureBox == null) return;
-
-            rectController = new RectController(pictureBox);
         }
         private Timer GetPlayTimer ()
         {
@@ -81,7 +78,9 @@ namespace YoloDetection.Marker
             return ((ElementControllerImage)GetElementController(ElementControllerType.Window))
                    .GetPictureBox(ElementName.ViewBox);
         }
-
-        
+        public void AddFrameObjectToCurrentFrame(IFrameObject frameObject)
+        {
+            Marker?.CurrentFrame?.Objects.Add(frameObject);
+        }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace YoloDetection.Marker
 {
-    interface IFrame
+    public interface IFrame
     {
         Image Image { get; set; }
         int FrameId { get; set; }
@@ -16,7 +16,7 @@ namespace YoloDetection.Marker
         bool IsEmpty();
     }
 
-    class Frame : IFrame
+    public class Frame : IFrame
     {
         public Image Image { get; set; }
         public int FrameId { get; set; }

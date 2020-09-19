@@ -6,63 +6,84 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static YoloDetection.Marker.RectController;
 
 namespace YoloDetection.Marker
 {
-    
-    interface IRectController
+    public interface IRectController
     {
-        
         PictureBox PictureBox { get; set; }
-
+        event FrameObjectEvent OnNewFrameObject;
         void Draw(IFrameObject frameObject);
         void SetFrameObjectList(List<IFrameObject> list);
     }
-    class RectController : IRectController
+    public class RectController : IRectController
     {
-        
-        private PictureBox _pictureBox { get; set; }
+        public delegate void FrameObjectEvent(IFrameObject frameObject);
+        public event FrameObjectEvent OnNewFrameObject;
+        //private PictureBox _pictureBox { get; set; }
         private List<IFrameObject> FrameObjectList { get; set; }
         private Image originImage;
         private Size imageSize = new Size();
         private Vector2 startPoint = new Vector2();
         private Vector2 endPoint = new Vector2();
         private bool Drawing = false;
+        private IViewBoxControler ViewBoxController { get; set; }
         public PictureBox PictureBox { 
             get {
-                return _pictureBox;
+                return ViewBoxController.PictureBox;
             }
             set {
-                _pictureBox = value;
-                _pictureBox.MouseDown += MouseDown;
-                _pictureBox.MouseUp +=  MouseUp;
-                _pictureBox.MouseMove +=  Move;
-                _pictureBox.Resize += Resize;
-                _pictureBox.MouseWheel += Resize;
-                imageSize = _pictureBox.Size;
+                ViewBoxController.PictureBox = value;
+                ViewBoxController.PictureBox.MouseDown += MouseDown;
+                ViewBoxController.PictureBox.MouseUp +=  MouseUp;
+                ViewBoxController.PictureBox.MouseMove +=  Move;
+                ViewBoxController.PictureBox.Resize += Resize;
+                ViewBoxController.PictureBox.MouseWheel += Resize;
+                imageSize = ViewBoxController.PictureBox.Size;
             } }
-        public RectController(PictureBox pictureBox) : this(pictureBox, new List<IFrameObject>()) { }
-        public RectController(PictureBox pictureBox, List<IFrameObject> frameObjectList)
+        public RectController(IViewBoxControler viewBoxController) : this(viewBoxController, new List<IFrameObject>()) { }
+        public RectController(IViewBoxControler viewBoxController, List<IFrameObject> frameObjectList)
         {
-            PictureBox = pictureBox;
+            ViewBoxController = viewBoxController;
+            ViewBoxController.OnChangeImage += (Image image) =>
+            {
+                originImage = (Image)image?.Clone();
+            };
+            PictureBox = ViewBoxController.PictureBox;
             SetFrameObjectList(frameObjectList);
         }
         private void MouseDown(object sender, MouseEventArgs e)
         {
-            startPoint = ConverPointToVector2(e.Location);
-            if (originImage != null)
+           if (e.Button == MouseButtons.Left)
             {
-                PictureBox.Image = (Image)originImage.Clone();
-            } else
-            {
-                originImage = (Image)PictureBox.Image.Clone();
+                MouseLeftDown(sender, e);
             }
+        }
+        private void MouseLeftDown(object sender, MouseEventArgs e)
+        {
+            Clear();
+            startPoint = ConverPointToVector2(e.Location);
             Drawing = true;
+        }
+        private void Clear()
+        {
+            PictureBox.Image = (Image)originImage?.Clone();
         }
         private void MouseUp(object sender, MouseEventArgs e)
         {
+            if (e.Button == MouseButtons.Left)
+            {
+                MouseLeftUp(sender, e);
+            }
+        }
+        private void MouseLeftUp(object sender, MouseEventArgs e)
+        {
             Drawing = false;
             endPoint = ConverPointToVector2(e.Location);
+            IFrameObject frameObject = new FrameObject();
+            frameObject.Rect = new RectNormalized(startPoint, endPoint, new List<IControlPoint>());
+            OnNewFrameObject?.Invoke(frameObject);
             Draw();
         }
         private void Move(object sender, MouseEventArgs e)
@@ -87,7 +108,7 @@ namespace YoloDetection.Marker
         private void Draw()
         {
             if (PictureBox.Image == null) return;
-            if (originImage != null) PictureBox.Image = (Image)originImage.Clone();
+            Clear();
             foreach(IFrameObject fo in FrameObjectList)
             {
                 Draw(fo);
@@ -95,7 +116,6 @@ namespace YoloDetection.Marker
             FrameObject obj = new FrameObject();
             obj.Rect = new RectNormalized() { Start = startPoint, End = endPoint };
             Draw(obj);
-            
         }
         public void Draw(IFrameObject frameObject)
         {

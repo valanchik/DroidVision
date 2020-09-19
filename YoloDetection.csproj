@@ -162,6 +162,7 @@
     <Compile Include="Marker\FrameObject.cs" />
     <Compile Include="Marker\RectController.cs" />
     <Compile Include="Marker\RectNormalized.cs" />
+    <Compile Include="Marker\ViewBoxController.cs" />
     <Compile Include="MJPEGParser.cs" />
     <Compile Include="MJPEGWriter.cs" />
     <Compile Include="MoveLimitter.cs" />
