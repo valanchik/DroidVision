@@ -9,12 +9,20 @@ using System.Windows.Forms;
 
 namespace YoloDetection.Marker
 {
+    public struct RectNormalized
+    {
+        public Vector2 start;
+        public Vector2 end;
+    }
     interface IRectController
     {
         PictureBox PictureBox { get; set; }
+
+        void Draw(IFrameObject frameObject);
     }
     class RectController : IRectController
     {
+        
         private PictureBox _pictureBox { get; set; }
         private Image originImage;
         private Rectangle rect = new Rectangle();
@@ -80,21 +88,20 @@ namespace YoloDetection.Marker
         {
             if (PictureBox.Image == null) return;
             if (originImage != null) PictureBox.Image = (Image)originImage.Clone();
+            FrameObject obj = new FrameObject();
+            obj.Rect = new RectNormalized() { start = startPoint, end = endPoint };
+            Draw(obj);
+            
+        }
+        public void Draw(IFrameObject frameObject)
+        {
             using (Pen pen = new Pen(Color.Red, 2))
             using (Graphics G = Graphics.FromImage(PictureBox.Image))
             {
-                
-                Point start = ConverVector2ToPoint(startPoint);
-                Point end = ConverVector2ToPoint(endPoint);
+                Point start = ConverVector2ToPoint(frameObject.Rect.start);
+                Point end = ConverVector2ToPoint(frameObject.Rect.end);
                 Rectangle rect = GetRectangleFromPoints(start, end);
-                if ((rect.X+rect.Width)>=imageSize.Width)
-                {
-                    rect.Width = imageSize.Width-rect.X;
-                }
-                if ((rect.Y + rect.Height) >= imageSize.Height)
-                {
-                    rect.Height = imageSize.Height - rect.Y;
-                }
+                rect = GetStrictedRectangle(rect);
                 G.DrawRectangle(pen, rect);
                 PictureBox.Refresh();
             }
@@ -113,6 +120,19 @@ namespace YoloDetection.Marker
             tmp.Y = (int)(vector.Y * imageSize.Height);
             return tmp;
         }
+        private Rectangle GetStrictedRectangle(Rectangle rect)
+        {
+            if ((rect.X + rect.Width) >= imageSize.Width)
+            {
+                rect.Width = imageSize.Width - rect.X;
+            }
+            if ((rect.Y + rect.Height) >= imageSize.Height)
+            {
+                rect.Height = imageSize.Height - rect.Y;
+            }
+            return rect;
+        }
+        private Rectangle GetRectangleFromRectNormalized(RectNormalized rect) => GetRectangleFromPoints(ConverVector2ToPoint(rect.start), ConverVector2ToPoint(rect.end));
         private Rectangle GetRectangleFromPoints(Point start, Point end)
         {
             int X = start.X, 
@@ -125,5 +145,6 @@ namespace YoloDetection.Marker
             Rectangle rect = new Rectangle(X,Y,Width,Height);
             return rect;
         }
+        
     }
 }
