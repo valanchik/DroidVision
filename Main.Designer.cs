@@ -858,7 +858,7 @@
             // 
             this.imageViewer.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.imageViewer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.imageViewer.Location = new System.Drawing.Point(72, 48);
+            this.imageViewer.Location = new System.Drawing.Point(81, 61);
             this.imageViewer.Name = "imageViewer";
             this.imageViewer.Size = new System.Drawing.Size(902, 471);
             this.imageViewer.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;

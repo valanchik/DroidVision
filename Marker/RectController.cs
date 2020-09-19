@@ -32,6 +32,7 @@ namespace YoloDetection.Marker
                 _pictureBox.MouseUp +=  MouseUp;
                 _pictureBox.MouseMove +=  Move;
                 _pictureBox.Resize += Resize;
+                _pictureBox.MouseWheel += Resize;
                 imageSize = _pictureBox.Size;
             } }
         public RectController(PictureBox pictureBox)
@@ -63,12 +64,15 @@ namespace YoloDetection.Marker
                 endPoint = ConverPointToVector2(e.Location);
                 Draw();
             }
+        }
+        private void MouseWheel(object sender, MouseEventArgs e)
+        {
             
         }
         private void Resize(object sender, EventArgs e)
         {
             
-            imageSize = PictureBox.Size;
+            imageSize = PictureBox.ClientSize;
             
             if (Drawing) Draw();
         }
@@ -76,19 +80,24 @@ namespace YoloDetection.Marker
         {
             if (PictureBox.Image == null) return;
             if (originImage != null) PictureBox.Image = (Image)originImage.Clone();
-
             using (Pen pen = new Pen(Color.Red, 2))
             using (Graphics G = Graphics.FromImage(PictureBox.Image))
             {
                 
                 Point start = ConverVector2ToPoint(startPoint);
                 Point end = ConverVector2ToPoint(endPoint);
-                
-                G.DrawRectangle(pen, GetRectangleFromPoints(start, end));
+                Rectangle rect = GetRectangleFromPoints(start, end);
+                if ((rect.X+rect.Width)>=imageSize.Width)
+                {
+                    rect.Width = imageSize.Width-rect.X;
+                }
+                if ((rect.Y + rect.Height) >= imageSize.Height)
+                {
+                    rect.Height = imageSize.Height - rect.Y;
+                }
+                G.DrawRectangle(pen, rect);
                 PictureBox.Refresh();
             }
-            
-
         }
         private Vector2 ConverPointToVector2(Point point)
         {
