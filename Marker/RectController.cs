@@ -16,16 +16,18 @@ namespace YoloDetection.Marker
     }
     interface IRectController
     {
+        
         PictureBox PictureBox { get; set; }
 
         void Draw(IFrameObject frameObject);
+        void SetFrameObjectList(List<IFrameObject> list);
     }
     class RectController : IRectController
     {
         
         private PictureBox _pictureBox { get; set; }
+        private List<IFrameObject> FrameObjectList { get; set; }
         private Image originImage;
-        private Rectangle rect = new Rectangle();
         private Size imageSize = new Size();
         private Vector2 startPoint = new Vector2();
         private Vector2 endPoint = new Vector2();
@@ -43,9 +45,11 @@ namespace YoloDetection.Marker
                 _pictureBox.MouseWheel += Resize;
                 imageSize = _pictureBox.Size;
             } }
-        public RectController(PictureBox pictureBox)
+        public RectController(PictureBox pictureBox) : this(pictureBox, new List<IFrameObject>()) { }
+        public RectController(PictureBox pictureBox, List<IFrameObject> frameObjectList)
         {
             PictureBox = pictureBox;
+            SetFrameObjectList(frameObjectList);
         }
         private void MouseDown(object sender, MouseEventArgs e)
         {
@@ -145,6 +149,10 @@ namespace YoloDetection.Marker
             Rectangle rect = new Rectangle(X,Y,Width,Height);
             return rect;
         }
-        
+
+        public void SetFrameObjectList(List<IFrameObject> list)
+        {
+            FrameObjectList = list;
+        }
     }
 }
