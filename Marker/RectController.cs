@@ -9,11 +9,7 @@ using System.Windows.Forms;
 
 namespace YoloDetection.Marker
 {
-    public struct RectNormalized
-    {
-        public Vector2 start;
-        public Vector2 end;
-    }
+    
     interface IRectController
     {
         
@@ -92,8 +88,12 @@ namespace YoloDetection.Marker
         {
             if (PictureBox.Image == null) return;
             if (originImage != null) PictureBox.Image = (Image)originImage.Clone();
+            foreach(IFrameObject fo in FrameObjectList)
+            {
+                Draw(fo);
+            }
             FrameObject obj = new FrameObject();
-            obj.Rect = new RectNormalized() { start = startPoint, end = endPoint };
+            obj.Rect = new RectNormalized() { Start = startPoint, End = endPoint };
             Draw(obj);
             
         }
@@ -102,8 +102,8 @@ namespace YoloDetection.Marker
             using (Pen pen = new Pen(Color.Red, 2))
             using (Graphics G = Graphics.FromImage(PictureBox.Image))
             {
-                Point start = ConverVector2ToPoint(frameObject.Rect.start);
-                Point end = ConverVector2ToPoint(frameObject.Rect.end);
+                Point start = ConverVector2ToPoint(frameObject.Rect.Start);
+                Point end = ConverVector2ToPoint(frameObject.Rect.End);
                 Rectangle rect = GetRectangleFromPoints(start, end);
                 rect = GetStrictedRectangle(rect);
                 G.DrawRectangle(pen, rect);
@@ -136,7 +136,7 @@ namespace YoloDetection.Marker
             }
             return rect;
         }
-        private Rectangle GetRectangleFromRectNormalized(RectNormalized rect) => GetRectangleFromPoints(ConverVector2ToPoint(rect.start), ConverVector2ToPoint(rect.end));
+        private Rectangle GetRectangleFromRectNormalized(RectNormalized rect) => GetRectangleFromPoints(ConverVector2ToPoint(rect.Start), ConverVector2ToPoint(rect.End));
         private Rectangle GetRectangleFromPoints(Point start, Point end)
         {
             int X = start.X, 
