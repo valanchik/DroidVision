@@ -80,7 +80,13 @@ namespace YoloDetection.Marker
         }
         public void AddFrameObjectToCurrentFrame(IFrameObject frameObject)
         {
-            Marker?.CurrentFrame?.Objects.Add(frameObject);
+            
+            if (Marker.CurrentFrame != null)
+            {
+                Marker.CurrentFrame.Objects.Add(frameObject);
+                ViewBoxController.RectController.SetFrameObjectList(Marker.CurrentFrame.Objects);
+            }
+            
         }
     }
 }

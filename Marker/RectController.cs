@@ -25,8 +25,8 @@ namespace YoloDetection.Marker
         private List<IFrameObject> FrameObjectList { get; set; }
         private Image originImage;
         private Size imageSize = new Size();
-        private Vector2 startPoint = new Vector2();
-        private Vector2 endPoint = new Vector2();
+        private PointF startPoint = new PointF();
+        private PointF endPoint = new PointF();
         private bool Drawing = false;
         private IViewBoxControler ViewBoxController { get; set; }
         public PictureBox PictureBox { 
@@ -63,7 +63,7 @@ namespace YoloDetection.Marker
         private void MouseLeftDown(object sender, MouseEventArgs e)
         {
             Clear();
-            startPoint = ConverPointToVector2(e.Location);
+            startPoint = ConverPointToPointF(e.Location);
             Drawing = true;
         }
         private void Clear()
@@ -80,7 +80,7 @@ namespace YoloDetection.Marker
         private void MouseLeftUp(object sender, MouseEventArgs e)
         {
             Drawing = false;
-            endPoint = ConverPointToVector2(e.Location);
+            endPoint = ConverPointToPointF(e.Location);
             IFrameObject frameObject = new FrameObject();
             frameObject.Rect = new RectNormalized(startPoint, endPoint, new List<IControlPoint>());
             OnNewFrameObject?.Invoke(frameObject);
@@ -88,11 +88,13 @@ namespace YoloDetection.Marker
         }
         private void Move(object sender, MouseEventArgs e)
         {
+            endPoint = ConverPointToPointF(e.Location);
+            
             if (Drawing)
             {
-                endPoint = ConverPointToVector2(e.Location);
                 Draw();
             }
+
         }
         private void MouseWheel(object sender, MouseEventArgs e)
         {
@@ -109,35 +111,49 @@ namespace YoloDetection.Marker
         {
             if (PictureBox.Image == null) return;
             Clear();
-            foreach(IFrameObject fo in FrameObjectList)
+            
+            if (Drawing)
             {
-                Draw(fo);
+                FrameObject obj = new FrameObject();
+                obj.Rect = new RectNormalized() { Start = startPoint, End = endPoint };
+                Draw(obj);
+            } else
+            {
+                foreach (IFrameObject fo in FrameObjectList)
+                {
+                    Draw(fo);
+                }
             }
-            FrameObject obj = new FrameObject();
-            obj.Rect = new RectNormalized() { Start = startPoint, End = endPoint };
-            Draw(obj);
+            
         }
         public void Draw(IFrameObject frameObject)
         {
             using (Pen pen = new Pen(Color.Red, 2))
+            using (Pen penElipse = new Pen(Color.White, 2))
             using (Graphics G = Graphics.FromImage(PictureBox.Image))
             {
-                Point start = ConverVector2ToPoint(frameObject.Rect.Start);
-                Point end = ConverVector2ToPoint(frameObject.Rect.End);
-                Rectangle rect = GetRectangleFromPoints(start, end);
+                Point leftTop = ConverPointFToPoint(frameObject.Rect.LeftTop);
+                Point rightBottom = ConverPointFToPoint(frameObject.Rect.RightBottom);
+                Point leftBotton = ConverPointFToPoint(frameObject.Rect.LeftBottom);
+                Point rightTop = ConverPointFToPoint(frameObject.Rect.RightTop);
+                Rectangle rect = new Rectangle().FromPoints(leftTop, rightBottom);
                 rect = GetStrictedRectangle(rect);
                 G.DrawRectangle(pen, rect);
+                G.DrawCircle(penElipse, leftTop, 5);
+                G.DrawCircle(penElipse, rightBottom, 5);
+                G.DrawCircle(penElipse, leftBotton, 5);
+                G.DrawCircle(penElipse, rightTop, 5);
                 PictureBox.Refresh();
             }
         }
-        private Vector2 ConverPointToVector2(Point point)
+        private PointF ConverPointToPointF(Point point)
         {
-            Vector2 tmp = new Vector2();
+            PointF tmp = new PointF();
             tmp.X = point.X>0? (float)point.X / (float)imageSize.Width: 0;
             tmp.Y = point.Y>0? (float)point.Y / (float)imageSize.Height: 0;
             return tmp;
         }
-        private Point ConverVector2ToPoint(Vector2 vector)
+        private Point ConverPointFToPoint(PointF vector)
         {
             Point tmp = new Point();
             tmp.X = (int)(vector.X * imageSize.Width);
@@ -156,7 +172,7 @@ namespace YoloDetection.Marker
             }
             return rect;
         }
-        private Rectangle GetRectangleFromRectNormalized(RectNormalized rect) => GetRectangleFromPoints(ConverVector2ToPoint(rect.Start), ConverVector2ToPoint(rect.End));
+        
         private Rectangle GetRectangleFromPoints(Point start, Point end)
         {
             int X = start.X, 

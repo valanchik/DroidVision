@@ -11,13 +11,13 @@ namespace YoloDetection.Marker
     {
         int Id { get; set; }
         string Name { get; set; }
-        RectNormalized Rect { get; set; }
+        IRectNormalized Rect { get; set; }
     }
     public struct FrameObject: IFrameObject
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public RectNormalized Rect { get; set; }
+        public IRectNormalized Rect { get; set; }
         public FrameObject(int id, string name, RectNormalized rect)
         {
             Id = id;

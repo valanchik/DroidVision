@@ -32,19 +32,34 @@ namespace YoloDetection.Marker
             return Rect.Contains(point);
         }
     }
-    interface IRectNormalized
+    public interface IRectNormalized
     {
-        Vector2 Start { get; set; }
-        Vector2 End { get; set; }
+        PointF Start { get; set; }
+        PointF End { get; set; }
+        PointF LeftTop { get; }
+        PointF LeftBottom { get;  }
+        PointF RightTop { get; }
+        PointF RightBottom { get; }
         List<IControlPoint> ControlPoints { get; set; }
     }
     public class RectNormalized: IRectNormalized
     {
-        public Vector2 Start { get; set; }
-        public Vector2 End { get; set; }
+        private PointF _LeftBottom;
+        private PointF _RightTop;
+        private PointF _End;
+        public PointF Start { get; set; }
+        public PointF End { get => _End; set {
+                _End = value;
+                _LeftBottom = new PointF(Start.X, _End.Y);
+                _RightTop = new PointF(_End.X,  Start.Y );
+            } }
+        public PointF LeftTop => Start;
+        public PointF LeftBottom => _LeftBottom;
+        public PointF RightTop => _RightTop;
+        public PointF RightBottom => End;
         public List<IControlPoint> ControlPoints { get; set; }
-        public RectNormalized() : this(new Vector2(), new Vector2(), new List<IControlPoint>()) { }
-        public RectNormalized(Vector2 start, Vector2 end, List<IControlPoint> controlPoints)
+        public RectNormalized() : this(new PointF(), new PointF(), new List<IControlPoint>()) { }
+        public RectNormalized(PointF start, PointF end, List<IControlPoint> controlPoints)
         {
             Start = start;
             End = end;

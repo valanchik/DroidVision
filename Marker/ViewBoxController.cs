@@ -13,6 +13,7 @@ namespace YoloDetection.Marker
     {
         event ImageHandler OnChangeImage;
         PictureBox PictureBox { get; set; }
+        IRectController RectController { get; set; }
         void SetImage(Image image);
         
     }
@@ -21,7 +22,7 @@ namespace YoloDetection.Marker
         public delegate void ImageHandler(Image image);
         public event ImageHandler OnChangeImage;
         public PictureBox PictureBox { get; set; }
-        private IRectController RectController { get; set; }
+        public IRectController RectController { get; set; }
         public IMediator Mediator { get; set; }
 
         public ViewBoxController(PictureBox pictureBox)
