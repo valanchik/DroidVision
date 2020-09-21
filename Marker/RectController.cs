@@ -34,7 +34,6 @@ namespace YoloDetection.Marker
                 ViewBoxController.PictureBox.MouseDown += MouseDown;
                 ViewBoxController.PictureBox.MouseUp += MouseUp;
                 ViewBoxController.PictureBox.MouseMove += Move;
-                ViewBoxController.PictureBox.Resize += Resize;
                 ViewBoxController.PictureBox.MouseWheel += MouseWheel;
                 
                 imageSize = ViewBoxController.PictureBox.Size;
@@ -55,6 +54,7 @@ namespace YoloDetection.Marker
             ViewBoxController.OnChangeImage += (Image image) =>
             {
                 originImage = (Image)image?.Clone();
+                Resize();
             };
             PictureBox = ViewBoxController.PictureBox;
             SetFrameObjectList(frameObjectList);
@@ -66,7 +66,8 @@ namespace YoloDetection.Marker
         private void MouseLeftDown(object sender, MouseEventArgs e)
         {
             Clear();
-            startPoint = ConverPointToPointF(e.Location);
+            Point newPoint = e.Location.Divide(ImageScale);
+            startPoint = ConverPointToPointF(newPoint);
             Drawing = true;
         }
         private void Clear()
@@ -80,7 +81,7 @@ namespace YoloDetection.Marker
         private void MouseLeftUp(object sender, MouseEventArgs e)
         {
             Drawing = false;
-            endPoint = ConverPointToPointF(e.Location);
+            endPoint = ConverPointToPointF(e.Location.Divide(ImageScale));
             IFrameObject frameObject = new FrameObject();
             frameObject.Rect = new RectNormalized(startPoint, endPoint, new List<IControlPoint>());
             OnNewFrameObject?.Invoke(frameObject);
@@ -88,36 +89,25 @@ namespace YoloDetection.Marker
         }
         private void Move(object sender, MouseEventArgs e)
         {
-            endPoint = ConverPointToPointF(e.Location);
+            endPoint = ConverPointToPointF(e.Location.Divide(ImageScale));
             if (Drawing)
             {
                 Draw();
             }
         }
         private void MouseWheel(object sender, MouseEventArgs e)
-        {
-
-            // The amount by which we adjust scale per wheel click.
+        {   
             const float scale_per_delta = 0.02F;
             float direct = e.Delta >= 0 ? 1 : -1;
-            // Update the drawing based upon the mouse wheel scrolling.
             ImageScale += scale_per_delta * direct;
             if (ImageScale < 0) ImageScale = 0;
-
-            // Size the image.
+            Resize();
+        }
+        private void Resize()
+        {
             PictureBox.Size = new Size(
                 (int)(PictureBox.Image.Size.Width * ImageScale),
                 (int)(PictureBox.Image.Size.Height * ImageScale));
-
-            /*if (e.Delta > 0 ) 
-                PictureBox.Size = new Size((int)(PictureBox.Size.Width + (10 * coef)), PictureBox.Size.Height + 10);
-            if (e.Delta < 0 && PictureBox.Size.Width > 200 && PictureBox.Size.Height > 200) 
-                PictureBox.Size = new Size((int)(PictureBox.Size.Width - (10 * coef)), PictureBox.Size.Height - 10);*/
-
-        }
-        private void Resize(object sender, EventArgs e)
-        {
-            imageSize = PictureBox.Size;
             if (Drawing) Draw();
         }
         public void Draw()
@@ -160,8 +150,8 @@ namespace YoloDetection.Marker
         private PointF ConverPointToPointF(Point point)
         {
             PointF tmp = new PointF();
-            tmp.X = point.X>0? (float)point.X / (float)imageSize.Width: 0;
-            tmp.Y = point.Y>0? (float)point.Y / (float)imageSize.Height: 0;
+            tmp.X = point.X>0? (point.X / (float)imageSize.Width): 0;
+            tmp.Y = point.Y>0? (point.Y / (float)imageSize.Height): 0;
             return tmp;
         }
         private Point ConverPointFToPoint(PointF vector)

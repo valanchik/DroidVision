@@ -49,6 +49,9 @@ namespace YoloDetection
         {
             g.FillEllipse(brush, new RectangleF(new PointF(point.X - (float)(radius / 2), point.Y - (float)(radius / 2)), new Size(radius, radius)));
         }
-
+        public static Point Divide(this Point point, float value)
+        {
+            return new Point((int)(point.X / value), (int)(point.Y / value));
+        }
     }
 }
