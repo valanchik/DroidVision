@@ -14,6 +14,7 @@ namespace YoloDetection.Marker
     {
         PictureBox PictureBox { get; set; }
         event FrameObjectEvent OnNewFrameObject;
+        void Draw();
         void Draw(IFrameObject frameObject);
         void SetFrameObjectList(List<IFrameObject> list);
     }
@@ -107,7 +108,7 @@ namespace YoloDetection.Marker
             
             if (Drawing) Draw();
         }
-        private void Draw()
+        public void Draw()
         {
             if (PictureBox.Image == null) return;
             Clear();
@@ -128,8 +129,9 @@ namespace YoloDetection.Marker
         }
         public void Draw(IFrameObject frameObject)
         {
-            using (Pen pen = new Pen(Color.Red, 2))
-            using (Pen penElipse = new Pen(Color.White, 2))
+            using (Pen pen = new Pen(Color.Red, 1))
+            using (SolidBrush brushRect = new SolidBrush(Color.FromArgb(100, Color.Red)))
+            using (SolidBrush brushElipse = new SolidBrush(Color.FromArgb(200, Color.White)))
             using (Graphics G = Graphics.FromImage(PictureBox.Image))
             {
                 Point leftTop = ConverPointFToPoint(frameObject.Rect.LeftTop);
@@ -139,10 +141,12 @@ namespace YoloDetection.Marker
                 Rectangle rect = new Rectangle().FromPoints(leftTop, rightBottom);
                 rect = GetStrictedRectangle(rect);
                 G.DrawRectangle(pen, rect);
-                G.DrawCircle(penElipse, leftTop, 5);
-                G.DrawCircle(penElipse, rightBottom, 5);
-                G.DrawCircle(penElipse, leftBotton, 5);
-                G.DrawCircle(penElipse, rightTop, 5);
+                G.FillRectangle(brushRect, rect);
+                int radius = 6;
+                G.FillCircle(brushElipse, leftTop, radius);
+                G.FillCircle(brushElipse, rightBottom, radius);
+                G.FillCircle(brushElipse, leftBotton, radius);
+                G.FillCircle(brushElipse, rightTop, radius);
                 PictureBox.Refresh();
             }
         }

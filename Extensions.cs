@@ -45,6 +45,10 @@ namespace YoloDetection
         {
             g.DrawEllipse(pen, new RectangleF(new Point(point.X-(radius/2), point.Y-(radius/2)), new Size(radius, radius)));
         }
+        public static void FillCircle(this Graphics g, SolidBrush brush, Point point, int radius)
+        {
+            g.FillEllipse(brush, new RectangleF(new PointF(point.X - (float)(radius / 2), point.Y - (float)(radius / 2)), new Size(radius, radius)));
+        }
 
     }
 }

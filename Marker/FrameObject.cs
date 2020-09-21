@@ -12,17 +12,33 @@ namespace YoloDetection.Marker
         int Id { get; set; }
         string Name { get; set; }
         IRectNormalized Rect { get; set; }
+        SolidBrush FillRectBrush { get; set; }
+        Color BaseColor { get; set; }
+        Color BorderColor { get; set; }
+        byte RectTransparent { get; set; }
+        byte BorderTransparent { get; set; }
     }
     public struct FrameObject: IFrameObject
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public IRectNormalized Rect { get; set; }
+        public Color BaseColor { get; set; }
+        public Color BorderColor { get; set; }
+        public SolidBrush FillRectBrush { get; set; }
+        public byte RectTransparent { get; set; }
+        public byte BorderTransparent { get; set; }
         public FrameObject(int id, string name, RectNormalized rect)
         {
             Id = id;
             Name = name;
             Rect = rect;
+            RectTransparent = 0;
+            BorderTransparent = 0;
+            BaseColor = Color.Red;
+            BorderColor = Color.FromArgb(BorderTransparent, BaseColor);
+            FillRectBrush = new SolidBrush(Color.FromArgb(RectTransparent, BaseColor));
+
         }
     }
 }
