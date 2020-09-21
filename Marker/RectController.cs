@@ -50,11 +50,12 @@ namespace YoloDetection.Marker
         public RectController(IViewBoxControler viewBoxController) : this(viewBoxController, new List<IFrameObject>()) { }
         public RectController(IViewBoxControler viewBoxController, List<IFrameObject> frameObjectList)
         {
+            
             ViewBoxController = viewBoxController;
             ViewBoxController.OnChangeImage += (Image image) =>
             {
                 originImage = (Image)image?.Clone();
-                Resize();
+                //Resize();
             };
             PictureBox = ViewBoxController.PictureBox;
             SetFrameObjectList(frameObjectList);

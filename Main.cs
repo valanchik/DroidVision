@@ -76,7 +76,11 @@ namespace YoloDetection
         {
 
             InitializeComponent();
-            
+            this.SetStyle(
+                ControlStyles.AllPaintingInWmPaint |
+                ControlStyles.UserPaint |
+                ControlStyles.DoubleBuffer,
+            true);
             Dictionary<ElementControllerType, IElementController> ElementControllers = new Dictionary<ElementControllerType, IElementController>();
 
             IElementController ecCommon = new ElementControllerCommon()
