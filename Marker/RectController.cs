@@ -22,7 +22,25 @@ namespace YoloDetection.Marker
     {
         public delegate void FrameObjectEvent(IFrameObject frameObject);
         public event FrameObjectEvent OnNewFrameObject;
-        //private PictureBox _pictureBox { get; set; }
+        public PictureBox PictureBox
+        {
+            get
+            {
+                return ViewBoxController.PictureBox;
+            }
+            set
+            {
+                ViewBoxController.PictureBox = value;
+                ViewBoxController.PictureBox.MouseDown += MouseDown;
+                ViewBoxController.PictureBox.MouseUp += MouseUp;
+                ViewBoxController.PictureBox.MouseMove += Move;
+                ViewBoxController.PictureBox.Resize += Resize;
+                ViewBoxController.PictureBox.MouseWheel += MouseWheel;
+                
+                imageSize = ViewBoxController.PictureBox.Size;
+            }
+        }
+        private float ImageScale = 1;
         private List<IFrameObject> FrameObjectList { get; set; }
         private Image originImage;
         private Size imageSize = new Size();
@@ -30,19 +48,6 @@ namespace YoloDetection.Marker
         private PointF endPoint = new PointF();
         private bool Drawing = false;
         private IViewBoxControler ViewBoxController { get; set; }
-        public PictureBox PictureBox { 
-            get {
-                return ViewBoxController.PictureBox;
-            }
-            set {
-                ViewBoxController.PictureBox = value;
-                ViewBoxController.PictureBox.MouseDown += MouseDown;
-                ViewBoxController.PictureBox.MouseUp +=  MouseUp;
-                ViewBoxController.PictureBox.MouseMove +=  Move;
-                ViewBoxController.PictureBox.Resize += Resize;
-                ViewBoxController.PictureBox.MouseWheel += Resize;
-                imageSize = ViewBoxController.PictureBox.Size;
-            } }
         public RectController(IViewBoxControler viewBoxController) : this(viewBoxController, new List<IFrameObject>()) { }
         public RectController(IViewBoxControler viewBoxController, List<IFrameObject> frameObjectList)
         {
@@ -56,10 +61,7 @@ namespace YoloDetection.Marker
         }
         private void MouseDown(object sender, MouseEventArgs e)
         {
-           if (e.Button == MouseButtons.Left)
-            {
-                MouseLeftDown(sender, e);
-            }
+           if (e.Button == MouseButtons.Left) MouseLeftDown(sender, e);
         }
         private void MouseLeftDown(object sender, MouseEventArgs e)
         {
@@ -73,10 +75,7 @@ namespace YoloDetection.Marker
         }
         private void MouseUp(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
-            {
-                MouseLeftUp(sender, e);
-            }
+            if (e.Button == MouseButtons.Left) MouseLeftUp(sender, e);
         }
         private void MouseLeftUp(object sender, MouseEventArgs e)
         {
@@ -90,29 +89,41 @@ namespace YoloDetection.Marker
         private void Move(object sender, MouseEventArgs e)
         {
             endPoint = ConverPointToPointF(e.Location);
-            
             if (Drawing)
             {
                 Draw();
             }
-
         }
         private void MouseWheel(object sender, MouseEventArgs e)
         {
-            
+
+            // The amount by which we adjust scale per wheel click.
+            const float scale_per_delta = 0.02F;
+            float direct = e.Delta >= 0 ? 1 : -1;
+            // Update the drawing based upon the mouse wheel scrolling.
+            ImageScale += scale_per_delta * direct;
+            if (ImageScale < 0) ImageScale = 0;
+
+            // Size the image.
+            PictureBox.Size = new Size(
+                (int)(PictureBox.Image.Size.Width * ImageScale),
+                (int)(PictureBox.Image.Size.Height * ImageScale));
+
+            /*if (e.Delta > 0 ) 
+                PictureBox.Size = new Size((int)(PictureBox.Size.Width + (10 * coef)), PictureBox.Size.Height + 10);
+            if (e.Delta < 0 && PictureBox.Size.Width > 200 && PictureBox.Size.Height > 200) 
+                PictureBox.Size = new Size((int)(PictureBox.Size.Width - (10 * coef)), PictureBox.Size.Height - 10);*/
+
         }
         private void Resize(object sender, EventArgs e)
         {
-            
-            imageSize = PictureBox.ClientSize;
-            
+            imageSize = PictureBox.Size;
             if (Drawing) Draw();
         }
         public void Draw()
         {
             if (PictureBox.Image == null) return;
             Clear();
-            
             if (Drawing)
             {
                 FrameObject obj = new FrameObject();
@@ -120,12 +131,8 @@ namespace YoloDetection.Marker
                 Draw(obj);
             } else
             {
-                foreach (IFrameObject fo in FrameObjectList)
-                {
-                    Draw(fo);
-                }
+                foreach (IFrameObject fo in FrameObjectList) Draw(fo);
             }
-            
         }
         public void Draw(IFrameObject frameObject)
         {
@@ -166,30 +173,10 @@ namespace YoloDetection.Marker
         }
         private Rectangle GetStrictedRectangle(Rectangle rect)
         {
-            if ((rect.X + rect.Width) >= imageSize.Width)
-            {
-                rect.Width = imageSize.Width - rect.X;
-            }
-            if ((rect.Y + rect.Height) >= imageSize.Height)
-            {
-                rect.Height = imageSize.Height - rect.Y;
-            }
+            if ((rect.X + rect.Width) >= imageSize.Width) rect.Width = imageSize.Width - rect.X;
+            if ((rect.Y + rect.Height) >= imageSize.Height) rect.Height = imageSize.Height - rect.Y;
             return rect;
         }
-        
-        private Rectangle GetRectangleFromPoints(Point start, Point end)
-        {
-            int X = start.X, 
-                Y = start.Y,
-                Width = Math.Abs(start.X-end.X),
-                Height = Math.Abs(start.Y-end.Y);
-
-            if (start.X > end.X) X = end.X;
-            if (start.Y > end.Y) Y = end.Y;
-            Rectangle rect = new Rectangle(X,Y,Width,Height);
-            return rect;
-        }
-
         public void SetFrameObjectList(List<IFrameObject> list)
         {
             FrameObjectList = list;

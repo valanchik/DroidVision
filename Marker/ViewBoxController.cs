@@ -37,6 +37,8 @@ namespace YoloDetection.Marker
         public void SetImage(Image image)
         {
             PictureBox.Image = image;
+            PictureBox.SizeMode = PictureBoxSizeMode.AutoSize;
+            PictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
             OnChangeImage?.Invoke(PictureBox.Image);
         }
 
