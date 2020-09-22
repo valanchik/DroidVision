@@ -12,37 +12,22 @@ namespace YoloDetection.Marker
 {
     public interface IRectController
     {
-        PictureBox PictureBox { get; set; }
         event FrameObjectEvent OnNewFrameObject;
         void Draw();
         void Draw(IFrameObject frameObject);
+        void MouseLeftDown(object sender, MouseEventArgs e);
+        void MouseLeftUp(object sender, MouseEventArgs e);
+        void MouseWheel(object sender, MouseEventArgs e);
         void SetFrameObjectList(List<IFrameObject> list);
     }
     public class RectController : IRectController
     {
         public delegate void FrameObjectEvent(IFrameObject frameObject);
         public event FrameObjectEvent OnNewFrameObject;
-        public PictureBox PictureBox
-        {
-            get
-            {
-                return ViewBoxController.PictureBox;
-            }
-            set
-            {
-                ViewBoxController.PictureBox = value;
-                ViewBoxController.PictureBox.MouseDown += MouseDown;
-                ViewBoxController.PictureBox.MouseUp += MouseUp;
-                ViewBoxController.PictureBox.MouseMove += Move;
-                ViewBoxController.PictureBox.MouseWheel += MouseWheel;
-                
-                imageSize = ViewBoxController.PictureBox.Size;
-            }
-        }
-        private float ImageScale = 1;
+        
         private List<IFrameObject> FrameObjectList { get; set; }
         private Image originImage;
-        private Size imageSize = new Size();
+        
         private PointF startPoint = new PointF();
         private PointF endPoint = new PointF();
         private bool Drawing = false;
@@ -57,32 +42,18 @@ namespace YoloDetection.Marker
                 originImage = (Image)image?.Clone();
                 //Resize();
             };
-            PictureBox = ViewBoxController.PictureBox;
             SetFrameObjectList(frameObjectList);
         }
-        private void MouseDown(object sender, MouseEventArgs e)
+        public void MouseLeftDown(object sender, MouseEventArgs e)
         {
-           if (e.Button == MouseButtons.Left) MouseLeftDown(sender, e);
-        }
-        private void MouseLeftDown(object sender, MouseEventArgs e)
-        {
-            Clear();
-            Point newPoint = e.Location.Divide(ImageScale);
+            Point newPoint = e.Location.Divide(ViewBoxController.ImageScale);
             startPoint = ConverPointToPointF(newPoint);
             Drawing = true;
         }
-        private void Clear()
-        {
-            PictureBox.Image = (Image)originImage?.Clone();
-        }
-        private void MouseUp(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left) MouseLeftUp(sender, e);
-        }
-        private void MouseLeftUp(object sender, MouseEventArgs e)
+        public void MouseLeftUp(object sender, MouseEventArgs e)
         {
             Drawing = false;
-            endPoint = ConverPointToPointF(e.Location.Divide(ImageScale));
+            endPoint = ConverPointToPointF(e.Location.Divide(ViewBoxController.ImageScale));
             IFrameObject frameObject = new FrameObject();
             frameObject.Rect = new RectNormalized(startPoint, endPoint, new List<IControlPoint>());
             OnNewFrameObject?.Invoke(frameObject);
@@ -90,31 +61,24 @@ namespace YoloDetection.Marker
         }
         private void Move(object sender, MouseEventArgs e)
         {
-            endPoint = ConverPointToPointF(e.Location.Divide(ImageScale));
+            endPoint = ConverPointToPointF(e.Location.Divide(ViewBoxController.ImageScale));
             if (Drawing)
             {
                 Draw();
             }
         }
-        private void MouseWheel(object sender, MouseEventArgs e)
+        public void MouseWheel(object sender, MouseEventArgs e)
         {   
             const float scale_per_delta = 0.02F;
             float direct = e.Delta >= 0 ? 1 : -1;
-            ImageScale += scale_per_delta * direct;
-            if (ImageScale < 0) ImageScale = 0;
-            Resize();
+            ViewBoxController.ImageScale += scale_per_delta * direct;
+            if (ViewBoxController.ImageScale < 0) ViewBoxController.ImageScale = 0;
         }
-        private void Resize()
-        {
-            PictureBox.Size = new Size(
-                (int)(PictureBox.Image.Size.Width * ImageScale),
-                (int)(PictureBox.Image.Size.Height * ImageScale));
-            if (Drawing) Draw();
-        }
+        
         public void Draw()
         {
-            if (PictureBox.Image == null) return;
-            Clear();
+            if (ViewBoxController.ImageNotExists) return;
+            ViewBoxController.Clear();
             if (Drawing)
             {
                 FrameObject obj = new FrameObject();
@@ -130,7 +94,7 @@ namespace YoloDetection.Marker
             using (Pen pen = new Pen(Color.Red, 1))
             using (SolidBrush brushRect = new SolidBrush(Color.FromArgb(100, Color.Red)))
             using (SolidBrush brushElipse = new SolidBrush(Color.FromArgb(200, Color.White)))
-            using (Graphics G = Graphics.FromImage(PictureBox.Image))
+            using (Graphics G = Graphics.FromImage(ViewBoxController.Image))
             {
                 Point leftTop = ConverPointFToPoint(frameObject.Rect.LeftTop);
                 Point rightBottom = ConverPointFToPoint(frameObject.Rect.RightBottom);
