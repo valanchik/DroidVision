@@ -671,7 +671,6 @@
             this.imageViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.imageViewer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.imageViewer.Location = new System.Drawing.Point(89, 65);
             this.imageViewer.Name = "imageViewer";
             this.imageViewer.Size = new System.Drawing.Size(902, 471);

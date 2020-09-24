@@ -156,6 +156,7 @@
     </Compile>
     <Compile Include="Marker\ElementController.cs" />
     <Compile Include="Marker\Frame.cs" />
+    <Compile Include="Marker\FrameObejctContainer.cs" />
     <Compile Include="Marker\FrameState.cs" />
     <Compile Include="Marker\Marker.cs" />
     <Compile Include="Marker\Mediator.cs" />

@@ -11,28 +11,31 @@ namespace YoloDetection.Marker
 {
     public interface IViewBoxControler: IMediatorSetter
     {
-        event ImageHandler OnChangeImage;
         bool ImageNotExists { get; }
-        Size ImageSize { get; set; }
+        Size Size { get; set; }
         float ImageScale { get; set; }
         PictureBox PictureBox { get; set; }
         IRectController RectController { get; set; }
         Image Image { get; set; }
+        Size ImageSize { get; set; }
+
         void SetImage(Image image);
         void Clear();
-        bool IsImageExists();
+        void Refresh();
+        Rectangle GetImageRectangle();
     }
     public class ViewBoxController: IViewBoxControler
     {
-        public delegate void ImageHandler(Image image);
-        public event ImageHandler OnChangeImage;
         public IRectController RectController { get; set; }
         public IMediator Mediator { get; set; }
         public PictureBox PictureBox { get; set; }
         public Image Image { get { return PictureBox.Image; } set { PictureBox.Image = value; } }
         public bool ImageNotExists { get { return PictureBox.Image == null; } }
+        public Size Size { get; set; } = new Size();
         public Size ImageSize { get; set; } = new Size();
         public float ImageScale { get; set; } = 1;
+        private Image originImage;
+        private Rectangle ImageRectangle;
         public ViewBoxController(PictureBox pictureBox)
         {
             PictureBox = pictureBox;
@@ -40,22 +43,22 @@ namespace YoloDetection.Marker
             PictureBox.MouseUp += MouseUp;
             PictureBox.MouseMove += Move;
             PictureBox.MouseWheel += MouseWheel;
-            ImageSize = PictureBox.Size;
+            Size = PictureBox.Size;
             RectController = new RectController(this);
             RectController.OnNewFrameObject += (IFrameObject frameObject) =>
             {
                 Mediator?.AddFrameObjectToCurrentFrame(frameObject);
             };
         }
-
         public void SetImage(Image image)
         {
             PictureBox.Image = image;
+            originImage = (Image)PictureBox.Image.Clone();
+            ImageSize = PictureBox.Image.Size;
+            ImageRectangle = new Rectangle(new Point(),PictureBox.Image.Size);
             PictureBox.SizeMode = PictureBoxSizeMode.AutoSize;
             PictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-            OnChangeImage?.Invoke(PictureBox.Image);
         }
-
         public void SetMediator(IMediator mediator)
         {
             Mediator = mediator;
@@ -73,9 +76,9 @@ namespace YoloDetection.Marker
         {
             PictureBox.Image = (Image)originImage?.Clone();
         }
-        public bool IsImageExists()
+        public void Refresh()
         {
-
+            PictureBox.Refresh();
         }
         private void MouseUp(object sender, MouseEventArgs e)
         {
@@ -83,20 +86,11 @@ namespace YoloDetection.Marker
         }
         private void MouseLeftUp(object sender, MouseEventArgs e)
         {
-            Drawing = false;
-            endPoint = ConverPointToPointF(e.Location.Divide(ImageScale));
-            IFrameObject frameObject = new FrameObject();
-            frameObject.Rect = new RectNormalized(startPoint, endPoint, new List<IControlPoint>());
-            OnNewFrameObject?.Invoke(frameObject);
-            Draw();
+            RectController.MouseLeftUp(sender,e);
         }
         private void Move(object sender, MouseEventArgs e)
         {
-            endPoint = ConverPointToPointF(e.Location.Divide(ImageScale));
-            if (Drawing)
-            {
-                Draw();
-            }
+            RectController.Move(sender, e);
         }
         private void MouseWheel(object sender, MouseEventArgs e)
         {
@@ -108,6 +102,10 @@ namespace YoloDetection.Marker
             PictureBox.Size = new Size(
                 (int)(PictureBox.Image.Size.Width * ImageScale),
                 (int)(PictureBox.Image.Size.Height * ImageScale));
+        }
+        public Rectangle GetImageRectangle()
+        {
+            return ImageRectangle;
         }
     }
 }

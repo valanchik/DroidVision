@@ -18,14 +18,14 @@ namespace YoloDetection.Marker
         void MouseLeftDown(object sender, MouseEventArgs e);
         void MouseLeftUp(object sender, MouseEventArgs e);
         void MouseWheel(object sender, MouseEventArgs e);
+        void Move(object sender, MouseEventArgs e);
         void SetFrameObjectList(List<IFrameObject> list);
     }
     public class RectController : IRectController
     {
         public delegate void FrameObjectEvent(IFrameObject frameObject);
         public event FrameObjectEvent OnNewFrameObject;
-        
-        private List<IFrameObject> FrameObjectList { get; set; }
+        private IFrameObejctContainer FrameObejctContainer { get; set; }
         private Image originImage;
         
         private PointF startPoint = new PointF();
@@ -35,13 +35,7 @@ namespace YoloDetection.Marker
         public RectController(IViewBoxControler viewBoxController) : this(viewBoxController, new List<IFrameObject>()) { }
         public RectController(IViewBoxControler viewBoxController, List<IFrameObject> frameObjectList)
         {
-            
             ViewBoxController = viewBoxController;
-            ViewBoxController.OnChangeImage += (Image image) =>
-            {
-                originImage = (Image)image?.Clone();
-                //Resize();
-            };
             SetFrameObjectList(frameObjectList);
         }
         public void MouseLeftDown(object sender, MouseEventArgs e)
@@ -59,9 +53,15 @@ namespace YoloDetection.Marker
             OnNewFrameObject?.Invoke(frameObject);
             Draw();
         }
-        private void Move(object sender, MouseEventArgs e)
+        public void Move(object sender, MouseEventArgs e)
         {
+            Console.WriteLine(e.Location);
             endPoint = ConverPointToPointF(e.Location.Divide(ViewBoxController.ImageScale));
+            IFrameObject fo = GetFrameObjectByPointF(endPoint);
+            if (fo != null)
+            {
+
+            }
             if (Drawing)
             {
                 Draw();
@@ -86,7 +86,9 @@ namespace YoloDetection.Marker
                 Draw(obj);
             } else
             {
-                foreach (IFrameObject fo in FrameObjectList) Draw(fo);
+                foreach (IFrameObject fo in FrameObejctContainer.FrameObjectList) {
+                    Draw(fo);
+                };
             }
         }
         public void Draw(IFrameObject frameObject)
@@ -101,7 +103,7 @@ namespace YoloDetection.Marker
                 Point leftBotton = ConverPointFToPoint(frameObject.Rect.LeftBottom);
                 Point rightTop = ConverPointFToPoint(frameObject.Rect.RightTop);
                 Rectangle rect = new Rectangle().FromPoints(leftTop, rightBottom);
-                rect = GetStrictedRectangle(rect);
+               
                 G.DrawRectangle(pen, rect);
                 G.FillRectangle(brushRect, rect);
                 int radius = 6;
@@ -109,32 +111,31 @@ namespace YoloDetection.Marker
                 G.FillCircle(brushElipse, rightBottom, radius);
                 G.FillCircle(brushElipse, leftBotton, radius);
                 G.FillCircle(brushElipse, rightTop, radius);
-                PictureBox.Refresh();
+                ViewBoxController.Refresh();
             }
         }
         private PointF ConverPointToPointF(Point point)
         {
             PointF tmp = new PointF();
-            tmp.X = point.X>0? (point.X / (float)imageSize.Width): 0;
-            tmp.Y = point.Y>0? (point.Y / (float)imageSize.Height): 0;
+            tmp.X = point.X>0? (point.X / (float)ViewBoxController.ImageSize.Width): 0;
+            tmp.Y = point.Y>0? (point.Y / (float)ViewBoxController.ImageSize.Height): 0;
             return tmp;
+        }
+        private IFrameObject GetFrameObjectByPointF(PointF point)
+        {
+
+            return FrameObejctContainer.FrameObjectList.Find(fo => fo.Rect.Contains(point));
         }
         private Point ConverPointFToPoint(PointF vector)
         {
             Point tmp = new Point();
-            tmp.X = (int)(vector.X * imageSize.Width);
-            tmp.Y = (int)(vector.Y * imageSize.Height);
+            tmp.X = (int)(vector.X * ViewBoxController.ImageSize.Width);
+            tmp.Y = (int)(vector.Y * ViewBoxController.ImageSize.Height);
             return tmp;
-        }
-        private Rectangle GetStrictedRectangle(Rectangle rect)
-        {
-            if ((rect.X + rect.Width) >= imageSize.Width) rect.Width = imageSize.Width - rect.X;
-            if ((rect.Y + rect.Height) >= imageSize.Height) rect.Height = imageSize.Height - rect.Y;
-            return rect;
         }
         public void SetFrameObjectList(List<IFrameObject> list)
         {
-            FrameObjectList = list;
+            FrameObejctContainer.Set(list);
         }
     }
 }
