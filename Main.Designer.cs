@@ -64,8 +64,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.calibrate = new System.Windows.Forms.CheckBox();
             this.Marking = new System.Windows.Forms.TabPage();
-            this.playRepeat = new System.Windows.Forms.CheckBox();
-            this.timeLineBar = new System.Windows.Forms.TrackBar();
+            this.ImageViewerWraper = new System.Windows.Forms.Panel();
             this.playControls = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.backwardOne = new System.Windows.Forms.Button();
@@ -73,6 +72,9 @@
             this.forwardOne = new System.Windows.Forms.Button();
             this.mPlay = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            this.imageViewer = new System.Windows.Forms.PictureBox();
+            this.playRepeat = new System.Windows.Forms.CheckBox();
+            this.timeLineBar = new System.Windows.Forms.TrackBar();
             this.controlPanel = new System.Windows.Forms.GroupBox();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -88,7 +90,6 @@
             this.playSpeed = new System.Windows.Forms.TrackBar();
             this.dataPath = new System.Windows.Forms.TextBox();
             this.openFile = new System.Windows.Forms.Button();
-            this.imageViewer = new System.Windows.Forms.PictureBox();
             this.Settings = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.led13 = new System.Windows.Forms.CheckBox();
@@ -111,7 +112,6 @@
             this.button1 = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.playTimer = new System.Windows.Forms.Timer(this.components);
-            this.ImageViewerWraper = new System.Windows.Forms.Panel();
             this.mainTabs.SuspendLayout();
             this.Robot.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -120,20 +120,20 @@
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.Marking.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.timeLineBar)).BeginInit();
+            this.ImageViewerWraper.SuspendLayout();
             this.playControls.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imageViewer)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.timeLineBar)).BeginInit();
             this.controlPanel.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.frameProperty.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.playSpeed)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imageViewer)).BeginInit();
             this.Settings.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox7.SuspendLayout();
-            this.ImageViewerWraper.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainTabs
@@ -554,30 +554,18 @@
             this.Marking.Text = "Разметка";
             this.Marking.UseVisualStyleBackColor = true;
             // 
-            // playRepeat
+            // ImageViewerWraper
             // 
-            this.playRepeat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.ImageViewerWraper.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.playRepeat.AutoSize = true;
-            this.playRepeat.Location = new System.Drawing.Point(966, 579);
-            this.playRepeat.Name = "playRepeat";
-            this.playRepeat.Size = new System.Drawing.Size(80, 17);
-            this.playRepeat.TabIndex = 35;
-            this.playRepeat.Text = "Повторять";
-            this.playRepeat.UseVisualStyleBackColor = true;
-            // 
-            // timeLineBar
-            // 
-            this.timeLineBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.timeLineBar.AutoSize = false;
-            this.timeLineBar.LargeChange = 1;
-            this.timeLineBar.Location = new System.Drawing.Point(0, 572);
-            this.timeLineBar.Minimum = 1;
-            this.timeLineBar.Name = "timeLineBar";
-            this.timeLineBar.Size = new System.Drawing.Size(960, 31);
-            this.timeLineBar.TabIndex = 34;
-            this.timeLineBar.Value = 1;
+            this.ImageViewerWraper.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ImageViewerWraper.Controls.Add(this.playControls);
+            this.ImageViewerWraper.Controls.Add(this.imageViewer);
+            this.ImageViewerWraper.Location = new System.Drawing.Point(3, 3);
+            this.ImageViewerWraper.Name = "ImageViewerWraper";
+            this.ImageViewerWraper.Size = new System.Drawing.Size(1065, 570);
+            this.ImageViewerWraper.TabIndex = 36;
             // 
             // playControls
             // 
@@ -677,6 +665,44 @@
             this.button3.Size = new System.Drawing.Size(129, 40);
             this.button3.TabIndex = 0;
             this.button3.UseVisualStyleBackColor = true;
+            // 
+            // imageViewer
+            // 
+            this.imageViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.imageViewer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.imageViewer.Location = new System.Drawing.Point(89, 65);
+            this.imageViewer.Name = "imageViewer";
+            this.imageViewer.Size = new System.Drawing.Size(902, 471);
+            this.imageViewer.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.imageViewer.TabIndex = 23;
+            this.imageViewer.TabStop = false;
+            // 
+            // playRepeat
+            // 
+            this.playRepeat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.playRepeat.AutoSize = true;
+            this.playRepeat.Location = new System.Drawing.Point(966, 579);
+            this.playRepeat.Name = "playRepeat";
+            this.playRepeat.Size = new System.Drawing.Size(80, 17);
+            this.playRepeat.TabIndex = 35;
+            this.playRepeat.Text = "Повторять";
+            this.playRepeat.UseVisualStyleBackColor = true;
+            // 
+            // timeLineBar
+            // 
+            this.timeLineBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.timeLineBar.AutoSize = false;
+            this.timeLineBar.LargeChange = 1;
+            this.timeLineBar.Location = new System.Drawing.Point(0, 572);
+            this.timeLineBar.Minimum = 1;
+            this.timeLineBar.Name = "timeLineBar";
+            this.timeLineBar.Size = new System.Drawing.Size(960, 31);
+            this.timeLineBar.TabIndex = 34;
+            this.timeLineBar.Value = 1;
             // 
             // controlPanel
             // 
@@ -855,19 +881,6 @@
             this.openFile.Text = "...";
             this.openFile.UseVisualStyleBackColor = true;
             this.openFile.Click += new System.EventHandler(this.openFile_Click);
-            // 
-            // imageViewer
-            // 
-            this.imageViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.imageViewer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.imageViewer.Location = new System.Drawing.Point(89, 65);
-            this.imageViewer.Name = "imageViewer";
-            this.imageViewer.Size = new System.Drawing.Size(902, 471);
-            this.imageViewer.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.imageViewer.TabIndex = 23;
-            this.imageViewer.TabStop = false;
             // 
             // Settings
             // 
@@ -1107,21 +1120,6 @@
             this.playTimer.Interval = 1;
             this.playTimer.Tick += new System.EventHandler(this.button5_Click);
             // 
-            // ImageViewerWraper
-            // 
-            this.ImageViewerWraper.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ImageViewerWraper.AutoScroll = true;
-            this.ImageViewerWraper.AutoScrollMinSize = new System.Drawing.Size(100, 100);
-            this.ImageViewerWraper.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ImageViewerWraper.Controls.Add(this.playControls);
-            this.ImageViewerWraper.Controls.Add(this.imageViewer);
-            this.ImageViewerWraper.Location = new System.Drawing.Point(3, 3);
-            this.ImageViewerWraper.Name = "ImageViewerWraper";
-            this.ImageViewerWraper.Size = new System.Drawing.Size(1065, 570);
-            this.ImageViewerWraper.TabIndex = 36;
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1146,9 +1144,11 @@
             this.groupBox4.PerformLayout();
             this.Marking.ResumeLayout(false);
             this.Marking.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.timeLineBar)).EndInit();
+            this.ImageViewerWraper.ResumeLayout(false);
             this.playControls.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.imageViewer)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.timeLineBar)).EndInit();
             this.controlPanel.ResumeLayout(false);
             this.controlPanel.PerformLayout();
             this.groupBox9.ResumeLayout(false);
@@ -1156,7 +1156,6 @@
             this.frameProperty.ResumeLayout(false);
             this.frameProperty.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.playSpeed)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imageViewer)).EndInit();
             this.Settings.ResumeLayout(false);
             this.Settings.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -1166,7 +1165,6 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox7.ResumeLayout(false);
-            this.ImageViewerWraper.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
