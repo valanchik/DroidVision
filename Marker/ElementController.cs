@@ -138,8 +138,7 @@ namespace YoloDetection.Marker
             base.Add(name, val);
             val.Click += (object sender, EventArgs e) =>
             {
-                sender = (Button)sender;
-                Console.WriteLine(sender);
+               
             };
             return this;
         }
