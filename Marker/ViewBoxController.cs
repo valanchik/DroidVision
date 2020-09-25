@@ -99,6 +99,8 @@ namespace YoloDetection.Marker
         }
         private void Resize()
         {
+            if (PictureBox.Image == null) return;
+            
             PictureBox.Size = new Size(
                 (int)(PictureBox.Image.Size.Width * ImageScale),
                 (int)(PictureBox.Image.Size.Height * ImageScale));

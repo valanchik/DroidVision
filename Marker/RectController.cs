@@ -25,7 +25,7 @@ namespace YoloDetection.Marker
     {
         public delegate void FrameObjectEvent(IFrameObject frameObject);
         public event FrameObjectEvent OnNewFrameObject;
-        private IFrameObejctContainer FrameObejctContainer { get; set; }
+        private IFrameObejctContainer FrameObejctContainer { get; set; } = new FrameObejctContainer();
         private Image originImage;
         
         private PointF startPoint = new PointF();

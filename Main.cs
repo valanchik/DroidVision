@@ -87,6 +87,9 @@ namespace YoloDetection
                 .Add(ElementName.PlayRepeat, playRepeat)
                 .Add(ElementName.TimeLineBar, timeLineBar);
 
+            IElementController ecBtn = new ElementControllerButton()
+                .Add(ElementName.createFrameObejct, createFrameObject);
+
             IElementController ecPlaySpeed = new ElementControllerPlaySpped()
                 .Add(ElementName.PlaySpeeed, playSpeed);
 

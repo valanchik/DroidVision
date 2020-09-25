@@ -18,7 +18,8 @@ namespace YoloDetection.Marker
         PlayRepeat,
         PlaySpeeed,
         ViewBox,
-        playTimer
+        playTimer,
+        createFrameObejct
     }
     public enum ElementValueTypes
     {
@@ -26,17 +27,19 @@ namespace YoloDetection.Marker
         String,
         Int,
         Float,
-        Image
+        Image,
+        Button
     }
-    public interface IElementController: IMediatorSetter
+    public interface IElementController : IMediatorSetter
     {
-        
         IElementController Add(ElementName name, CheckBox val);
+        IElementController Add(ElementName name, Button val);
         IElementController Add(ElementName name, Label val);
         IElementController Add(ElementName name, TrackBar val);
         IElementController Add(ElementName name, PictureBox val);
         IElementController Add(ElementName name, Timer val);
         CheckBox    GetCheckbox(ElementName name);
+        Button    GetButton(ElementName name);
         Label       GetLabel(ElementName name);
         TrackBar    GetTrackBar(ElementName name);
         PictureBox    GetPictureBox(ElementName name);
@@ -45,6 +48,7 @@ namespace YoloDetection.Marker
     class ElementController: IElementController
     {
         protected Dictionary<ElementName, CheckBox> Checkboxes = new Dictionary<ElementName, CheckBox>();
+        protected Dictionary<ElementName, Button> Buttons = new Dictionary<ElementName, Button>();
         protected Dictionary<ElementName, Label> Labels = new Dictionary<ElementName, Label>();
         protected Dictionary<ElementName, TrackBar> Trackbars = new Dictionary<ElementName, TrackBar>();
         protected Dictionary<ElementName, PictureBox> PictureBoxes = new Dictionary<ElementName, PictureBox>();
@@ -61,6 +65,10 @@ namespace YoloDetection.Marker
         public CheckBox GetCheckbox(ElementName name)
         {
             return Checkboxes[name];
+        }
+        public Button GetButton(ElementName name)
+        {
+            return Buttons[name];
         }
         public Label GetLabel(ElementName name)
         {
@@ -83,6 +91,12 @@ namespace YoloDetection.Marker
         {
             Checkboxes.Add(name, val);
             ValueTypes.TryAdd(name, ElementValueTypes.Boolean);
+            return this;
+        }
+        public virtual IElementController Add(ElementName name, Button val)
+        {
+            Buttons.Add(name, val);
+            ValueTypes.TryAdd(name, ElementValueTypes.Button);
             return this;
         }
         public virtual IElementController Add(ElementName name, Label val)
@@ -109,10 +123,26 @@ namespace YoloDetection.Marker
             ValueTypes.TryAdd(name, ElementValueTypes.Int);
             return this;
         }
+
+        
     }
     class ElementControllerCommon : ElementController
     {
         public ElementControllerCommon(): base() { }
+    }
+    class ElementControllerButton : ElementController
+    {
+        public ElementControllerButton() : base() { }
+        public override IElementController Add(ElementName name, Button val)
+        {
+            base.Add(name, val);
+            val.Click += (object sender, EventArgs e) =>
+            {
+                sender = (Button)sender;
+                Console.WriteLine(sender);
+            };
+            return this;
+        }
     }
     class ElementControllerPlaySpped : ElementController
     {

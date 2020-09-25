@@ -112,6 +112,8 @@
             this.button1 = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.playTimer = new System.Windows.Forms.Timer(this.components);
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.createFrameObject = new System.Windows.Forms.Button();
             this.mainTabs.SuspendLayout();
             this.Robot.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -134,6 +136,7 @@
             this.groupBox8.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox7.SuspendLayout();
+            this.groupBox10.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainTabs
@@ -559,6 +562,7 @@
             this.ImageViewerWraper.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.ImageViewerWraper.AutoScroll = true;
             this.ImageViewerWraper.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ImageViewerWraper.Controls.Add(this.playControls);
             this.ImageViewerWraper.Controls.Add(this.imageViewer);
@@ -668,10 +672,7 @@
             // 
             // imageViewer
             // 
-            this.imageViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.imageViewer.Location = new System.Drawing.Point(89, 65);
+            this.imageViewer.Location = new System.Drawing.Point(104, 66);
             this.imageViewer.Name = "imageViewer";
             this.imageViewer.Size = new System.Drawing.Size(902, 471);
             this.imageViewer.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -707,6 +708,7 @@
             // 
             this.controlPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.controlPanel.Controls.Add(this.groupBox10);
             this.controlPanel.Controls.Add(this.groupBox9);
             this.controlPanel.Controls.Add(this.label15);
             this.controlPanel.Controls.Add(this.label14);
@@ -1119,6 +1121,25 @@
             this.playTimer.Interval = 1;
             this.playTimer.Tick += new System.EventHandler(this.button5_Click);
             // 
+            // groupBox10
+            // 
+            this.groupBox10.Controls.Add(this.createFrameObject);
+            this.groupBox10.Location = new System.Drawing.Point(7, 256);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(254, 100);
+            this.groupBox10.TabIndex = 34;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "Создать";
+            // 
+            // createFrameObject
+            // 
+            this.createFrameObject.Location = new System.Drawing.Point(11, 19);
+            this.createFrameObject.Name = "createFrameObject";
+            this.createFrameObject.Size = new System.Drawing.Size(75, 23);
+            this.createFrameObject.TabIndex = 0;
+            this.createFrameObject.Text = "Объект";
+            this.createFrameObject.UseVisualStyleBackColor = true;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1164,6 +1185,7 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox7.ResumeLayout(false);
+            this.groupBox10.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1252,6 +1274,8 @@
         private System.Windows.Forms.TrackBar timeLineBar;
         private System.Windows.Forms.CheckBox playRepeat;
         private System.Windows.Forms.Panel ImageViewerWraper;
+        private System.Windows.Forms.GroupBox groupBox10;
+        private System.Windows.Forms.Button createFrameObject;
     }
 }
 
