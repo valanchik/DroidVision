@@ -9,19 +9,24 @@ using System.Windows.Forms;
 
 namespace YoloDetection.Marker
 {
+    public delegate void EmptyHandle();
     public enum ElementControllerType
     {
         Common,
         Frame,
         PlaySpeeed,
         Window,
-        Timer
+        Timer,
+        Button
     }
 
     
     public interface IMarker: IMediatorSetter
     {
         IFrame CurrentFrame { get; set; }
+        List<IFrame> Data { get; set; }
+
+        event EmptyHandle Loaded;
         void Load(string path);
         bool ShowBackwardFrame();
         bool ShowForwardFrame();
@@ -30,8 +35,9 @@ namespace YoloDetection.Marker
     }
     public class Marker: IMarker
     {
+        public event EmptyHandle Loaded;
         private  ImageConverter imgConverter = new ImageConverter();
-        private List<IFrame> Data = new List<IFrame>();
+        public List<IFrame> Data { get; set; } = new List<IFrame>();
         private string FilePath;
         
         public IFrame CurrentFrame { get; set; }
@@ -61,18 +67,9 @@ namespace YoloDetection.Marker
                     Data.Add(d);
                     frameId++;
                 }
-
-                if (Data.Count == 0) return;
-
-                TrackBar timeline = Mediator.GetElementController(ElementControllerType.Common).GetTrackBar(ElementName.TimeLineBar);
-
-                timeline.Maximum = Data.Count;
-
-                ShowFrame(Data[0]);
+                Loaded?.Invoke();
             }
         }
-        
-
         private IFrame CreateFrame(byte[] jpeg, int frameId)
         {
             FrameState state = new FrameState

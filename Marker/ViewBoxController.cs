@@ -24,7 +24,7 @@ namespace YoloDetection.Marker
         void Refresh();
         Rectangle GetImageRectangle();
     }
-    public class ViewBoxController: IViewBoxControler
+    public class ViewBoxController : IViewBoxControler
     {
         public IRectController RectController { get; set; }
         public IMediator Mediator { get; set; }
@@ -33,9 +33,16 @@ namespace YoloDetection.Marker
         public bool ImageNotExists { get { return PictureBox.Image == null; } }
         public Size Size { get; set; } = new Size();
         public Size ImageSize { get; set; } = new Size();
-        public float ImageScale { get; set; } = 1;
+        public float ImageScale { get => imageScale; 
+            set {
+                imageScale = value;
+                Resize();
+            }
+        }
         private Image originImage;
         private Rectangle ImageRectangle;
+        private float imageScale = 1;
+
         public ViewBoxController(PictureBox pictureBox)
         {
             PictureBox = pictureBox;
@@ -48,6 +55,7 @@ namespace YoloDetection.Marker
             RectController.OnNewFrameObject += (IFrameObject frameObject) =>
             {
                 Mediator?.AddFrameObjectToCurrentFrame(frameObject);
+                Mediator?.EndEditViewBox();
             };
         }
         public void SetImage(Image image)
@@ -55,7 +63,7 @@ namespace YoloDetection.Marker
             PictureBox.Image = image;
             originImage = (Image)PictureBox.Image.Clone();
             ImageSize = PictureBox.Image.Size;
-            ImageRectangle = new Rectangle(new Point(),PictureBox.Image.Size);
+            ImageRectangle = new Rectangle(new Point(), PictureBox.Image.Size);
             PictureBox.SizeMode = PictureBoxSizeMode.AutoSize;
             PictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
         }
@@ -69,7 +77,6 @@ namespace YoloDetection.Marker
         }
         private void MouseLeftDown(object sender, MouseEventArgs e)
         {
-            Clear();
             RectController.MouseLeftDown(sender, e);
         }
         public void Clear()
@@ -86,7 +93,7 @@ namespace YoloDetection.Marker
         }
         private void MouseLeftUp(object sender, MouseEventArgs e)
         {
-            RectController.MouseLeftUp(sender,e);
+            RectController.MouseLeftUp(sender, e);
         }
         private void Move(object sender, MouseEventArgs e)
         {
@@ -100,7 +107,7 @@ namespace YoloDetection.Marker
         private void Resize()
         {
             if (PictureBox.Image == null) return;
-            
+
             PictureBox.Size = new Size(
                 (int)(PictureBox.Image.Size.Width * ImageScale),
                 (int)(PictureBox.Image.Size.Height * ImageScale));

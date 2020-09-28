@@ -8,6 +8,7 @@ using System.Windows.Forms;
 
 namespace YoloDetection.Marker
 {
+    public delegate void EventElentHandler(ElementName element, object sender, EventArgs e);
     public enum ElementName
     {
         FrameId,
@@ -32,6 +33,9 @@ namespace YoloDetection.Marker
     }
     public interface IElementController : IMediatorSetter
     {
+        event EventElentHandler Click;
+        event EventElentHandler Scroll;
+        event EventElentHandler CheckStateChanged;
         IElementController Add(ElementName name, CheckBox val);
         IElementController Add(ElementName name, Button val);
         IElementController Add(ElementName name, Label val);
@@ -45,16 +49,29 @@ namespace YoloDetection.Marker
         PictureBox    GetPictureBox(ElementName name);
         Timer    GetTimer(ElementName name);
     }
+    public enum ElementEvenType
+    {
+        Click,
+        Scroll,
+        CheckStateChanged
+    }
     class ElementController: IElementController
     {
+        public event EventElentHandler Click;
+        public event EventElentHandler Scroll;
+        public event EventElentHandler CheckStateChanged;
         protected Dictionary<ElementName, CheckBox> Checkboxes = new Dictionary<ElementName, CheckBox>();
         protected Dictionary<ElementName, Button> Buttons = new Dictionary<ElementName, Button>();
         protected Dictionary<ElementName, Label> Labels = new Dictionary<ElementName, Label>();
         protected Dictionary<ElementName, TrackBar> Trackbars = new Dictionary<ElementName, TrackBar>();
         protected Dictionary<ElementName, PictureBox> PictureBoxes = new Dictionary<ElementName, PictureBox>();
         protected Dictionary<ElementName, Timer> Timers = new Dictionary<ElementName, Timer>();
+        
         public IMediator Mediator { get; set; }
         protected Dictionary<ElementName, ElementValueTypes> ValueTypes = new Dictionary<ElementName, ElementValueTypes>();
+
+        
+
         public ElementController()
         {
             
@@ -123,23 +140,35 @@ namespace YoloDetection.Marker
             ValueTypes.TryAdd(name, ElementValueTypes.Int);
             return this;
         }
+        protected void EmitEvent(ElementEvenType type, ElementName element, object sender, EventArgs e)
+        {
+            switch (type)
+            {
+                case ElementEvenType.Click:
+                    Click?.Invoke(element, sender,e);
+                    break;
+                case ElementEvenType.Scroll:
+                    Scroll?.Invoke(element, sender, e);
+                    break;
+                case ElementEvenType.CheckStateChanged:
+                    CheckStateChanged?.Invoke(element, sender, e);
+                    break;
 
-        
+            }
+        }
     }
     class ElementControllerCommon : ElementController
     {
         public ElementControllerCommon(): base() { }
     }
-    class ElementControllerButton : ElementController
+    class ElementControllerButton : ElementController, IElementController
     {
-        public ElementControllerButton() : base() { }
+        public ElementControllerButton() : base() {
+        }
         public override IElementController Add(ElementName name, Button val)
         {
             base.Add(name, val);
-            val.Click += (object sender, EventArgs e) =>
-            {
-               
-            };
+            val.Click += (object sender, EventArgs e) => EmitEvent(ElementEvenType.Click, name, sender, e);
             return this;
         }
     }

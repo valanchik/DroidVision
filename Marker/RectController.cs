@@ -12,6 +12,8 @@ namespace YoloDetection.Marker
 {
     public interface IRectController
     {
+        bool CreatingFrameObjec { get; set; }
+
         event FrameObjectEvent OnNewFrameObject;
         void Draw();
         void Draw(IFrameObject frameObject);
@@ -25,6 +27,7 @@ namespace YoloDetection.Marker
     {
         public delegate void FrameObjectEvent(IFrameObject frameObject);
         public event FrameObjectEvent OnNewFrameObject;
+        public bool CreatingFrameObjec { get; set; }
         private IFrameObejctContainer FrameObejctContainer { get; set; } = new FrameObejctContainer();
         private Image originImage;
         
@@ -42,20 +45,25 @@ namespace YoloDetection.Marker
         {
             Point newPoint = e.Location.Divide(ViewBoxController.ImageScale);
             startPoint = ConverPointToPointF(newPoint);
-            Drawing = true;
+            if (CreatingFrameObjec)
+            {
+                Drawing = true;
+            }
         }
         public void MouseLeftUp(object sender, MouseEventArgs e)
         {
-            Drawing = false;
-            endPoint = ConverPointToPointF(e.Location.Divide(ViewBoxController.ImageScale));
-            IFrameObject frameObject = new FrameObject();
-            frameObject.Rect = new RectNormalized(startPoint, endPoint, new List<IControlPoint>());
-            OnNewFrameObject?.Invoke(frameObject);
-            Draw();
+            if (CreatingFrameObjec)
+            {
+                Drawing = false;
+                endPoint = ConverPointToPointF(e.Location.Divide(ViewBoxController.ImageScale));
+                IFrameObject frameObject = new FrameObject();
+                frameObject.Rect = new RectNormalized(startPoint, endPoint, new List<IControlPoint>());
+                OnNewFrameObject?.Invoke(frameObject);
+                Draw();
+            }
         }
         public void Move(object sender, MouseEventArgs e)
         {
-            Console.WriteLine(e.Location);
             endPoint = ConverPointToPointF(e.Location.Divide(ViewBoxController.ImageScale));
             IFrameObject fo = GetFrameObjectByPointF(endPoint);
             if (fo != null)
@@ -79,7 +87,7 @@ namespace YoloDetection.Marker
         {
             if (ViewBoxController.ImageNotExists) return;
             ViewBoxController.Clear();
-            if (Drawing)
+            if (CreatingFrameObjec)
             {
                 FrameObject obj = new FrameObject();
                 obj.Rect = new RectNormalized() { Start = startPoint, End = endPoint };
@@ -114,6 +122,10 @@ namespace YoloDetection.Marker
                 ViewBoxController.Refresh();
             }
         }
+        public void SetFrameObjectList(List<IFrameObject> list)
+        {
+            FrameObejctContainer.Set(list);
+        }
         private PointF ConverPointToPointF(Point point)
         {
             PointF tmp = new PointF();
@@ -133,9 +145,6 @@ namespace YoloDetection.Marker
             tmp.Y = (int)(vector.Y * ViewBoxController.ImageSize.Height);
             return tmp;
         }
-        public void SetFrameObjectList(List<IFrameObject> list)
-        {
-            FrameObejctContainer.Set(list);
-        }
+        
     }
 }

@@ -76,7 +76,7 @@ namespace YoloDetection
         {
 
             InitializeComponent();
-            this.SetStyle(
+            SetStyle(
                 ControlStyles.AllPaintingInWmPaint |
                 ControlStyles.UserPaint |
                 ControlStyles.DoubleBuffer,
@@ -107,6 +107,7 @@ namespace YoloDetection
                 .Add(ElementName.TimeLineBar, timeLineBar);                
 
             ElementControllers.Add(ElementControllerType.Common, ecCommon);
+            ElementControllers.Add(ElementControllerType.Button, ecBtn);
             ElementControllers.Add(ElementControllerType.PlaySpeeed, ecPlaySpeed);
             ElementControllers.Add(ElementControllerType.Window, ecImage);
             ElementControllers.Add(ElementControllerType.Timer, ecPlayTimer);

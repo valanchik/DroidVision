@@ -17,6 +17,7 @@ namespace YoloDetection.Marker
         void ShowFrame(IFrame frame);
         void ChangePlaySpeed(int spped);
         void AddFrameObjectToCurrentFrame(IFrameObject frameObject);
+        void EndEditViewBox();
     }
     public interface IMediatorSetter
     {
@@ -28,15 +29,20 @@ namespace YoloDetection.Marker
         public RectController rectController { get; set; }
         private IMarker Marker;
         private Dictionary<ElementControllerType, IElementController> ElementControllers;
+        
         public IViewBoxControler ViewBoxController { get; set; }
         public MarkerMediator(IMarker marker, Dictionary<ElementControllerType, IElementController> elementControllers)
         {
             Marker = marker;
             Marker.SetMediator(this);
+            Marker.Loaded += MarkerLoadedData;
             ElementControllers = elementControllers;
             foreach (var entry in ElementControllers)
             {
                 entry.Value.SetMediator(this);
+                entry.Value.Click += EmitClick;
+                entry.Value.Scroll += EmitScroll;
+                entry.Value.CheckStateChanged += EmitCheckStateChanged;
             }
             ViewBoxController = new ViewBoxController(GetViewBox());
             ViewBoxController.SetMediator(this);
@@ -85,13 +91,52 @@ namespace YoloDetection.Marker
         }
         public void AddFrameObjectToCurrentFrame(IFrameObject frameObject)
         {
-            
             if (Marker.CurrentFrame != null)
             {
                 Marker.CurrentFrame.Objects.Add(frameObject);
                 ViewBoxController.RectController.SetFrameObjectList(Marker.CurrentFrame.Objects);
+            }   
+        }
+        public void EndEditViewBox()
+        {
+            Button cfoBtn = GetElementController(ElementControllerType.Button).GetButton(ElementName.createFrameObejct);
+            cfoBtn.Enabled = true;
+            ViewBoxController.RectController.CreatingFrameObjec = false;
+        }
+        protected void EmitClick(ElementName element, object sender, EventArgs e)
+        {
+            switch (element)
+            {
+                case ElementName.createFrameObejct:
+                    ViewBoxController.RectController.CreatingFrameObjec = !ViewBoxController.RectController.CreatingFrameObjec;
+                    Button btn = (Button)sender;
+                    btn.Enabled = !ViewBoxController.RectController.CreatingFrameObjec;
+                    if (ViewBoxController.RectController.CreatingFrameObjec)
+                    {
+                        
+                    }
+                    break;
             }
-            
+        }
+        protected void EmitScroll(ElementName element, object sender, EventArgs e)
+        {
+
+        }
+        protected void EmitCheckStateChanged(ElementName element, object sender, EventArgs e)
+        {
+
+        }
+        protected void MarkerLoadedData()
+        {
+            if (Marker.Data.Count == 0) return;
+
+            TrackBar timeline = GetElementController(ElementControllerType.Common).GetTrackBar(ElementName.TimeLineBar);
+
+            timeline.Maximum = Marker.Data.Count;
+
+            Marker.ShowFrame(Marker.Data[0]);
+
+            ViewBoxController.ImageScale = 1;
         }
     }
 }
