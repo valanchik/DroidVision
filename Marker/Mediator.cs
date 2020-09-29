@@ -68,7 +68,7 @@ namespace YoloDetection.Marker
             if (Marker.CurrentFrame.Objects.Count>0)
             {
                 ViewBoxController.RectController.SetFrameObjectList(Marker.CurrentFrame.Objects);
-                ViewBoxController.RectController.Draw();
+                ViewBoxController.RectController.DrawAll();
             }
             ((ElementControllerFrame)GetElementController(ElementControllerType.Frame))
             .SetFrameState(Marker.CurrentFrame.State);

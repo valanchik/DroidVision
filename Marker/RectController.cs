@@ -9,7 +9,7 @@ namespace YoloDetection.Marker
     {
         bool CreatingFrameObjec { get; set; }
         event Action<IFrameObject> OnNewFrameObject;
-        void Draw();
+        void DrawAll();
         void Draw(IFrameObject frameObject);
         void MouseLeftDown(object sender, MouseEventArgs e);
         void MouseLeftUp(object sender, MouseEventArgs e);
@@ -57,7 +57,7 @@ namespace YoloDetection.Marker
             if (MovingSelectedFrameObject)
             {
                 MovingSelectedFrameObject = false;
-                Draw();
+                DrawAll();
             }
             
             if (CreatingFrameObjec)
@@ -67,7 +67,7 @@ namespace YoloDetection.Marker
                 IFrameObject frameObject = new FrameObject();
                 frameObject.Rect = new RectNormalized(startPoint, endPoint, new List<IControlPoint>());
                 OnNewFrameObject?.Invoke(frameObject);
-                Draw();
+                DrawAll();
             }
         }
         public void Move(object sender, MouseEventArgs e)
@@ -87,7 +87,7 @@ namespace YoloDetection.Marker
                         Draw(sfo);
                     }
                 }
-                Draw();
+                DrawAll();
             }
         }
         public void MouseWheel(object sender, MouseEventArgs e)
@@ -97,7 +97,7 @@ namespace YoloDetection.Marker
             ViewBoxController.ImageScale += scale_per_delta * direct;
             if (ViewBoxController.ImageScale < 0) ViewBoxController.ImageScale = 0;
         }
-        public void Draw()
+        public void DrawAll()
         {
             if (ViewBoxController.ImageNotExists) return;
             ViewBoxController.Clear();
