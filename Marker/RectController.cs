@@ -119,6 +119,7 @@ namespace YoloDetection.Marker
                     Draw(fo);
                 };
             }
+            ViewBoxController.Refresh();
         }
         public void Draw(IFrameObject frameObject)
         {
@@ -139,7 +140,6 @@ namespace YoloDetection.Marker
                 G.FillCircle(brushElipse, rightBottom, radius);
                 G.FillCircle(brushElipse, leftBotton, radius);
                 G.FillCircle(brushElipse, rightTop, radius);
-                ViewBoxController.Refresh();
             }
         }
         public void SetFrameObjectList(List<IFrameObject> list)
