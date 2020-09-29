@@ -31,7 +31,6 @@ namespace YoloDetection.Marker
         public RectController rectController { get; set; }
         private IMarker Marker;
         private Dictionary<ElementControllerType, IElementController> ElementControllers;
-        
         public IViewBoxControler ViewBoxController { get; set; }
         public MarkerMediator(IMarker marker, Dictionary<ElementControllerType, IElementController> elementControllers)
         {
@@ -147,7 +146,7 @@ namespace YoloDetection.Marker
         {
             
         }
-        
+
         protected void MarkerLoadedData()
         {
             if (Marker.Data.Count == 0) return;

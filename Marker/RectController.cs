@@ -1,20 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using static YoloDetection.Marker.RectController;
-
 namespace YoloDetection.Marker
 {
     public interface IRectController
     {
         bool CreatingFrameObjec { get; set; }
-
-        event FrameObjectEvent OnNewFrameObject;
+        event Action<IFrameObject> OnNewFrameObject;
         void Draw();
         void Draw(IFrameObject frameObject);
         void MouseLeftDown(object sender, MouseEventArgs e);
@@ -25,15 +19,13 @@ namespace YoloDetection.Marker
     }
     public class RectController : IRectController
     {
-        public delegate void FrameObjectEvent(IFrameObject frameObject);
-        public event FrameObjectEvent OnNewFrameObject;
+        public event Action<IFrameObject> OnNewFrameObject;
         public bool CreatingFrameObjec { get; set; }
         private IFrameObejctContainer FrameObejctContainer { get; set; } = new FrameObejctContainer();
-        private Image originImage;
-        
         private PointF startPoint = new PointF();
         private PointF endPoint = new PointF();
         private bool Drawing = false;
+        private bool MovingSelectedFrameObject = false;
         private IViewBoxControler ViewBoxController { get; set; }
         public RectController(IViewBoxControler viewBoxController) : this(viewBoxController, new List<IFrameObject>()) { }
         public RectController(IViewBoxControler viewBoxController, List<IFrameObject> frameObjectList)
@@ -51,14 +43,23 @@ namespace YoloDetection.Marker
                 return;
             }
             IFrameObject fo = GetFrameObjectByPointF(startPoint);
+            FrameObejctContainer.SetSelectedObject(fo, true);
             if (fo == null)
             {
                 ViewBoxController.StartMoving(e.Location);
+            } else
+            {
+                MovingSelectedFrameObject = true;
             }
-            
         }
         public void MouseLeftUp(object sender, MouseEventArgs e)
         {
+            if (MovingSelectedFrameObject)
+            {
+                MovingSelectedFrameObject = false;
+                Draw();
+            }
+            
             if (CreatingFrameObjec)
             {
                 Drawing = false;
@@ -72,21 +73,26 @@ namespace YoloDetection.Marker
         public void Move(object sender, MouseEventArgs e)
         {
             if (ViewBoxController.Moving) return;
-
             endPoint = ConverPointToPointF(e.Location.Divide(ViewBoxController.ImageScale));
-            IFrameObject fo = GetFrameObjectByPointF(endPoint);
-            if (fo != null)
+            if (Drawing || MovingSelectedFrameObject)
             {
-
-            }
-            if (Drawing)
-            {
+                if (MovingSelectedFrameObject)
+                {
+                    if (FrameObejctContainer.Selected != null)
+                    {
+                        IFrameObject sfo = FrameObejctContainer.Selected;
+                        PointF delta = new PointF(endPoint.X - startPoint.X, endPoint.Y - startPoint.Y);
+                        sfo.Rect.Move(delta);
+                        startPoint = endPoint;
+                        Draw(sfo);
+                    }
+                }
                 Draw();
             }
         }
         public void MouseWheel(object sender, MouseEventArgs e)
-        {   
-            const float scale_per_delta = 0.02F;
+        {
+            const float scale_per_delta = 0.05F;
             float direct = e.Delta >= 0 ? 1 : -1;
             ViewBoxController.ImageScale += scale_per_delta * direct;
             if (ViewBoxController.ImageScale < 0) ViewBoxController.ImageScale = 0;
@@ -100,7 +106,14 @@ namespace YoloDetection.Marker
                 FrameObject obj = new FrameObject();
                 obj.Rect = new RectNormalized() { Start = startPoint, End = endPoint };
                 Draw(obj);
-            } else
+            } else if (MovingSelectedFrameObject)
+            {
+                if (FrameObejctContainer.Selected != null)
+                {
+                    Draw(FrameObejctContainer.Selected);
+                }
+            }
+            else
             {
                 foreach (IFrameObject fo in FrameObejctContainer.FrameObjectList) {
                     Draw(fo);
@@ -119,7 +132,6 @@ namespace YoloDetection.Marker
                 Point leftBotton = ConverPointFToPoint(frameObject.Rect.LeftBottom);
                 Point rightTop = ConverPointFToPoint(frameObject.Rect.RightTop);
                 Rectangle rect = new Rectangle().FromPoints(leftTop, rightBottom);
-               
                 G.DrawRectangle(pen, rect);
                 G.FillRectangle(brushRect, rect);
                 int radius = 6;
@@ -143,7 +155,6 @@ namespace YoloDetection.Marker
         }
         private IFrameObject GetFrameObjectByPointF(PointF point)
         {
-
             return FrameObejctContainer.FrameObjectList.Find(fo => fo.Rect.Contains(point));
         }
         private Point ConverPointFToPoint(PointF vector)
@@ -153,6 +164,5 @@ namespace YoloDetection.Marker
             tmp.Y = (int)(vector.Y * ViewBoxController.ImageSize.Height);
             return tmp;
         }
-        
     }
 }
