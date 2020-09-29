@@ -8,6 +8,26 @@ using System.Windows.Forms;
 
 namespace YoloDetection.Marker
 {
+    public enum ElementEvenType
+    {
+        Click,
+        Scroll,
+        CheckStateChanged
+    }
+    public interface IElementEvent
+    {
+        EventArgs Args { get; set; }
+        ElementName Name { get; set; }
+        object Sender { get; set; }
+        ElementEvenType Type { get; set; }
+    }
+    public class ElementEvent : IElementEvent
+    {
+        public ElementName Name { get; set; }
+        public ElementEvenType Type { get; set; }
+        public object Sender { get; set; }
+        public EventArgs Args { get; set; }
+    }
     public delegate void EventElentHandler(ElementName element, object sender, EventArgs e);
     public enum ElementName
     {
@@ -33,9 +53,8 @@ namespace YoloDetection.Marker
     }
     public interface IElementController : IMediatorSetter
     {
-        event EventElentHandler Click;
-        event EventElentHandler Scroll;
-        event EventElentHandler CheckStateChanged;
+        event Action<IElementEvent> Event;
+
         IElementController Add(ElementName name, CheckBox val);
         IElementController Add(ElementName name, Button val);
         IElementController Add(ElementName name, Label val);
@@ -49,33 +68,19 @@ namespace YoloDetection.Marker
         PictureBox    GetPictureBox(ElementName name);
         Timer    GetTimer(ElementName name);
     }
-    public enum ElementEvenType
-    {
-        Click,
-        Scroll,
-        CheckStateChanged
-    }
+    
     class ElementController: IElementController
     {
-        public event EventElentHandler Click;
-        public event EventElentHandler Scroll;
-        public event EventElentHandler CheckStateChanged;
+        public event Action<IElementEvent> Event;
+        /*public event Action<ElementEvenType, ElementName>*/
         protected Dictionary<ElementName, CheckBox> Checkboxes = new Dictionary<ElementName, CheckBox>();
         protected Dictionary<ElementName, Button> Buttons = new Dictionary<ElementName, Button>();
         protected Dictionary<ElementName, Label> Labels = new Dictionary<ElementName, Label>();
         protected Dictionary<ElementName, TrackBar> Trackbars = new Dictionary<ElementName, TrackBar>();
         protected Dictionary<ElementName, PictureBox> PictureBoxes = new Dictionary<ElementName, PictureBox>();
         protected Dictionary<ElementName, Timer> Timers = new Dictionary<ElementName, Timer>();
-        
         public IMediator Mediator { get; set; }
         protected Dictionary<ElementName, ElementValueTypes> ValueTypes = new Dictionary<ElementName, ElementValueTypes>();
-
-        
-
-        public ElementController()
-        {
-            
-        }
         public void SetMediator(IMediator mediator ) {
             Mediator = mediator;
         }
@@ -99,7 +104,6 @@ namespace YoloDetection.Marker
         {
             return PictureBoxes[name];
         }
-
         public Timer GetTimer(ElementName name)
         {
             return Timers[name];
@@ -108,12 +112,14 @@ namespace YoloDetection.Marker
         {
             Checkboxes.Add(name, val);
             ValueTypes.TryAdd(name, ElementValueTypes.Boolean);
+            val.CheckStateChanged += (object sender, EventArgs e) => Event?.Invoke(new ElementEvent() { Name = name, Type = ElementEvenType.Click, Sender = sender, Args = e });
             return this;
         }
         public virtual IElementController Add(ElementName name, Button val)
         {
             Buttons.Add(name, val);
             ValueTypes.TryAdd(name, ElementValueTypes.Button);
+            val.Click += (object sender, EventArgs e) => Event?.Invoke(new ElementEvent() { Name = name, Type = ElementEvenType.Click, Sender = sender, Args = e });
             return this;
         }
         public virtual IElementController Add(ElementName name, Label val)
@@ -126,6 +132,7 @@ namespace YoloDetection.Marker
         {
             Trackbars.Add(name, val);
             ValueTypes.TryAdd(name, ElementValueTypes.Int);
+            val.Scroll += (object sender, EventArgs e) => Event?.Invoke(new ElementEvent() { Name = name, Type = ElementEvenType.Click, Sender = sender, Args = e });
             return this;
         }
         public virtual IElementController Add(ElementName name, PictureBox val)
@@ -140,22 +147,6 @@ namespace YoloDetection.Marker
             ValueTypes.TryAdd(name, ElementValueTypes.Int);
             return this;
         }
-        protected void EmitEvent(ElementEvenType type, ElementName element, object sender, EventArgs e)
-        {
-            switch (type)
-            {
-                case ElementEvenType.Click:
-                    Click?.Invoke(element, sender,e);
-                    break;
-                case ElementEvenType.Scroll:
-                    Scroll?.Invoke(element, sender, e);
-                    break;
-                case ElementEvenType.CheckStateChanged:
-                    CheckStateChanged?.Invoke(element, sender, e);
-                    break;
-
-            }
-        }
     }
     class ElementControllerCommon : ElementController
     {
@@ -163,27 +154,11 @@ namespace YoloDetection.Marker
     }
     class ElementControllerButton : ElementController, IElementController
     {
-        public ElementControllerButton() : base() {
-        }
-        public override IElementController Add(ElementName name, Button val)
-        {
-            base.Add(name, val);
-            val.Click += (object sender, EventArgs e) => EmitEvent(ElementEvenType.Click, name, sender, e);
-            return this;
-        }
+        public ElementControllerButton() : base() {}
     }
     class ElementControllerPlaySpped : ElementController
     {
         public ElementControllerPlaySpped() : base() { }
-        public override IElementController Add(ElementName name, TrackBar val)
-        {
-            base.Add(name, val);
-            val.Scroll += (object sender, EventArgs e) =>
-            {
-                Mediator.ChangePlaySpeed(val.Value);
-            };
-            return this;
-        }
     }
 
     class ElementControllerImage : ElementController
@@ -193,35 +168,17 @@ namespace YoloDetection.Marker
     class ElementControllerTimer : ElementController
     {
         public ElementControllerTimer() : base() { }
-        public override IElementController Add(ElementName name, Timer val)
-        {
-            base.Add(name, val);
-            return this;
-        }
     }
     class ElementControllerFrame : ElementController
     {
         public ElementControllerFrame() : base() { }
         public override IElementController Add(ElementName name, CheckBox val)
         {
-            base.Add(name, val);
+            Checkboxes.Add(name, val);
+            ValueTypes.TryAdd(name, ElementValueTypes.Boolean);
             val.CheckStateChanged += (object sender, EventArgs e) =>
             {
                 Mediator.GetCurrentFrame()?.State.SetBoolState(name, val.Checked);
-            };
-            return this;
-        }
-        public override IElementController Add(ElementName name, Label val)
-        {
-            base.Add(name, val);
-            return this;
-        }
-        public override IElementController Add(ElementName name, TrackBar val)
-        {
-            base.Add(name, val);
-            val.Scroll += (object sender, EventArgs e) =>
-            {
-                Mediator.GetMarker().ShowFrame(val.Value);
             };
             return this;
         }

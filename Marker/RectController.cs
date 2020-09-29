@@ -48,7 +48,14 @@ namespace YoloDetection.Marker
             if (CreatingFrameObjec)
             {
                 Drawing = true;
+                return;
             }
+            IFrameObject fo = GetFrameObjectByPointF(startPoint);
+            if (fo == null)
+            {
+                ViewBoxController.StartMoving(e.Location);
+            }
+            
         }
         public void MouseLeftUp(object sender, MouseEventArgs e)
         {
@@ -64,6 +71,8 @@ namespace YoloDetection.Marker
         }
         public void Move(object sender, MouseEventArgs e)
         {
+            if (ViewBoxController.Moving) return;
+
             endPoint = ConverPointToPointF(e.Location.Divide(ViewBoxController.ImageScale));
             IFrameObject fo = GetFrameObjectByPointF(endPoint);
             if (fo != null)
@@ -82,7 +91,6 @@ namespace YoloDetection.Marker
             ViewBoxController.ImageScale += scale_per_delta * direct;
             if (ViewBoxController.ImageScale < 0) ViewBoxController.ImageScale = 0;
         }
-        
         public void Draw()
         {
             if (ViewBoxController.ImageNotExists) return;

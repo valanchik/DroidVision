@@ -672,6 +672,7 @@
             // 
             // imageViewer
             // 
+            this.imageViewer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.imageViewer.Location = new System.Drawing.Point(104, 66);
             this.imageViewer.Name = "imageViewer";
             this.imageViewer.Size = new System.Drawing.Size(902, 471);

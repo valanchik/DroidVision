@@ -7,6 +7,8 @@ using System.Windows.Forms;
 
 namespace YoloDetection.Marker
 {
+
+    public struct Element { }
     public interface IMediator
     {
         RectController rectController { get; set; }
@@ -40,9 +42,7 @@ namespace YoloDetection.Marker
             foreach (var entry in ElementControllers)
             {
                 entry.Value.SetMediator(this);
-                entry.Value.Click += EmitClick;
-                entry.Value.Scroll += EmitScroll;
-                entry.Value.CheckStateChanged += EmitCheckStateChanged;
+                entry.Value.Event += EmitElementEvent;
             }
             ViewBoxController = new ViewBoxController(GetViewBox());
             ViewBoxController.SetMediator(this);
@@ -103,6 +103,21 @@ namespace YoloDetection.Marker
             cfoBtn.Enabled = true;
             ViewBoxController.RectController.CreatingFrameObjec = false;
         }
+        protected void EmitElementEvent(IElementEvent elementEvent)
+        {
+            switch (elementEvent.Type)
+            {
+                case ElementEvenType.Click:
+                    EmitClick(elementEvent.Name, elementEvent.Sender, elementEvent.Args);
+                    break;
+                case ElementEvenType.Scroll:
+                    EmitScroll(elementEvent.Name, elementEvent.Sender, elementEvent.Args);
+                    break;
+                case ElementEvenType.CheckStateChanged:
+                    EmitCheckStateChanged(elementEvent.Name, elementEvent.Sender, elementEvent.Args);
+                    break;
+            }
+        }
         protected void EmitClick(ElementName element, object sender, EventArgs e)
         {
             switch (element)
@@ -111,21 +126,28 @@ namespace YoloDetection.Marker
                     ViewBoxController.RectController.CreatingFrameObjec = !ViewBoxController.RectController.CreatingFrameObjec;
                     Button btn = (Button)sender;
                     btn.Enabled = !ViewBoxController.RectController.CreatingFrameObjec;
-                    if (ViewBoxController.RectController.CreatingFrameObjec)
-                    {
-                        
-                    }
                     break;
             }
         }
         protected void EmitScroll(ElementName element, object sender, EventArgs e)
         {
-
+            switch (element)
+            {
+                case ElementName.PlaySpeeed:
+                    TrackBar tb = (TrackBar)sender;
+                    ChangePlaySpeed(tb.Value);
+                    break;
+                case ElementName.TimeLineBar:
+                    TrackBar tlb = (TrackBar)sender;
+                    Marker.ShowFrame(tlb.Value);
+                    break;
+            }
         }
         protected void EmitCheckStateChanged(ElementName element, object sender, EventArgs e)
         {
-
+            
         }
+        
         protected void MarkerLoadedData()
         {
             if (Marker.Data.Count == 0) return;

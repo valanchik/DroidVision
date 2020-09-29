@@ -81,6 +81,7 @@ namespace YoloDetection
                 ControlStyles.UserPaint |
                 ControlStyles.DoubleBuffer,
             true);
+
             Dictionary<ElementControllerType, IElementController> ElementControllers = new Dictionary<ElementControllerType, IElementController>();
 
             IElementController ecCommon = new ElementControllerCommon()
