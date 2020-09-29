@@ -132,7 +132,7 @@ namespace YoloDetection.Marker
         {
             Trackbars.Add(name, val);
             ValueTypes.TryAdd(name, ElementValueTypes.Int);
-            val.Scroll += (object sender, EventArgs e) => Event?.Invoke(new ElementEvent() { Name = name, Type = ElementEvenType.Click, Sender = sender, Args = e });
+            val.Scroll += (object sender, EventArgs e) => Event?.Invoke(new ElementEvent() { Name = name, Type = ElementEvenType.Scroll, Sender = sender, Args = e });
             return this;
         }
         public virtual IElementController Add(ElementName name, PictureBox val)

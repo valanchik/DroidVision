@@ -4,10 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
 namespace YoloDetection.Marker
 {
-
     public struct Element { }
     public interface IMediator
     {
@@ -60,11 +58,8 @@ namespace YoloDetection.Marker
         }
         public void ShowFrame(IFrame frame)
         {
-            
             Marker.CurrentFrame = frame;
-            
             ViewBoxController.SetImage(Marker.CurrentFrame.Image);
-            
             if (Marker.CurrentFrame.Objects.Count>0)
             {
                 ViewBoxController.RectController.SetFrameObjectList(Marker.CurrentFrame.Objects);
@@ -72,7 +67,6 @@ namespace YoloDetection.Marker
             }
             ((ElementControllerFrame)GetElementController(ElementControllerType.Frame))
             .SetFrameState(Marker.CurrentFrame.State);
-                        
         }
         public void ChangePlaySpeed(int speed)
         {
@@ -144,19 +138,13 @@ namespace YoloDetection.Marker
         }
         protected void EmitCheckStateChanged(ElementName element, object sender, EventArgs e)
         {
-            
         }
-
         protected void MarkerLoadedData()
         {
             if (Marker.Data.Count == 0) return;
-
             TrackBar timeline = GetElementController(ElementControllerType.Common).GetTrackBar(ElementName.TimeLineBar);
-
             timeline.Maximum = Marker.Data.Count;
-
             Marker.ShowFrame(Marker.Data[0]);
-
             ViewBoxController.ImageScale = 1;
         }
     }
