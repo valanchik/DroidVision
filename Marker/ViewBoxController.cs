@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace YoloDetection.Marker
@@ -13,12 +14,16 @@ namespace YoloDetection.Marker
         Image Image { get; set; }
         Size ImageSize { get; set; }
         bool Moving { get; set; }
+        Point Location { get; set; }
+        Point MousePosition { get; set; }
 
         void SetImage(Image image);
         void Clear();
         void Refresh();
         Rectangle GetImageRectangle();
         void StartMoving(Point point);
+        void Resize();
+        Label MousePositionLabel { get; }
     }
     public class ViewBoxController : IViewBoxControler
     {
@@ -30,6 +35,17 @@ namespace YoloDetection.Marker
         public Size Size { get; set; } = new Size();
         public Size ImageSize { get; set; } = new Size();
         public bool Moving { get; set; }
+        private int cnt = 0;
+        public Point Location { get => PictureBox.Location; set => PictureBox.Location = value; }
+        public Point MousePosition
+        {
+            get => _MousePosition; set
+            {
+                _MousePosition = value;
+                MousePositionLabel.Text = _MousePosition.ToString();
+            } }
+
+        public Label MousePositionLabel => Mediator.GetElementController(ElementControllerType.Common).GetLabel(ElementName.MousePosition);
         public float ImageScale
         {
             get => imageScale;
@@ -43,7 +59,7 @@ namespace YoloDetection.Marker
         protected Rectangle ImageRectangle;
         protected float imageScale = 1;
         protected Point movingStart = new Point();
-
+        private Point _MousePosition { get; set; }
         public ViewBoxController(PictureBox pictureBox)
         {
             PictureBox = pictureBox;
@@ -94,6 +110,9 @@ namespace YoloDetection.Marker
         }
         private void Move(object sender, MouseEventArgs e)
         {
+            MousePosition = e.Location;
+            cnt++;
+            Console.WriteLine(cnt+" Move");
             if (Moving)
             {
                 Point newlocation = PictureBox.Location;
@@ -108,8 +127,8 @@ namespace YoloDetection.Marker
         }
         private void MouseWheel(object sender, MouseEventArgs e)
         {
+            
             RectController.MouseWheel(sender, e);
-            Resize();
         }
         public void Clear()
         {
@@ -119,17 +138,18 @@ namespace YoloDetection.Marker
         {
             PictureBox.Refresh();
         }
-        private void Resize()
+        public void Resize()
         {
             if (PictureBox.Image == null) return;
-
-            PictureBox.Size = new Size(
-                (int)(PictureBox.Image.Size.Width * ImageScale),
-                (int)(PictureBox.Image.Size.Height * ImageScale));
+            int w = (int)(PictureBox.Image.Size.Width * ImageScale);
+            int h = (int)(PictureBox.Image.Size.Height * ImageScale);
+            Size nSize = new Size(w, h);
+            PictureBox.Size = nSize;
         }
         public Rectangle GetImageRectangle()
         {
             return ImageRectangle;
         }
+        
     }
 }

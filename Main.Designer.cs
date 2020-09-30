@@ -64,7 +64,6 @@
             this.label9 = new System.Windows.Forms.Label();
             this.calibrate = new System.Windows.Forms.CheckBox();
             this.Marking = new System.Windows.Forms.TabPage();
-            this.ImageViewerWraper = new System.Windows.Forms.Panel();
             this.playControls = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.backwardOne = new System.Windows.Forms.Button();
@@ -72,10 +71,13 @@
             this.forwardOne = new System.Windows.Forms.Button();
             this.mPlay = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            this.ImageViewerWraper = new System.Windows.Forms.Panel();
             this.imageViewer = new System.Windows.Forms.PictureBox();
             this.playRepeat = new System.Windows.Forms.CheckBox();
             this.timeLineBar = new System.Windows.Forms.TrackBar();
             this.controlPanel = new System.Windows.Forms.GroupBox();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.createFrameObject = new System.Windows.Forms.Button();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button4 = new System.Windows.Forms.Button();
@@ -112,8 +114,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.playTimer = new System.Windows.Forms.Timer(this.components);
-            this.groupBox10 = new System.Windows.Forms.GroupBox();
-            this.createFrameObject = new System.Windows.Forms.Button();
+            this.mousePos = new System.Windows.Forms.Label();
             this.mainTabs.SuspendLayout();
             this.Robot.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -122,12 +123,13 @@
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.Marking.SuspendLayout();
-            this.ImageViewerWraper.SuspendLayout();
             this.playControls.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            this.ImageViewerWraper.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imageViewer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.timeLineBar)).BeginInit();
             this.controlPanel.SuspendLayout();
+            this.groupBox10.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.frameProperty.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.playSpeed)).BeginInit();
@@ -136,7 +138,6 @@
             this.groupBox8.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox7.SuspendLayout();
-            this.groupBox10.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainTabs
@@ -558,19 +559,6 @@
             this.Marking.Text = "Разметка";
             this.Marking.UseVisualStyleBackColor = true;
             // 
-            // ImageViewerWraper
-            // 
-            this.ImageViewerWraper.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ImageViewerWraper.AutoScroll = true;
-            this.ImageViewerWraper.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ImageViewerWraper.Controls.Add(this.imageViewer);
-            this.ImageViewerWraper.Location = new System.Drawing.Point(3, 3);
-            this.ImageViewerWraper.Name = "ImageViewerWraper";
-            this.ImageViewerWraper.Size = new System.Drawing.Size(1065, 553);
-            this.ImageViewerWraper.TabIndex = 36;
-            // 
             // playControls
             // 
             this.playControls.Controls.Add(this.tableLayoutPanel1);
@@ -676,6 +664,19 @@
             this.button3.TabIndex = 0;
             this.button3.UseVisualStyleBackColor = true;
             // 
+            // ImageViewerWraper
+            // 
+            this.ImageViewerWraper.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ImageViewerWraper.AutoScroll = true;
+            this.ImageViewerWraper.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ImageViewerWraper.Controls.Add(this.imageViewer);
+            this.ImageViewerWraper.Location = new System.Drawing.Point(3, 3);
+            this.ImageViewerWraper.Name = "ImageViewerWraper";
+            this.ImageViewerWraper.Size = new System.Drawing.Size(1065, 553);
+            this.ImageViewerWraper.TabIndex = 36;
+            // 
             // imageViewer
             // 
             this.imageViewer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -715,6 +716,7 @@
             // 
             this.controlPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.controlPanel.Controls.Add(this.mousePos);
             this.controlPanel.Controls.Add(this.groupBox10);
             this.controlPanel.Controls.Add(this.groupBox9);
             this.controlPanel.Controls.Add(this.label15);
@@ -729,6 +731,25 @@
             this.controlPanel.TabIndex = 24;
             this.controlPanel.TabStop = false;
             this.controlPanel.Text = "Контрольная панель";
+            // 
+            // groupBox10
+            // 
+            this.groupBox10.Controls.Add(this.createFrameObject);
+            this.groupBox10.Location = new System.Drawing.Point(7, 256);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(254, 100);
+            this.groupBox10.TabIndex = 34;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "Создать";
+            // 
+            // createFrameObject
+            // 
+            this.createFrameObject.Location = new System.Drawing.Point(11, 19);
+            this.createFrameObject.Name = "createFrameObject";
+            this.createFrameObject.Size = new System.Drawing.Size(75, 23);
+            this.createFrameObject.TabIndex = 0;
+            this.createFrameObject.Text = "Объект";
+            this.createFrameObject.UseVisualStyleBackColor = true;
             // 
             // groupBox9
             // 
@@ -1128,24 +1149,14 @@
             this.playTimer.Interval = 1;
             this.playTimer.Tick += new System.EventHandler(this.button5_Click);
             // 
-            // groupBox10
+            // mousePos
             // 
-            this.groupBox10.Controls.Add(this.createFrameObject);
-            this.groupBox10.Location = new System.Drawing.Point(7, 256);
-            this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(254, 100);
-            this.groupBox10.TabIndex = 34;
-            this.groupBox10.TabStop = false;
-            this.groupBox10.Text = "Создать";
-            // 
-            // createFrameObject
-            // 
-            this.createFrameObject.Location = new System.Drawing.Point(11, 19);
-            this.createFrameObject.Name = "createFrameObject";
-            this.createFrameObject.Size = new System.Drawing.Size(75, 23);
-            this.createFrameObject.TabIndex = 0;
-            this.createFrameObject.Text = "Объект";
-            this.createFrameObject.UseVisualStyleBackColor = true;
+            this.mousePos.AutoSize = true;
+            this.mousePos.Location = new System.Drawing.Point(6, 417);
+            this.mousePos.Name = "mousePos";
+            this.mousePos.Size = new System.Drawing.Size(56, 13);
+            this.mousePos.TabIndex = 35;
+            this.mousePos.Text = "mousePos";
             // 
             // Main
             // 
@@ -1171,15 +1182,16 @@
             this.groupBox4.PerformLayout();
             this.Marking.ResumeLayout(false);
             this.Marking.PerformLayout();
-            this.ImageViewerWraper.ResumeLayout(false);
             this.playControls.ResumeLayout(false);
             this.playControls.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            this.ImageViewerWraper.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.imageViewer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.timeLineBar)).EndInit();
             this.controlPanel.ResumeLayout(false);
             this.controlPanel.PerformLayout();
+            this.groupBox10.ResumeLayout(false);
             this.groupBox9.ResumeLayout(false);
             this.groupBox9.PerformLayout();
             this.frameProperty.ResumeLayout(false);
@@ -1194,7 +1206,6 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox7.ResumeLayout(false);
-            this.groupBox10.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1285,6 +1296,7 @@
         private System.Windows.Forms.Panel ImageViewerWraper;
         private System.Windows.Forms.GroupBox groupBox10;
         private System.Windows.Forms.Button createFrameObject;
+        private System.Windows.Forms.Label mousePos;
     }
 }
 

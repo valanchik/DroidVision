@@ -72,6 +72,7 @@ namespace YoloDetection.Marker
         }
         public void Move(object sender, MouseEventArgs e)
         {
+            
             if (ViewBoxController.Moving) return;
             endPoint = ConverPointToPointF(e.Location.Divide(ViewBoxController.ImageScale));
             if (Drawing || MovingSelectedFrameObject)
@@ -94,8 +95,23 @@ namespace YoloDetection.Marker
         {
             const float scale_per_delta = 0.05F;
             float direct = e.Delta >= 0 ? 1 : -1;
+            float deltaScale = ViewBoxController.ImageScale;
             ViewBoxController.ImageScale += scale_per_delta * direct;
+            deltaScale = ViewBoxController.ImageScale - deltaScale;
             if (ViewBoxController.ImageScale < 0) ViewBoxController.ImageScale = 0;
+            Point nMP = new Point((int)(ViewBoxController.MousePosition.X * deltaScale), (int)(ViewBoxController.MousePosition.Y * deltaScale));
+
+            Rectangle r = new Rectangle(ViewBoxController.MousePosition,
+                new Size((int)((nMP.X - ViewBoxController.MousePosition.X)), (int)((nMP.Y - ViewBoxController.MousePosition.Y))));
+
+            Size delta = new Size(nMP.X, nMP.Y);
+            Console.WriteLine(ViewBoxController.MousePosition);
+            Console.WriteLine(delta);
+            //ViewBoxController.MousePosition = nMP;
+
+            ViewBoxController.Resize();
+            ViewBoxController.Location -= delta;
+
         }
         public void DrawAll()
         {

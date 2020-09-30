@@ -39,8 +39,9 @@ namespace YoloDetection.Marker
         PlayRepeat,
         PlaySpeeed,
         ViewBox,
-        playTimer,
-        createFrameObejct
+        PlayTimer,
+        CreateFrameObejct,
+        MousePosition
     }
     public enum ElementValueTypes
     {

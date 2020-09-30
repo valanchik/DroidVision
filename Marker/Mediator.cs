@@ -75,7 +75,7 @@ namespace YoloDetection.Marker
         private Timer GetPlayTimer ()
         {
             return ((ElementControllerTimer)GetElementController(ElementControllerType.Timer))
-                   .GetTimer(ElementName.playTimer);
+                   .GetTimer(ElementName.PlayTimer);
         }
         private PictureBox GetViewBox()
         {
@@ -92,7 +92,7 @@ namespace YoloDetection.Marker
         }
         public void EndEditViewBox()
         {
-            Button cfoBtn = GetElementController(ElementControllerType.Button).GetButton(ElementName.createFrameObejct);
+            Button cfoBtn = GetElementController(ElementControllerType.Button).GetButton(ElementName.CreateFrameObejct);
             cfoBtn.Enabled = true;
             ViewBoxController.RectController.CreatingFrameObjec = false;
         }
@@ -115,7 +115,7 @@ namespace YoloDetection.Marker
         {
             switch (element)
             {
-                case ElementName.createFrameObejct:
+                case ElementName.CreateFrameObejct:
                     ViewBoxController.RectController.CreatingFrameObjec = !ViewBoxController.RectController.CreatingFrameObjec;
                     Button btn = (Button)sender;
                     btn.Enabled = !ViewBoxController.RectController.CreatingFrameObjec;

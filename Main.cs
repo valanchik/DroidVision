@@ -86,10 +86,11 @@ namespace YoloDetection
 
             IElementController ecCommon = new ElementControllerCommon()
                 .Add(ElementName.PlayRepeat, playRepeat)
-                .Add(ElementName.TimeLineBar, timeLineBar);
+                .Add(ElementName.TimeLineBar, timeLineBar)
+                .Add(ElementName.MousePosition, mousePos);
 
             IElementController ecBtn = new ElementControllerButton()
-                .Add(ElementName.createFrameObejct, createFrameObject);
+                .Add(ElementName.CreateFrameObejct, createFrameObject);
 
             IElementController ecPlaySpeed = new ElementControllerPlaySpped()
                 .Add(ElementName.PlaySpeeed, playSpeed);
@@ -98,7 +99,7 @@ namespace YoloDetection
                 .Add(ElementName.ViewBox, imageViewer);
 
             IElementController ecPlayTimer = new ElementControllerTimer()
-                .Add(ElementName.playTimer, playTimer);
+                .Add(ElementName.PlayTimer, playTimer);
 
             IElementController ecFrame = new ElementControllerFrame()
                 .Add(ElementName.FrameId, frameId)
