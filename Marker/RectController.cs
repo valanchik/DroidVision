@@ -107,10 +107,8 @@ namespace YoloDetection.Marker
             Size delta = new Size(nMP.X, nMP.Y);
             Console.WriteLine(ViewBoxController.MousePosition);
             Console.WriteLine(delta);
-            //ViewBoxController.MousePosition = nMP;
 
             ViewBoxController.Resize();
-            ViewBoxController.Location -= delta;
 
         }
         public void DrawAll()

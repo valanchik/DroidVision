@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-
 namespace YoloDetection.Marker
 {
     public interface IViewBoxControler: IMediatorSetter
@@ -16,7 +15,6 @@ namespace YoloDetection.Marker
         bool Moving { get; set; }
         Point Location { get; set; }
         Point MousePosition { get; set; }
-
         void SetImage(Image image);
         void Clear();
         void Refresh();
@@ -44,7 +42,6 @@ namespace YoloDetection.Marker
                 _MousePosition = value;
                 MousePositionLabel.Text = _MousePosition.ToString();
             } }
-
         public Label MousePositionLabel => Mediator.GetElementController(ElementControllerType.Common).GetLabel(ElementName.MousePosition);
         public float ImageScale
         {
@@ -67,6 +64,8 @@ namespace YoloDetection.Marker
             PictureBox.MouseUp += MouseUp;
             PictureBox.MouseMove += Move;
             PictureBox.MouseWheel += MouseWheel;
+/*            PictureBox.MouseLeave += MouseLeave;
+            PictureBox.MouseEnter += MouseEnter;*/
             Size = PictureBox.Size;
             RectController = new RectController(this);
             RectController.OnNewFrameObject += (IFrameObject frameObject) =>
@@ -127,7 +126,6 @@ namespace YoloDetection.Marker
         }
         private void MouseWheel(object sender, MouseEventArgs e)
         {
-            
             RectController.MouseWheel(sender, e);
         }
         public void Clear()
@@ -144,12 +142,19 @@ namespace YoloDetection.Marker
             int w = (int)(PictureBox.Image.Size.Width * ImageScale);
             int h = (int)(PictureBox.Image.Size.Height * ImageScale);
             Size nSize = new Size(w, h);
+            Size delta = nSize - PictureBox.Size;
+            delta.Width /= 2;
+            delta.Height /= 2;
             PictureBox.Size = nSize;
+            PictureBox.Location -= delta;
         }
         public Rectangle GetImageRectangle()
         {
             return ImageRectangle;
         }
-        
+        public Panel GetParentElement()
+        {
+            return (Panel)PictureBox.Parent;
+        }
     }
 }

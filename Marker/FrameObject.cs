@@ -18,6 +18,9 @@ namespace YoloDetection.Marker
         byte RectTransparent { get; set; }
         byte BorderTransparent { get; set; }
         bool Selected { get; set; }
+        Color SelectedPointColor { get; set; }
+        Color PointColor { get; set; }
+        Color SelectedBorderColor { get; set; }
     }
     public struct FrameObject: IFrameObject
     {
@@ -26,6 +29,9 @@ namespace YoloDetection.Marker
         public IRectNormalized Rect { get; set; }
         public Color BaseColor { get; set; }
         public Color BorderColor { get; set; }
+        public Color SelectedBorderColor { get; set; }
+        public Color PointColor { get; set; }
+        public Color SelectedPointColor { get; set; }
         public SolidBrush FillRectBrush { get; set; }
         public byte RectTransparent { get; set; }
         public byte BorderTransparent { get; set; }
@@ -39,6 +45,9 @@ namespace YoloDetection.Marker
             BorderTransparent = 0;
             BaseColor = Color.Red;
             BorderColor = Color.FromArgb(BorderTransparent, BaseColor);
+            SelectedBorderColor = Color.Magenta;
+            PointColor = Color.White;
+            SelectedPointColor = Color.Magenta;
             Selected = false;
             FillRectBrush = new SolidBrush(Color.FromArgb(RectTransparent, BaseColor));
 

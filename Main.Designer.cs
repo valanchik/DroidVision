@@ -561,10 +561,11 @@
             // 
             // playControls
             // 
+            this.playControls.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.playControls.Controls.Add(this.tableLayoutPanel1);
             this.playControls.Location = new System.Drawing.Point(729, 556);
             this.playControls.Name = "playControls";
-            this.playControls.Size = new System.Drawing.Size(231, 51);
+            this.playControls.Size = new System.Drawing.Size(253, 51);
             this.playControls.TabIndex = 29;
             // 
             // tableLayoutPanel1
@@ -587,7 +588,7 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(225, 46);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(247, 46);
             this.tableLayoutPanel1.TabIndex = 30;
             // 
             // backwardOne
@@ -598,9 +599,9 @@
             this.backwardOne.AutoSize = true;
             this.backwardOne.BackgroundImage = global::YoloDetection.Properties.Resources.back;
             this.backwardOne.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.backwardOne.Location = new System.Drawing.Point(48, 3);
+            this.backwardOne.Location = new System.Drawing.Point(52, 3);
             this.backwardOne.Name = "backwardOne";
-            this.backwardOne.Size = new System.Drawing.Size(39, 40);
+            this.backwardOne.Size = new System.Drawing.Size(43, 40);
             this.backwardOne.TabIndex = 4;
             this.backwardOne.UseVisualStyleBackColor = true;
             this.backwardOne.Click += new System.EventHandler(this.button7_Click);
@@ -613,9 +614,9 @@
             this.button6.AutoSize = true;
             this.button6.BackgroundImage = global::YoloDetection.Properties.Resources.many_forward;
             this.button6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.button6.Location = new System.Drawing.Point(183, 3);
+            this.button6.Location = new System.Drawing.Point(199, 3);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(39, 40);
+            this.button6.Size = new System.Drawing.Size(45, 40);
             this.button6.TabIndex = 3;
             this.button6.UseVisualStyleBackColor = true;
             // 
@@ -627,9 +628,9 @@
             this.forwardOne.AutoSize = true;
             this.forwardOne.BackgroundImage = global::YoloDetection.Properties.Resources.forward;
             this.forwardOne.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.forwardOne.Location = new System.Drawing.Point(138, 3);
+            this.forwardOne.Location = new System.Drawing.Point(150, 3);
             this.forwardOne.Name = "forwardOne";
-            this.forwardOne.Size = new System.Drawing.Size(39, 40);
+            this.forwardOne.Size = new System.Drawing.Size(43, 40);
             this.forwardOne.TabIndex = 2;
             this.forwardOne.UseVisualStyleBackColor = true;
             this.forwardOne.Click += new System.EventHandler(this.button5_Click);
@@ -643,9 +644,9 @@
             this.mPlay.BackColor = System.Drawing.Color.Transparent;
             this.mPlay.BackgroundImage = global::YoloDetection.Properties.Resources.play;
             this.mPlay.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.mPlay.Location = new System.Drawing.Point(93, 3);
+            this.mPlay.Location = new System.Drawing.Point(101, 3);
             this.mPlay.Name = "mPlay";
-            this.mPlay.Size = new System.Drawing.Size(39, 40);
+            this.mPlay.Size = new System.Drawing.Size(43, 40);
             this.mPlay.TabIndex = 1;
             this.mPlay.UseVisualStyleBackColor = false;
             this.mPlay.Click += new System.EventHandler(this.mPlay_Click);
@@ -660,7 +661,7 @@
             this.button3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.button3.Location = new System.Drawing.Point(3, 3);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(39, 40);
+            this.button3.Size = new System.Drawing.Size(43, 40);
             this.button3.TabIndex = 0;
             this.button3.UseVisualStyleBackColor = true;
             // 
@@ -669,7 +670,6 @@
             this.ImageViewerWraper.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ImageViewerWraper.AutoScroll = true;
             this.ImageViewerWraper.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ImageViewerWraper.Controls.Add(this.imageViewer);
             this.ImageViewerWraper.Location = new System.Drawing.Point(3, 3);
@@ -680,19 +680,18 @@
             // imageViewer
             // 
             this.imageViewer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.imageViewer.Location = new System.Drawing.Point(104, 66);
+            this.imageViewer.Location = new System.Drawing.Point(51, 47);
             this.imageViewer.Name = "imageViewer";
             this.imageViewer.Size = new System.Drawing.Size(902, 471);
-            this.imageViewer.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.imageViewer.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.imageViewer.TabIndex = 23;
             this.imageViewer.TabStop = false;
             // 
             // playRepeat
             // 
-            this.playRepeat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.playRepeat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.playRepeat.AutoSize = true;
-            this.playRepeat.Location = new System.Drawing.Point(966, 579);
+            this.playRepeat.Location = new System.Drawing.Point(988, 572);
             this.playRepeat.Name = "playRepeat";
             this.playRepeat.Size = new System.Drawing.Size(80, 17);
             this.playRepeat.TabIndex = 35;
