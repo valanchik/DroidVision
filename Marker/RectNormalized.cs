@@ -5,7 +5,6 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace YoloDetection.Marker
 {
     public interface IControlPoint
@@ -19,7 +18,6 @@ namespace YoloDetection.Marker
         public Point Point { get; set; }
         public int Size { get; set; }
         public Rectangle Rect { get; set; }
-
         public ControlPoint(): this(new Point(), 1,  new Rectangle()) { }
         public ControlPoint(Point point, int size, Rectangle rect) 
         {
@@ -40,9 +38,7 @@ namespace YoloDetection.Marker
         PointF LeftBottom { get;  }
         PointF RightTop { get; }
         PointF RightBottom { get; }
-        List<IControlPoint> ControlPoints { get; set; }
         RectangleF Rectangle { get; set; }
-
         bool Contains(PointF point);
         void Move(PointF pos);
     }
@@ -70,13 +66,11 @@ namespace YoloDetection.Marker
                     Start = value.Location;
                     End = new PointF(value.Right, value.Bottom);
                 } }
-        public List<IControlPoint> ControlPoints { get; set; }
-        public RectNormalized() : this(new PointF(), new PointF(), new List<IControlPoint>()) { }
-        public RectNormalized(PointF start, PointF end, List<IControlPoint> controlPoints)
+        public RectNormalized() : this(new PointF(), new PointF()) { }
+        public RectNormalized(PointF start, PointF end)
         {
             Start = start;
             End = end;
-            ControlPoints = controlPoints;
         }
         public bool Contains(PointF point)
         {

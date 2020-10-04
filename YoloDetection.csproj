@@ -154,6 +154,7 @@
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
+    <Compile Include="Marker\ControlRect.cs" />
     <Compile Include="Marker\ElementController.cs" />
     <Compile Include="Marker\Frame.cs" />
     <Compile Include="Marker\FrameObejctContainer.cs" />

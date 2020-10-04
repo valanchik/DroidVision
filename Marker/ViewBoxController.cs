@@ -33,7 +33,6 @@ namespace YoloDetection.Marker
         public Size Size { get; set; } = new Size();
         public Size ImageSize { get; set; } = new Size();
         public bool Moving { get; set; }
-        private int cnt = 0;
         public Point Location { get => PictureBox.Location; set => PictureBox.Location = value; }
         public Point MousePosition
         {
@@ -110,8 +109,6 @@ namespace YoloDetection.Marker
         private void Move(object sender, MouseEventArgs e)
         {
             MousePosition = e.Location;
-            cnt++;
-            Console.WriteLine(cnt+" Move");
             if (Moving)
             {
                 Point newlocation = PictureBox.Location;

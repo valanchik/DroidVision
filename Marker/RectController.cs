@@ -59,20 +59,17 @@ namespace YoloDetection.Marker
                 MovingSelectedFrameObject = false;
                 DrawAll();
             }
-            
             if (CreatingFrameObjec)
             {
                 Drawing = false;
                 endPoint = ConverPointToPointF(e.Location.Divide(ViewBoxController.ImageScale));
-                IFrameObject frameObject = new FrameObject();
-                frameObject.Rect = new RectNormalized(startPoint, endPoint, new List<IControlPoint>());
+                IFrameObject frameObject = new FrameObject(0, "", new RectNormalized(startPoint, endPoint), ConverSizeToSizeF(new Size(6,6)));
                 OnNewFrameObject?.Invoke(frameObject);
                 DrawAll();
             }
         }
         public void Move(object sender, MouseEventArgs e)
         {
-            
             if (ViewBoxController.Moving) return;
             endPoint = ConverPointToPointF(e.Location.Divide(ViewBoxController.ImageScale));
             if (Drawing || MovingSelectedFrameObject)
@@ -83,12 +80,19 @@ namespace YoloDetection.Marker
                     {
                         IFrameObject sfo = FrameObejctContainer.Selected;
                         PointF delta = new PointF(endPoint.X - startPoint.X, endPoint.Y - startPoint.Y);
-                        sfo.Rect.Move(delta);
+                        sfo.Move(delta);
                         startPoint = endPoint;
                         Draw(sfo);
                     }
                 }
                 DrawAll();
+            } else
+            {
+                IFrameObject fo = GetFrameObjectByPointF(endPoint);
+                if (fo != null)
+                {
+                    Console.WriteLine(fo.GetPointType(endPoint));
+                }
             }
         }
         public void MouseWheel(object sender, MouseEventArgs e)
@@ -100,16 +104,12 @@ namespace YoloDetection.Marker
             deltaScale = ViewBoxController.ImageScale - deltaScale;
             if (ViewBoxController.ImageScale < 0) ViewBoxController.ImageScale = 0;
             Point nMP = new Point((int)(ViewBoxController.MousePosition.X * deltaScale), (int)(ViewBoxController.MousePosition.Y * deltaScale));
-
             Rectangle r = new Rectangle(ViewBoxController.MousePosition,
                 new Size((int)((nMP.X - ViewBoxController.MousePosition.X)), (int)((nMP.Y - ViewBoxController.MousePosition.Y))));
-
             Size delta = new Size(nMP.X, nMP.Y);
             Console.WriteLine(ViewBoxController.MousePosition);
             Console.WriteLine(delta);
-
             ViewBoxController.Resize();
-
         }
         public void DrawAll()
         {
@@ -140,6 +140,7 @@ namespace YoloDetection.Marker
             using (Pen pen = new Pen(Color.Red, 1))
             using (SolidBrush brushRect = new SolidBrush(Color.FromArgb(100, Color.Red)))
             using (SolidBrush brushElipse = new SolidBrush(Color.FromArgb(200, Color.White)))
+            using (SolidBrush brushControls = new SolidBrush(Color.FromArgb(200, Color.Black)))
             using (Graphics G = Graphics.FromImage(ViewBoxController.Image))
             {
                 Point leftTop = ConverPointFToPoint(frameObject.Rect.LeftTop);
@@ -149,16 +150,31 @@ namespace YoloDetection.Marker
                 Rectangle rect = new Rectangle().FromPoints(leftTop, rightBottom);
                 G.DrawRectangle(pen, rect);
                 G.FillRectangle(brushRect, rect);
-                int radius = 6;
-                G.FillCircle(brushElipse, leftTop, radius);
-                G.FillCircle(brushElipse, rightBottom, radius);
-                G.FillCircle(brushElipse, leftBotton, radius);
-                G.FillCircle(brushElipse, rightTop, radius);
+                if (!MovingSelectedFrameObject)
+                {
+                    int radius = 6;
+                    G.FillCircle(brushElipse, leftTop, radius);
+                    G.FillCircle(brushElipse, rightBottom, radius);
+                    G.FillCircle(brushElipse, leftBotton, radius);
+                    G.FillCircle(brushElipse, rightTop, radius);
+                    foreach (var elm in frameObject.ControlRects)
+                    {
+                        G.FillRectangle(brushControls, elm.Value.Rect.UnNormalize(ViewBoxController.ImageSize));
+                    }
+                }
+                
             }
         }
         public void SetFrameObjectList(List<IFrameObject> list)
         {
             FrameObejctContainer.Set(list);
+        }
+        private SizeF ConverSizeToSizeF(Size size)
+        {
+            SizeF tmp = new SizeF();
+            tmp.Width = size.Width > 0 ? (size.Width / (float)ViewBoxController.ImageSize.Width) : 0;
+            tmp.Height = size.Height > 0 ? (size.Height / (float)ViewBoxController.ImageSize.Height) : 0;
+            return tmp;
         }
         private PointF ConverPointToPointF(Point point)
         {

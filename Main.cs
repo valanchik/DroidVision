@@ -20,7 +20,6 @@ using static Darknet.YoloWrapper;
 using OpenCvSharp;
 using System.Drawing.Imaging;
 using YoloDetection.Marker;
-
 namespace YoloDetection
 {
     public partial class Main : Form
@@ -74,49 +73,38 @@ namespace YoloDetection
         private Marker.Marker marker;
         public Main()
         {
-
             InitializeComponent();
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             SetStyle(ControlStyles.UserPaint, true);
             SetStyle(ControlStyles.DoubleBuffer, true);
             Dictionary<ElementControllerType, IElementController> ElementControllers = new Dictionary<ElementControllerType, IElementController>();
-
             IElementController ecCommon = new ElementControllerCommon()
                 .Add(ElementName.PlayRepeat, playRepeat)
                 .Add(ElementName.TimeLineBar, timeLineBar)
                 .Add(ElementName.MousePosition, mousePos);
-
             IElementController ecBtn = new ElementControllerButton()
                 .Add(ElementName.CreateFrameObejct, createFrameObject);
-
             IElementController ecPlaySpeed = new ElementControllerPlaySpped()
                 .Add(ElementName.PlaySpeeed, playSpeed);
-
             IElementController ecImage = new ElementControllerImage()
                 .Add(ElementName.ViewBox, imageViewer);
-
             IElementController ecPlayTimer = new ElementControllerTimer()
                 .Add(ElementName.PlayTimer, playTimer);
-
             IElementController ecFrame = new ElementControllerFrame()
                 .Add(ElementName.FrameId, frameId)
                 .Add(ElementName.InBookmarks, frameInBookmarks)
                 .Add(ElementName.Hided, frameHided)
                 .Add(ElementName.Removed, frameRemoved)
                 .Add(ElementName.TimeLineBar, timeLineBar);                
-
             ElementControllers.Add(ElementControllerType.Common, ecCommon);
             ElementControllers.Add(ElementControllerType.Button, ecBtn);
             ElementControllers.Add(ElementControllerType.PlaySpeeed, ecPlaySpeed);
             ElementControllers.Add(ElementControllerType.Window, ecImage);
             ElementControllers.Add(ElementControllerType.Timer, ecPlayTimer);
             ElementControllers.Add(ElementControllerType.Frame, ecFrame);
-
             marker = new Marker.Marker();
-
             MarkerMediator Mediator = new MarkerMediator(marker, ElementControllers);
-
             kalmanError_TextChanged(null, null);
             covariance_TextChanged(null, null);
             maxFirePErSecond_TextChanged(null, null);
@@ -125,7 +113,6 @@ namespace YoloDetection
             mjpegWriter = new MJPEGWriter("video.mjpeg");
             // arduino controller
             gameController = new UDPGameController("192.168.88.177", 8888);
-
             UDPGameController.OnReceive += (string message) =>
             {
                 lastOffset = Vector.Parse(message);
@@ -135,7 +122,6 @@ namespace YoloDetection
                 LastUDPTime = SWController.ElapsedMilliseconds;
                 timeController.Invoke(new Action(() => timeController.Text = LastUDPTime.ToString() + " ms, " + TimePerLenght.ToString() + " ms на 1 длинны"));
             };
-
             server = new UDPServer();
             keyServer = new udpKeyServer(8889);
             udpKeyServer.OnKeyMoving += (bool status) =>
@@ -147,14 +133,11 @@ namespace YoloDetection
                      gc.LED = AutoMoving;
                      gameController.MakeCommand(gc);
                  }
-
              };
-
             UDPServer.mjpegParser.OnJPEG += (byte[] jpeg) =>
             {
                 if (IsDetected)
                 {
-                    
                     lastJPEG = jpeg;
                     YoloDetection.lastImg = jpeg;
                     if (drawImage.Checked)
@@ -180,7 +163,6 @@ namespace YoloDetection
             {
                 timeDetection = time;
                 YoloRunTimeValue.Invoke(new Action(() => {
-
                     YoloRunTimeValue.Text = time.ToString() + " ms";
                     Make();
                 }));
@@ -197,9 +179,7 @@ namespace YoloDetection
             SWController.Start();
         }
         async private void Make() {
-            
             autoMovingStatus.BackColor = AutoMoving ? Color.Green : Color.Red;
-            
             List<DetectedObject> obj = new List<DetectedObject>();
             while (!detected.IsEmpty)
             {
@@ -212,7 +192,6 @@ namespace YoloDetection
             DetectedObjectController objects = new DetectedObjectController(new Vector(1920, 1080), new Vector(852, 480), obj);
             //DetectedObjectController objects = new DetectedObjectController(new Vector(1920, 1080), new Vector(1920, 1080), obj);
             DetectedObject o = objects.GetNearestRectFromCenter();
-
             if (o != null)
             {
                 // получем обсласти головы
@@ -232,19 +211,14 @@ namespace YoloDetection
                     Head = new Vector(o.Rect.X+heads[0].Center.X, o.Rect.Y+ heads[0].Center.Y);
                     FireRect = heads[0].Rect;
                 }
-                
                 if (KalmanReseted)
                 {
                     Kalman2D.SetState(Head, 40);
-
                     KalmanRect.SetState(o.Rect, 40F);
                     KalmanReseted = false;
                 }
                 KalmanRect.Correct(o.Rect);
-                
                 o.Rect = KalmanRect.State;
-                
-
                 Kalman2D.Correct(Head);
                 Head = Kalman2D.State;
                 if (drawImage.Checked && pictureBox1.Image != null)
@@ -262,10 +236,8 @@ namespace YoloDetection
                         {
                             Console.WriteLine(ee);
                         }
-
                         SavePicSW.Restart();
                     }
-
                     using (Pen pen = new Pen(Color.Red, 2))
                     using (Pen pen2 = new Pen(Color.Yellow, 2))
                     using (Graphics G = Graphics.FromImage(pictureBox1.Image))
@@ -285,17 +257,13 @@ namespace YoloDetection
                         {
                             o.DrawCircle(G, pen, Head);
                         }
-                         
                     }
-                    
                     pictureBox1.Refresh();
                 }
                 if (AutoMoving)
                 {
-
                     if (true || sendedToUDP)
                     {
-
                         if (lastObj != null)
                         {
                             if (KalmanPredictReseted)
@@ -305,7 +273,6 @@ namespace YoloDetection
                                 PredictCounter.Add(Head);
                                 KalmanPredictReseted = false;
                             }
-
                             //Vector predicted = objects.Predict(Vector.Subtract(Head, lastObj.Head), OffsetCounter.Avg*2);
                             Vector delta = Vector.Subtract(Head, lastObj.Head);
                             double scalar = OffsetCounter.Avg;
@@ -315,23 +282,18 @@ namespace YoloDetection
                                 scalar = scalarLimit;
                             }
                             Vector predicted = Vector.Add(Head, Vector.Multiply(delta, scalar));
-
                             PredictCounter.Add(predicted);
                             Kalman2DPredict.Correct(PredictCounter.Avg);
                             predicted = Kalman2DPredict.State;
-
                             //o.offsetVector = objects.GetFromCenter(predicted);
                             o.offsetVector = objects.GetFromCenter(Head);
-
                             //o.DrawCircle(e, predictPen, predicted);
-
                         }
                         else
                         {
                             PredictCounter.Reset();
                             //KalmanPredictReseted = true;
                         }
-
                         // инверсия вектора
                         //o.offsetVector = Vector.Multiply(o.offsetVector, -1);
                         if (calibrate.Checked)
@@ -362,13 +324,11 @@ namespace YoloDetection
                                 //ML.SetMinMilliseconds(LastUDPTime+ timeDetection);
                                 if (ML.IsCanMove())
                                 {
-
                                     /*if (o.offsetVector.Length>1000) {
                                         Vector norm = new Vector(o.offsetVector.X, o.offsetVector.Y);
                                         norm.Normalize();
                                         o.offsetVector = Vector.Multiply(norm, 100);
                                     }*/
-
                                     GameCommand command = new GameCommand();
                                     ML.Move();
                                     if (autoCalibration.CheckState == CheckState.Checked)
@@ -376,7 +336,6 @@ namespace YoloDetection
                                         AutoCalibrate(o.offsetVector);
                                     }
                                     o.offsetVector = Vector.Multiply(CalibrateMouseCoeff, o.offsetVector);
-
                                     if (CanMouseMove.Checked)
                                     {
                                         command.X = (int)o.offsetVector.X;
@@ -394,13 +353,11 @@ namespace YoloDetection
                                             o.offsetVector = Vector.Add(o.offsetVector, new Vector(0, 0));
                                             command.X = (int)o.offsetVector.X;
                                             command.Y = (int)o.offsetVector.Y;
-
                                             command.ClickType = MouseClickTypes.LeftBtn;
                                             command.ClickTimeout = TurnTimeOut;
                                         }
                                     }
                                     command.LED = AutoMoving;
-
                                     if (!movingX.Checked)
                                     {
                                         command.X = 0;
@@ -409,7 +366,6 @@ namespace YoloDetection
                                     {
                                         command.Y = 0;
                                     }
-
                                     gameController.MakeCommand(command);
                                     stopedMoving = false;
                                 }
@@ -421,9 +377,6 @@ namespace YoloDetection
                 {
                     sendedToUDP = true;
                 }
-
-                
-
             }
             else
             {
@@ -436,7 +389,6 @@ namespace YoloDetection
                     command.LED = AutoMoving;
                     //gameController.MakeCommand(command);
                 }
-
                 //OffsetCounter.Reset();
             }
             if (lastObj != null && o != null)
@@ -455,15 +407,12 @@ namespace YoloDetection
                         pictureBox1.Image.Save(memoryStream, ImageFormat.Jpeg);
                         mjpegWriter.Add(memoryStream.ToArray());
                     }
-
                 }
                 else
                 {
                     mjpegWriter.Add(lastJPEG);
                 }
             }
-            
-                
             IsDetected = true;
         }
         private Task<List<DetectedObject>> GetHeads(byte[] data)
@@ -485,7 +434,6 @@ namespace YoloDetection
                 {
                     Thread.Sleep(1);
                 }
-
                 return tmp;
             });
         }
@@ -495,17 +443,10 @@ namespace YoloDetection
             {
                 return;
             }
-
             /*Stopwatch SW = new Stopwatch(); // Создаем объект
             SW.Start(); // Запускаем*/
-
-
-            
-            
-            
             /*SW.Stop();
             calcTimeValue.Text = (SW.ElapsedTicks / (TimeSpan.TicksPerMillisecond / 1000)).ToString() + " µs";*/
-
         }
         private void AutoCalibrate (Vector offsetVector)
         {
@@ -521,31 +462,24 @@ namespace YoloDetection
                 CalibrateVector = offsetVector;
             }
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
             button1.Enabled = false;
             YoloDetection = new YoloDetection();
         }
-
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
         }
-
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             Hook.UnHook();
         }
-
         private static Image cropImage(Image img, Rectangle cropArea)
         {
-
             bmpImage = new Bitmap(img);
-            
             return bmpImage.Clone(cropArea, bmpImage.PixelFormat);
         }
-
         private double DoubleParser(string text)
         {
             double val = double.MaxValue;
@@ -571,7 +505,6 @@ namespace YoloDetection
                 return;
             }
             double val = DoubleParser(kalmanError.Text);
-
             if (val>-1)
             {
                 kalmanError.Text = val.ToString();
@@ -584,25 +517,20 @@ namespace YoloDetection
             kalmanError.SelectionStart = kalmanError.Text.Length;
             kalmanError.Focus();
         }
-
-
         private void Main_Load(object sender, EventArgs e)
         {
             mouseClickType.SelectedIndex = 0;
         }
-
         private void mouseClickType_SelectedIndexChanged(object sender, EventArgs e)
         {
             mouseTimeout.Enabled = !((MouseClickTypes)mouseClickType.SelectedIndex == MouseClickTypes.None);
         }
-
         private void maxFirePErSecond_TextChanged(object sender, EventArgs e)
         {
             double v = 1;
             double.TryParse(maxFirePErSecond.Text, out v);
             FC.SetMaxFirePerSecond(v);
         }
-
         private void covariance_TextChanged(object sender, EventArgs e)
         {
             if (covariance.Text == "")
@@ -610,7 +538,6 @@ namespace YoloDetection
                 return;
             }
             float val = -1;
-
             float.TryParse(covariance.Text, out val);
             if (val > -1)
             {
@@ -625,14 +552,12 @@ namespace YoloDetection
             covariance.SelectionStart = covariance.Text.Length;
             covariance.Focus();
         }
-
         private void turnTimeOutValue_TextChanged(object sender, EventArgs e)
         {
             int v = 0;
             Int32.TryParse(turnTimeOutValue.Text, out v);
             TurnTimeOut = v;
         }
-
         private void mouseCoeff_TextChanged(object sender, EventArgs e)
         {
             if (mouseCoeff.Text == "" || mouseCoeff.Text.Substring(mouseCoeff.Text.Length-1,1) == ",")
@@ -640,7 +565,6 @@ namespace YoloDetection
                 return;
             }
             float val = -1;
-
             float.TryParse(mouseCoeff.Text, out val);
             if (val > -1)
             {
@@ -654,7 +578,6 @@ namespace YoloDetection
             mouseCoeff.SelectionStart = mouseCoeff.Text.Length;
             mouseCoeff.Focus();
         }
-
         private void createDetectedImg_CheckedChanged(object sender, EventArgs e)
         {
             if (createDetectedImg.Checked)
@@ -666,17 +589,13 @@ namespace YoloDetection
                 SavePicSW.Reset();
             }
         }
-
         private void autoMovingStatus_Paint(object sender, PaintEventArgs e)
         {
-            
         }
-
         private void autoMovingStatus_MouseClick(object sender, MouseEventArgs e)
         {
             AutoMoving = !AutoMoving;
         }
-
         private void button2_Click(object sender, EventArgs e)
         {
             if (FC.IsCanFire())
@@ -698,31 +617,21 @@ namespace YoloDetection
                 gameController.MakeCommand(gc);
             }
         }
-
         private void maxFirePErSecond_TextChanged_1(object sender, EventArgs e)
         {
-
         }
-
         private void CanMouseMove_CheckedChanged(object sender, EventArgs e)
         {
-
         }
-
         private void saveImgPrefix_TextChanged(object sender, EventArgs e)
         {
-
         }
-
         private void gc_commnad_TextChanged(object sender, EventArgs e)
         {
-
         }
-
         private void openFile_Click(object sender, EventArgs e)
         {
             OpenFileDialog FBD = new OpenFileDialog();
-            
             if (FBD.ShowDialog() == DialogResult.OK)
             {
                 //MessageBox.Show(FBD.SelectedPath);
@@ -730,56 +639,39 @@ namespace YoloDetection
                 marker.Load(FBD.FileName);
             }
         }
-
         private void groupBox5_Enter(object sender, EventArgs e)
         {
-
         }
-
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-
         }
-
         private void canFire_CheckedChanged(object sender, EventArgs e)
         {
-
         }
-
         private void movingX_CheckedChanged(object sender, EventArgs e)
         {
-
         }
-
         private void movingY_CheckedChanged(object sender, EventArgs e)
         {
-
         }
-
         private void mPlay_Click(object sender, EventArgs e)
         {
             playTimer.Enabled = !playTimer.Enabled;
         }
-
         private void button5_Click(object sender, EventArgs e)
         {
             marker.ShowForwardFrame();
         }
-
         private void trackBar1_ValueChanged(object sender, EventArgs e)
         {
             playTimer.Interval = playSpeed.Value;
         }
-
         private void trackBar1_Move(object sender, EventArgs e)
         {
-            
         }
-
         private void button7_Click(object sender, EventArgs e)
         {
             marker.ShowBackwardFrame();
         }
-
     }
 }

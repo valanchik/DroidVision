@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace YoloDetection.Marker
 {
     public interface IFrame
@@ -15,14 +14,12 @@ namespace YoloDetection.Marker
         List<IFrameObject> Objects { get; set; }
         bool IsEmpty();
     }
-
     public class Frame : IFrame
     {
         public Image Image { get; set; }
         public int FrameId { get; set; }
         public FrameState State { get; set; }
         public List<IFrameObject> Objects { get; set; }
-
         public Frame(Image image, int frameId, FrameState state)
         {
             Image = image;
@@ -34,6 +31,5 @@ namespace YoloDetection.Marker
         {
             return false;
         }
-
     }
 }
