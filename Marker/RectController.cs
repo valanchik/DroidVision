@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
+
 using System.Windows.Forms;
 using static YoloDetection.Marker.RectController;
 namespace YoloDetection.Marker
@@ -8,6 +8,7 @@ namespace YoloDetection.Marker
     public interface IRectController
     {
         bool CreatingFrameObjec { get; set; }
+        List<IControlRect> ControlRects { get; set; }
         event Action<IFrameObject> OnNewFrameObject;
         void DrawAll();
         void Draw(IFrameObject frameObject);
@@ -20,6 +21,7 @@ namespace YoloDetection.Marker
     public class RectController : IRectController
     {
         public event Action<IFrameObject> OnNewFrameObject;
+        public List<IControlRect> ControlRects { get; set; } = new List<IControlRect>();
         public bool CreatingFrameObjec { get; set; }
         private IFrameObejctContainer FrameObejctContainer { get; set; } = new FrameObejctContainer();
         private PointF startPoint = new PointF();
@@ -88,10 +90,10 @@ namespace YoloDetection.Marker
                 DrawAll();
             } else
             {
-                IFrameObject fo = GetFrameObjectByPointF(endPoint);
-                if (fo != null)
+                IControlRect cr = GetControlRect(endPoint);
+                if (cr != null)
                 {
-                    Console.WriteLine(fo.GetPointType(endPoint));
+                    Console.WriteLine(cr.FrameObject.GetPointType(endPoint));
                 }
             }
         }
@@ -129,7 +131,9 @@ namespace YoloDetection.Marker
             }
             else
             {
+                ControlRects.Clear();
                 foreach (IFrameObject fo in FrameObejctContainer.FrameObjectList) {
+                    ControlRects.AddRange(fo.GetControlRects());
                     Draw(fo);
                 };
             }
@@ -137,7 +141,7 @@ namespace YoloDetection.Marker
         }
         public void Draw(IFrameObject frameObject)
         {
-            using (Pen pen = new Pen(Color.Red, 1))
+            using (Pen pen = new Pen(Color.Red, 2))
             using (SolidBrush brushRect = new SolidBrush(Color.FromArgb(100, Color.Red)))
             using (SolidBrush brushElipse = new SolidBrush(Color.FromArgb(200, Color.White)))
             using (SolidBrush brushControls = new SolidBrush(Color.FromArgb(200, Color.Black)))
@@ -152,17 +156,11 @@ namespace YoloDetection.Marker
                 G.FillRectangle(brushRect, rect);
                 if (!MovingSelectedFrameObject)
                 {
-                    int radius = 6;
-                    G.FillCircle(brushElipse, leftTop, radius);
-                    G.FillCircle(brushElipse, rightBottom, radius);
-                    G.FillCircle(brushElipse, leftBotton, radius);
-                    G.FillCircle(brushElipse, rightTop, radius);
                     foreach (var elm in frameObject.ControlRects)
                     {
                         G.FillRectangle(brushControls, elm.Value.Rect.UnNormalize(ViewBoxController.ImageSize));
                     }
                 }
-                
             }
         }
         public void SetFrameObjectList(List<IFrameObject> list)
@@ -179,8 +177,9 @@ namespace YoloDetection.Marker
         private PointF ConverPointToPointF(Point point)
         {
             PointF tmp = new PointF();
-            tmp.X = point.X>0? (point.X / (float)ViewBoxController.ImageSize.Width): 0;
-            tmp.Y = point.Y>0? (point.Y / (float)ViewBoxController.ImageSize.Height): 0;
+
+            tmp.X = point.X>0? (point.X / (double)ViewBoxController.ImageSize.Width): 0;
+            tmp.Y = point.Y>0? (point.Y / (double)ViewBoxController.ImageSize.Height): 0;
             return tmp;
         }
         private IFrameObject GetFrameObjectByPointF(PointF point)
@@ -193,6 +192,17 @@ namespace YoloDetection.Marker
             tmp.X = (int)(vector.X * ViewBoxController.ImageSize.Width);
             tmp.Y = (int)(vector.Y * ViewBoxController.ImageSize.Height);
             return tmp;
+        }
+        private IControlRect GetControlRect(PointF pos)
+        {
+            foreach (var elm in ControlRects)
+            {
+                if (elm.Contains(pos))
+                {
+                    return elm;
+                }
+            }
+            return null;
         }
     }
 }

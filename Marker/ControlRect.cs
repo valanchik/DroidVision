@@ -6,11 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 namespace YoloDetection.Marker
 {
-    public class ControlRect
+
+    public class ControlRect : IControlRect
     {
         public RectangleF Rect { get; set; }
-        public ControlRect(PointF point, SizeF size)
+        public IFrameObject FrameObject { get; set; }
+        public ControlRect(IFrameObject frameObject, PointF point, SizeF size)
         {
+            FrameObject = frameObject;
             Rect = new RectangleF(point, size);
         }
         public bool Contains(PointF pos)

@@ -15,7 +15,7 @@ namespace YoloDetection
             dict.Add(key, value);
             return true;
         }
-        public static Rectangle FromPoints(this Rectangle rect, Point start, Point end)
+        public static Rectangle FromPoints(this Rectangle rect, IPointInt start, IPointInt end)
         {
             int X = start.X,
                   Y = start.Y,

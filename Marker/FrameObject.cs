@@ -34,6 +34,7 @@ namespace YoloDetection.Marker
         Color SelectedBorderColor { get; set; }
         Dictionary<RectNormalizesPointType, ControlRect> ControlRects { get; set;}
         SizeF ControlsSize { get; set; }
+        List<IControlRect> GetControlRects();
         RectNormalizesPointType GetPointType(PointF point);
         void Move(PointF pos);
     }
@@ -57,6 +58,7 @@ namespace YoloDetection.Marker
         public FrameObject() : this(0, "", new RectNormalized(), SizeF.Empty) { }
         public FrameObject(RectNormalized rect) : this(0, "", rect, SizeF.Empty) { }
         public FrameObject(RectNormalized rect, SizeF controlsSize) : this(0, "", rect, controlsSize) { }
+        protected List<IControlRect> ControlRectsList { get; set; } = new List<IControlRect>();
         public FrameObject(int id, string name, RectNormalized rect, SizeF controlsSize)
         {
             Id = id;
@@ -75,18 +77,26 @@ namespace YoloDetection.Marker
             FillRectBrush = new SolidBrush(Color.FromArgb(RectTransparent, BaseColor));
         }
         protected void CreateControlRects(){
-            PointF offsetPoint = new PointF((ControlsSize.Width / 2) * -1, (ControlsSize.Height / 2) * -1);
-            ControlRects.Add(RectNormalizesPointType.LeftTopPoint, new ControlRect(Rect.LeftTop, ControlsSize));
-            ControlRects[RectNormalizesPointType.LeftTopPoint].Move(offsetPoint);
-            ControlRects.Add(RectNormalizesPointType.LeftBottomPoint, new ControlRect(Rect.LeftBottom, ControlsSize));
+            PointF offsetPoint = new PointF(ControlsSize.Width, ControlsSize.Height);
+            ControlRects.Add(RectNormalizesPointType.LeftTopPoint, new ControlRect(this, Rect.LeftTop, ControlsSize));
+            ControlRectsList.Add(ControlRects[RectNormalizesPointType.LeftTopPoint]);
+            ControlRects.Add(RectNormalizesPointType.LeftBottomPoint, new ControlRect(this,Rect.LeftBottom, ControlsSize));
+            ControlRectsList.Add(ControlRects[RectNormalizesPointType.LeftBottomPoint]);
+            offsetPoint.X = 0;
             offsetPoint.Y *= -1;
             ControlRects[RectNormalizesPointType.LeftBottomPoint].Move(offsetPoint);
-            ControlRects.Add(RectNormalizesPointType.RightBottomPoint, new ControlRect(Rect.RightBottom, ControlsSize));
-            offsetPoint.X *= -1;
+            ControlRects.Add(RectNormalizesPointType.RightBottomPoint, new ControlRect(this, Rect.RightBottom, ControlsSize));
+            ControlRectsList.Add(ControlRects[RectNormalizesPointType.RightBottomPoint]);
+            offsetPoint.X = ControlsSize.Width*-1;
             ControlRects[RectNormalizesPointType.RightBottomPoint].Move(offsetPoint);
-            ControlRects.Add(RectNormalizesPointType.RightTopPoint, new ControlRect(Rect.RightTop, ControlsSize));
-            offsetPoint.Y *= -1;
+            ControlRects.Add(RectNormalizesPointType.RightTopPoint, new ControlRect(this, Rect.RightTop, ControlsSize));
+            ControlRectsList.Add(ControlRects[RectNormalizesPointType.RightTopPoint]);
+            offsetPoint.Y = 0;
             ControlRects[RectNormalizesPointType.RightTopPoint].Move(offsetPoint);
+        }
+        public List<IControlRect> GetControlRects()
+        {
+            return ControlRectsList;
         }
         public RectNormalizesPointType GetPointType(PointF point)
         {
