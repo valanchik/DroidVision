@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Drawing;
 using System.Windows.Forms;
-using static YoloDetection.Marker.RectController;
+
 namespace YoloDetection.Marker
 {
+    
     public interface IRectController
     {
         bool CreatingFrameObjec { get; set; }
@@ -24,8 +25,8 @@ namespace YoloDetection.Marker
         public List<IControlRect> ControlRects { get; set; } = new List<IControlRect>();
         public bool CreatingFrameObjec { get; set; }
         private IFrameObejctContainer FrameObejctContainer { get; set; } = new FrameObejctContainer();
-        private PointF startPoint = new PointF();
-        private PointF endPoint = new PointF();
+        private Point<double> startPoint = new Point<double>();
+        private Point<double> endPoint = new Point<double>();
         private bool Drawing = false;
         private bool MovingSelectedFrameObject = false;
         private IViewBoxControler ViewBoxController { get; set; }
@@ -37,6 +38,7 @@ namespace YoloDetection.Marker
         }
         public void MouseLeftDown(object sender, MouseEventArgs e)
         {
+            //Point<double> newPoint = e.Location.Divide(ViewBoxController.ImageScale);
             Point newPoint = e.Location.Divide(ViewBoxController.ImageScale);
             startPoint = ConverPointToPointF(newPoint);
             if (CreatingFrameObjec)
@@ -81,7 +83,7 @@ namespace YoloDetection.Marker
                     if (FrameObejctContainer.Selected != null)
                     {
                         IFrameObject sfo = FrameObejctContainer.Selected;
-                        PointF delta = new PointF(endPoint.X - startPoint.X, endPoint.Y - startPoint.Y);
+                        Point<double> delta = endPoint - startPoint;
                         sfo.Move(delta);
                         startPoint = endPoint;
                         Draw(sfo);
@@ -90,10 +92,10 @@ namespace YoloDetection.Marker
                 DrawAll();
             } else
             {
-                IControlRect cr = GetControlRect(endPoint);
+                IControlRect cr = GetControlRect((Point)endPoint);
                 if (cr != null)
                 {
-                    Console.WriteLine(cr.FrameObject.GetPointType(endPoint));
+                    Console.WriteLine(cr.FrameObject.GetPointType((Point)endPoint));
                 }
             }
         }
@@ -101,7 +103,7 @@ namespace YoloDetection.Marker
         {
             const float scale_per_delta = 0.05F;
             float direct = e.Delta >= 0 ? 1 : -1;
-            float deltaScale = ViewBoxController.ImageScale;
+            double deltaScale = ViewBoxController.ImageScale;
             ViewBoxController.ImageScale += scale_per_delta * direct;
             deltaScale = ViewBoxController.ImageScale - deltaScale;
             if (ViewBoxController.ImageScale < 0) ViewBoxController.ImageScale = 0;
@@ -167,26 +169,26 @@ namespace YoloDetection.Marker
         {
             FrameObejctContainer.Set(list);
         }
-        private SizeF ConverSizeToSizeF(Size size)
+        private Size<double> ConverSizeToSizeF(Size size)
         {
-            SizeF tmp = new SizeF();
-            tmp.Width = size.Width > 0 ? (size.Width / (float)ViewBoxController.ImageSize.Width) : 0;
-            tmp.Height = size.Height > 0 ? (size.Height / (float)ViewBoxController.ImageSize.Height) : 0;
+            Size<double> tmp = new Size<double>();
+            tmp.Width = size.Width > 0 ? (size.Width / (double)ViewBoxController.ImageSize.Width) : 0;
+            tmp.Height = size.Height > 0 ? (size.Height / (double)ViewBoxController.ImageSize.Height) : 0;
             return tmp;
         }
-        private PointF ConverPointToPointF(Point point)
+        private Point<double> ConverPointToPointF(Point point)
         {
-            PointF tmp = new PointF();
+            Point<double> tmp = new Point<double>();
 
             tmp.X = point.X>0? (point.X / (double)ViewBoxController.ImageSize.Width): 0;
             tmp.Y = point.Y>0? (point.Y / (double)ViewBoxController.ImageSize.Height): 0;
             return tmp;
         }
-        private IFrameObject GetFrameObjectByPointF(PointF point)
+        private IFrameObject GetFrameObjectByPointF(Point<double> point)
         {
             return FrameObejctContainer.FrameObjectList.Find(fo => fo.Rect.Contains(point));
         }
-        private Point ConverPointFToPoint(PointF vector)
+        private Point ConverPointFToPoint(Point<double> vector)
         {
             Point tmp = new Point();
             tmp.X = (int)(vector.X * ViewBoxController.ImageSize.Width);

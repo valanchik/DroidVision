@@ -15,7 +15,7 @@ namespace YoloDetection
             dict.Add(key, value);
             return true;
         }
-        public static Rectangle FromPoints(this Rectangle rect, IPointInt start, IPointInt end)
+        public static Rectangle FromPoints(this Rectangle rect, Point start, Point end)
         {
             int X = start.X,
                   Y = start.Y,
@@ -50,7 +50,7 @@ namespace YoloDetection
         {
             g.FillEllipse(brush, new RectangleF(new PointF(point.X - (float)(radius / 2), point.Y - (float)(radius / 2)), new Size(radius, radius)));
         }
-        public static Point Divide(this Point point, float value)
+        public static Point Divide(this Point point, double value)
         {
             return new Point((int)(point.X / value), (int)(point.Y / value));
         }

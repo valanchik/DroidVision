@@ -155,6 +155,7 @@
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
     <Compile Include="Marker\ControlRect.cs" />
+    <Compile Include="Marker\CustomObject.cs" />
     <Compile Include="Marker\ElementController.cs" />
     <Compile Include="Marker\Frame.cs" />
     <Compile Include="Marker\FrameObejctContainer.cs" />
@@ -164,8 +165,10 @@
     <Compile Include="Marker\Mediator.cs" />
     <Compile Include="Marker\FrameObject.cs" />
     <Compile Include="Marker\Point.cs" />
+    <Compile Include="Marker\Rectangle.cs" />
     <Compile Include="Marker\RectController.cs" />
     <Compile Include="Marker\RectNormalized.cs" />
+    <Compile Include="Marker\Size.cs" />
     <Compile Include="Marker\ViewBoxController.cs" />
     <Compile Include="MJPEGParser.cs" />
     <Compile Include="MJPEGWriter.cs" />

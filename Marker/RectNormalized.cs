@@ -32,39 +32,41 @@ namespace YoloDetection.Marker
     }
     public interface IRectNormalized
     {
-        PointF Start { get; set; }
-        PointF End { get; set; }
-        PointF LeftTop { get; }
-        PointF LeftBottom { get;  }
-        PointF RightTop { get; }
-        PointF RightBottom { get; }
-        RectangleF Rectangle { get; set; }
-        bool Contains(PointF point);
+        Point<double> Start { get; set; }
+        Point<double> End { get; set; }
+        Point<double> LeftTop { get; }
+        Point<double> LeftBottom { get;  }
+        Point<double> RightTop { get; }
+        Point<double> RightBottom { get; }
+        Rectangle<double> Rectangle { get; set; }
+        bool Contains(Point<double> point);
         void Move(PointF pos);
     }
     public class RectNormalized: IRectNormalized
     {
-        private PointF _LeftBottom;
-        private PointF _RightTop;
-        private PointF _End;
-        public PointF Start { get; set; }
-        public PointF End { get => _End; set {
+        private Point<double> _LeftBottom;
+        private Point<double> _RightTop;
+        private Point<double> _End;
+        public Point<double> Start { get; set; }
+        public Point<double> End { get => _End; set
+            {
                 _End = value;
                 if (_End.X > 1) _End.X = 1;
                 if (_End.Y > 1) _End.Y = 1;
-                _LeftBottom = new PointF(Start.X, _End.Y);
-                _RightTop = new PointF(_End.X,  Start.Y );
-                _Rectangle = new RectangleF().FromPointsF(_LeftBottom, _RightTop);
-            } }
-        public PointF LeftTop => Start;
-        public PointF LeftBottom => _LeftBottom;
-        public PointF RightTop => _RightTop;
-        public PointF RightBottom => End;
-        private RectangleF _Rectangle = new RectangleF();
-        public RectangleF Rectangle { get => _Rectangle; 
+                _LeftBottom = new Point<double> { X = Start.X, Y = _End.Y };
+                _RightTop = new Point<double> { X = _End.X, Y = Start.Y };
+                _Rectangle = Rectangle<double>.FromPoints(_LeftBottom, _RightTop);
+            }
+        }
+        public Point<double> LeftTop => Start;
+        public Point<double> LeftBottom => _LeftBottom;
+        public Point<double> RightTop => _RightTop;
+        public Point<double> RightBottom => End;
+        private Rectangle<double> _Rectangle = new Rectangle<double>();
+        public Rectangle<double> Rectangle { get => _Rectangle; 
                 set {
                     Start = value.Location;
-                    End = new PointF(value.Right, value.Bottom);
+                    End = new Point<double> { X = value.Right, Y = value.Bottom };
                 } }
         public RectNormalized() : this(new PointF(), new PointF()) { }
         public RectNormalized(PointF start, PointF end)
@@ -72,13 +74,13 @@ namespace YoloDetection.Marker
             Start = start;
             End = end;
         }
-        public bool Contains(PointF point)
+        public bool Contains(Point<double> point)
         {
             return Rectangle.Contains(point);
         }
         public void Move(PointF pos)
         {
-            RectangleF rect = Rectangle;
+            Rectangle<double> rect = Rectangle;
             rect.Offset(pos);
             Rectangle = rect;
         }
