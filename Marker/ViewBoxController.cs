@@ -41,6 +41,7 @@ namespace YoloDetection.Marker
                 MousePositionLabel.Text = _MousePosition.ToString();
             } }
         public Label MousePositionLabel => Mediator.GetElementController(ElementControllerType.Common).GetLabel(ElementName.MousePosition);
+        
         public double ImageScale
         {
             get => imageScale;

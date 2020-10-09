@@ -36,6 +36,7 @@ namespace YoloDetection.Marker
             ViewBoxController = viewBoxController;
             SetFrameObjectList(frameObjectList);
         }
+        private int BorderSize = 1;
         public void MouseLeftDown(object sender, MouseEventArgs e)
         {
             Point newPoint = e.Location.Divide(ViewBoxController.ImageScale);
@@ -65,7 +66,8 @@ namespace YoloDetection.Marker
             if (CreatingFrameObjec)
             {
                 Drawing = false;
-                endPoint = ConverPointToPointF(e.Location.Divide(ViewBoxController.ImageScale));
+                Point loc = new Point(e.Location.X+(int)(BorderSize* ViewBoxController.ImageScale), e.Location.Y+(int)(BorderSize*ViewBoxController.ImageScale));
+                endPoint = ConverPointToPointF(loc.Divide(ViewBoxController.ImageScale));
                 IFrameObject frameObject = new FrameObject(0, "", new RectNormalized(startPoint, endPoint), ConverSizeToSizeF(new Size(6,6)));
                 OnNewFrameObject?.Invoke(frameObject);
                 DrawAll();
@@ -74,7 +76,8 @@ namespace YoloDetection.Marker
         public void Move(object sender, MouseEventArgs e)
         {
             if (ViewBoxController.Moving) return;
-            endPoint = ConverPointToPointF(e.Location.Divide(ViewBoxController.ImageScale));
+            Point loc = new Point(e.Location.X + (int)(BorderSize * ViewBoxController.ImageScale), e.Location.Y + (int)(BorderSize * ViewBoxController.ImageScale));
+            endPoint = ConverPointToPointF(loc.Divide(ViewBoxController.ImageScale));
             if (Drawing || MovingSelectedFrameObject)
             {
                 if (MovingSelectedFrameObject)
@@ -142,7 +145,7 @@ namespace YoloDetection.Marker
         }
         public void Draw(IFrameObject frameObject)
         {
-            using (Pen pen = new Pen(Color.Red, 1))
+            using (Pen pen = new Pen(Color.Red, BorderSize))
             using (SolidBrush brushRect = new SolidBrush(Color.FromArgb(100, Color.Red)))
             using (SolidBrush brushElipse = new SolidBrush(Color.FromArgb(200, Color.White)))
             using (SolidBrush brushControls = new SolidBrush(Color.FromArgb(200, Color.Black)))
@@ -186,11 +189,11 @@ namespace YoloDetection.Marker
         {
             return FrameObejctContainer.FrameObjectList.Find(fo => fo.Rect.Contains(point));
         }
-        private Point ConverPointFToPoint(Point<double> vector)
+        private Point ConverPointFToPoint(Point<double> point)
         {
             Point tmp = new Point();
-            tmp.X = (int)(vector.X * ViewBoxController.ImageSize.Width);
-            tmp.Y = (int)(vector.Y * ViewBoxController.ImageSize.Height);
+            tmp.X = (int)(point.X * ViewBoxController.ImageSize.Width);
+            tmp.Y = (int)(point.Y * ViewBoxController.ImageSize.Height);
             return tmp;
         }
         private IControlRect GetControlRect(PointF pos)
