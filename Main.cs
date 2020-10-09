@@ -673,5 +673,15 @@ namespace YoloDetection
         {
             marker.ShowBackwardFrame();
         }
+
+        private void autoMovingStatus_Paint_1(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void autoMovingStatus_MouseClick(object sender, EventArgs e)
+        {
+            AutoMoving = !AutoMoving;
+        }
     }
 }

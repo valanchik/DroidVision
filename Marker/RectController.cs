@@ -38,7 +38,6 @@ namespace YoloDetection.Marker
         }
         public void MouseLeftDown(object sender, MouseEventArgs e)
         {
-            //Point<double> newPoint = e.Location.Divide(ViewBoxController.ImageScale);
             Point newPoint = e.Location.Divide(ViewBoxController.ImageScale);
             startPoint = ConverPointToPointF(newPoint);
             if (CreatingFrameObjec)
@@ -143,7 +142,7 @@ namespace YoloDetection.Marker
         }
         public void Draw(IFrameObject frameObject)
         {
-            using (Pen pen = new Pen(Color.Red, 2))
+            using (Pen pen = new Pen(Color.Red, 1))
             using (SolidBrush brushRect = new SolidBrush(Color.FromArgb(100, Color.Red)))
             using (SolidBrush brushElipse = new SolidBrush(Color.FromArgb(200, Color.White)))
             using (SolidBrush brushControls = new SolidBrush(Color.FromArgb(200, Color.Black)))
@@ -151,8 +150,7 @@ namespace YoloDetection.Marker
             {
                 Point leftTop = ConverPointFToPoint(frameObject.Rect.LeftTop);
                 Point rightBottom = ConverPointFToPoint(frameObject.Rect.RightBottom);
-                Point leftBotton = ConverPointFToPoint(frameObject.Rect.LeftBottom);
-                Point rightTop = ConverPointFToPoint(frameObject.Rect.RightTop);
+
                 Rectangle rect = new Rectangle().FromPoints(leftTop, rightBottom);
                 G.DrawRectangle(pen, rect);
                 G.FillRectangle(brushRect, rect);
@@ -160,7 +158,7 @@ namespace YoloDetection.Marker
                 {
                     foreach (var elm in frameObject.ControlRects)
                     {
-                        G.FillRectangle(brushControls, elm.Value.Rect.UnNormalize(ViewBoxController.ImageSize));
+                        G.FillRectangle(brushControls, elm.Value.Rect.Rectangle.UnNormalize(ViewBoxController.ImageSize));
                     }
                 }
             }

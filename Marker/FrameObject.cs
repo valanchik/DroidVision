@@ -33,7 +33,7 @@ namespace YoloDetection.Marker
         Color PointColor { get; set; }
         Color SelectedBorderColor { get; set; }
         Dictionary<RectNormalizesPointType, ControlRect> ControlRects { get; set;}
-        SizeF ControlsSize { get; set; }
+        Size<double> ControlsSize { get; set; }
         List<IControlRect> GetControlRects();
         RectNormalizesPointType GetPointType(PointF point);
         void Move(PointF pos);
@@ -44,7 +44,7 @@ namespace YoloDetection.Marker
         public string Name { get; set; }
         public IRectNormalized Rect { get; set; }
         public Dictionary<RectNormalizesPointType, ControlRect> ControlRects { get; set; } = new Dictionary<RectNormalizesPointType, ControlRect>();
-        public SizeF ControlsSize { get; set; }
+        public Size<double> ControlsSize { get; set; }
         public Color BaseColor { get; set; }
         public Color BorderColor { get; set; }
         public Color SelectedBorderColor { get; set; }
@@ -54,12 +54,11 @@ namespace YoloDetection.Marker
         public byte RectTransparent { get; set; }
         public byte BorderTransparent { get; set; }
         public bool Selected { get; set; }
-        private IRectNormalized PRect { get; set; }
-        public FrameObject() : this(0, "", new RectNormalized(), SizeF.Empty) { }
-        public FrameObject(RectNormalized rect) : this(0, "", rect, SizeF.Empty) { }
-        public FrameObject(RectNormalized rect, SizeF controlsSize) : this(0, "", rect, controlsSize) { }
+        public FrameObject() : this(0, "", new RectNormalized(), Size<double>.Empty) { }
+        public FrameObject(RectNormalized rect) : this(0, "", rect, Size<double>.Empty) { }
+        public FrameObject(RectNormalized rect, Size<double> controlsSize) : this(0, "", rect, controlsSize) { }
         protected List<IControlRect> ControlRectsList { get; set; } = new List<IControlRect>();
-        public FrameObject(int id, string name, RectNormalized rect, SizeF controlsSize)
+        public FrameObject(int id, string name, RectNormalized rect, Size<double> controlsSize)
         {
             Id = id;
             Name = name;
@@ -77,7 +76,7 @@ namespace YoloDetection.Marker
             FillRectBrush = new SolidBrush(Color.FromArgb(RectTransparent, BaseColor));
         }
         protected void CreateControlRects(){
-            PointF offsetPoint = new PointF(ControlsSize.Width, ControlsSize.Height);
+            Point<double> offsetPoint = new Point<double>(ControlsSize.Width, ControlsSize.Height);
             ControlRects.Add(RectNormalizesPointType.LeftTopPoint, new ControlRect(this, Rect.LeftTop, ControlsSize));
             ControlRectsList.Add(ControlRects[RectNormalizesPointType.LeftTopPoint]);
             ControlRects.Add(RectNormalizesPointType.LeftBottomPoint, new ControlRect(this,Rect.LeftBottom, ControlsSize));

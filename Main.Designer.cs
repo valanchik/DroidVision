@@ -76,6 +76,7 @@
             this.playRepeat = new System.Windows.Forms.CheckBox();
             this.timeLineBar = new System.Windows.Forms.TrackBar();
             this.controlPanel = new System.Windows.Forms.GroupBox();
+            this.mousePos = new System.Windows.Forms.Label();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.createFrameObject = new System.Windows.Forms.Button();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
@@ -114,7 +115,6 @@
             this.button1 = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.playTimer = new System.Windows.Forms.Timer(this.components);
-            this.mousePos = new System.Windows.Forms.Label();
             this.mainTabs.SuspendLayout();
             this.Robot.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -310,6 +310,8 @@
             this.autoMovingStatus.Name = "autoMovingStatus";
             this.autoMovingStatus.Size = new System.Drawing.Size(46, 11);
             this.autoMovingStatus.TabIndex = 4;
+            this.autoMovingStatus.Click += new System.EventHandler(this.autoMovingStatus_MouseClick);
+            this.autoMovingStatus.Paint += new System.Windows.Forms.PaintEventHandler(this.autoMovingStatus_Paint_1);
             // 
             // label2
             // 
@@ -731,6 +733,15 @@
             this.controlPanel.TabStop = false;
             this.controlPanel.Text = "Контрольная панель";
             // 
+            // mousePos
+            // 
+            this.mousePos.AutoSize = true;
+            this.mousePos.Location = new System.Drawing.Point(6, 417);
+            this.mousePos.Name = "mousePos";
+            this.mousePos.Size = new System.Drawing.Size(56, 13);
+            this.mousePos.TabIndex = 35;
+            this.mousePos.Text = "mousePos";
+            // 
             // groupBox10
             // 
             this.groupBox10.Controls.Add(this.createFrameObject);
@@ -1147,15 +1158,6 @@
             // 
             this.playTimer.Interval = 1;
             this.playTimer.Tick += new System.EventHandler(this.button5_Click);
-            // 
-            // mousePos
-            // 
-            this.mousePos.AutoSize = true;
-            this.mousePos.Location = new System.Drawing.Point(6, 417);
-            this.mousePos.Name = "mousePos";
-            this.mousePos.Size = new System.Drawing.Size(56, 13);
-            this.mousePos.TabIndex = 35;
-            this.mousePos.Text = "mousePos";
             // 
             // Main
             // 

@@ -11,6 +11,13 @@ namespace YoloDetection.Marker
     {
         public T Width { get; set; }
         public T Height { get; set; }
+        public static Size<T> Empty { get => new Size<T>(default, default); }
+        public Size(Point<T> point) : this(point.X, point.Y) { }
+        public Size(T width, T height)
+        {
+            Width = width;
+            Height = height;
+        }
 
         public static implicit operator Size(Size<T> point)
         {
@@ -22,7 +29,19 @@ namespace YoloDetection.Marker
         }
         public static Size<T> operator -(Size<T> left, Size<T> right)
         {
-            return new Size<T> { Width = (dynamic)left.Width - right.Width, Height = (dynamic)left.Height - right.Width };
+            return new Size<T> { Width = (dynamic)left.Width - right.Width, Height = (dynamic)left.Height - right.Height };
+        }
+        public static Size<T> operator -(Size<T> left, Point<T> right)
+        {
+            return new Size<T> { Width = (dynamic)left.Width - right.X, Height = (dynamic)left.Height - right.Y };
+        }
+        public static Size<T> operator +(Size<T> left, Size<T> right)
+        {
+            return new Size<T> { Width = (dynamic)left.Width + right.Width, Height = (dynamic)left.Height + right.Height };
+        }
+        public static Size<T> operator +(Size<T> left, Point<T> right)
+        {
+            return new Size<T> { Width = (dynamic)left.Width + right.X, Height = (dynamic)left.Height + right.Y };
         }
         public static Size<T> operator /(Size<T> left, T right)
         {

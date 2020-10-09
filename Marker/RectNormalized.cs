@@ -40,7 +40,7 @@ namespace YoloDetection.Marker
         Point<double> RightBottom { get; }
         Rectangle<double> Rectangle { get; set; }
         bool Contains(Point<double> point);
-        void Move(PointF pos);
+        void Move(Point<double> pos);
     }
     public class RectNormalized: IRectNormalized
     {
@@ -68,8 +68,9 @@ namespace YoloDetection.Marker
                     Start = value.Location;
                     End = new Point<double> { X = value.Right, Y = value.Bottom };
                 } }
-        public RectNormalized() : this(new PointF(), new PointF()) { }
-        public RectNormalized(PointF start, PointF end)
+        public RectNormalized(Point<double> pos, Size<double> size) : this(pos, new Point<double>(pos.X + size.Width, pos.Y + size.Height)) { }
+        public RectNormalized() : this(new Point<double>(), new Point<double>()) { }
+        public RectNormalized(Point<double> start, Point<double> end)
         {
             Start = start;
             End = end;
@@ -78,7 +79,7 @@ namespace YoloDetection.Marker
         {
             return Rectangle.Contains(point);
         }
-        public void Move(PointF pos)
+        public void Move(Point<double> pos)
         {
             Rectangle<double> rect = Rectangle;
             rect.Offset(pos);

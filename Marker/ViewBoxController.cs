@@ -141,8 +141,12 @@ namespace YoloDetection.Marker
             Drawing.Size delta = nSize - PictureBox.Size;
             delta.Width /= 2;
             delta.Height /= 2;
-            PictureBox.Size = nSize;
-            PictureBox.Location -= delta;
+            if (nSize.Width>100 || nSize.Height>100)
+            {
+                PictureBox.Size = nSize;
+                PictureBox.Location -= delta;
+            }
+            
         }
         public Drawing.Rectangle GetImageRectangle()
         {
