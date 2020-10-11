@@ -160,7 +160,13 @@
     <Compile Include="Marker\Frame.cs" />
     <Compile Include="Marker\FrameObejctContainer.cs" />
     <Compile Include="Marker\FrameState.cs" />
-    <Compile Include="Marker\IControlRect.cs" />
+    <Compile Include="Marker\Interfaces\IControlRect.cs" />
+    <Compile Include="Marker\Interfaces\IElementController.cs" />
+    <Compile Include="Marker\Interfaces\IFrameObejctContainer.cs" />
+    <Compile Include="Marker\Interfaces\IFrameObject.cs" />
+    <Compile Include="Marker\Interfaces\IMediator.cs" />
+    <Compile Include="Marker\Interfaces\IRectController.cs" />
+    <Compile Include="Marker\Interfaces\IViewBoxControler.cs" />
     <Compile Include="Marker\Marker.cs" />
     <Compile Include="Marker\Mediator.cs" />
     <Compile Include="Marker\FrameObject.cs" />

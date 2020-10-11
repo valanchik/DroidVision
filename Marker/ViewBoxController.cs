@@ -1,39 +1,21 @@
-﻿using System.Windows.Forms;
-using Drawing = System.Drawing;
+﻿using System.Drawing;
+using System.Windows.Forms;
+using YoloDetection.Marker.Interfaces;
 namespace YoloDetection.Marker
 {
-    public interface IViewBoxControler: IMediatorSetter
-    {
-        bool ImageNotExists { get; }
-        Drawing.Size Size { get; set; }
-        double ImageScale { get; set; }
-        PictureBox PictureBox { get; set; }
-        IRectController RectController { get; set; }
-        Drawing.Image Image { get; set; }
-        Drawing.Size ImageSize { get; set; }
-        bool Moving { get; set; }
-        Drawing.Point Location { get; set; }
-        Drawing.Point MousePosition { get; set; }
-        void SetImage(Drawing.Image image);
-        void Clear();
-        void Refresh();
-        Drawing.Rectangle GetImageRectangle();
-        void StartMoving(Drawing.Point point);
-        void Resize();
-        Label MousePositionLabel { get; }
-    }
+    
     public class ViewBoxController : IViewBoxControler
     {
         public IRectController RectController { get; set; }
         public IMediator Mediator { get; set; }
         public PictureBox PictureBox { get; set; }
-        public Drawing.Image Image { get { return PictureBox.Image; } set { PictureBox.Image = value; } }
+        public Image Image { get { return PictureBox.Image; } set { PictureBox.Image = value; } }
         public bool ImageNotExists { get { return PictureBox.Image == null; } }
-        public Drawing.Size Size { get; set; } = new Drawing.Size();
-        public Drawing.Size ImageSize { get; set; } = new Drawing.Size();
+        public Size Size { get; set; } = new Size();
+        public Size ImageSize { get; set; } = new Size();
         public bool Moving { get; set; }
-        public Drawing.Point Location { get => PictureBox.Location; set => PictureBox.Location = value; }
-        public Drawing.Point MousePosition
+        public Point Location { get => PictureBox.Location; set => PictureBox.Location = value; }
+        public Point MousePosition
         {
             get => _MousePosition; set
             {
@@ -51,11 +33,11 @@ namespace YoloDetection.Marker
                 Resize();
             }
         }
-        protected Drawing.Image originImage;
-        protected Drawing.Rectangle ImageRectangle;
+        protected Image originImage;
+        protected Rectangle ImageRectangle;
         protected double imageScale = 1;
-        protected Drawing.Point movingStart = new Drawing.Point();
-        private Drawing.Point _MousePosition { get; set; }
+        protected Point movingStart = new Point();
+        private Point _MousePosition { get; set; }
         public ViewBoxController(PictureBox pictureBox)
         {
             PictureBox = pictureBox;
@@ -73,18 +55,18 @@ namespace YoloDetection.Marker
                 Mediator?.EndEditViewBox();
             };
         }
-        public void SetImage(Drawing.Image image)
+        public void SetImage(Image image)
         {
             PictureBox.Image = image;
-            originImage = (Drawing.Image)PictureBox.Image.Clone();
+            originImage = (Image)PictureBox.Image.Clone();
             ImageSize = PictureBox.Image.Size;
-            ImageRectangle = new Drawing.Rectangle(new Drawing.Point(), PictureBox.Image.Size);
+            ImageRectangle = new Rectangle(new Point(), PictureBox.Image.Size);
         }
         public void SetMediator(IMediator mediator)
         {
             Mediator = mediator;
         }
-        public void StartMoving(Drawing.Point point)
+        public void StartMoving(Point point)
         {
             Moving = true;
             movingStart = point; 
@@ -111,7 +93,7 @@ namespace YoloDetection.Marker
             MousePosition = e.Location;
             if (Moving)
             {
-                Drawing.Point newlocation = PictureBox.Location;
+                Point newlocation = PictureBox.Location;
                 newlocation.X += e.X - movingStart.X;
                 newlocation.Y += e.Y - movingStart.Y;
                 PictureBox.Location = newlocation;
@@ -127,7 +109,7 @@ namespace YoloDetection.Marker
         }
         public void Clear()
         {
-            PictureBox.Image = (Drawing.Image)originImage?.Clone();
+            PictureBox.Image = (Image)originImage?.Clone();
         }
         public void Refresh()
         {
@@ -138,8 +120,8 @@ namespace YoloDetection.Marker
             if (PictureBox.Image == null) return;
             int w = (int)(PictureBox.Image.Size.Width * ImageScale);
             int h = (int)(PictureBox.Image.Size.Height * ImageScale);
-            Drawing.Size nSize = new Drawing.Size(w, h);
-            Drawing.Size delta = nSize - PictureBox.Size;
+            Size nSize = new Size(w, h);
+            Size delta = nSize - PictureBox.Size;
             delta.Width /= 2;
             delta.Height /= 2;
             if (nSize.Width>100 || nSize.Height>100)
@@ -149,7 +131,7 @@ namespace YoloDetection.Marker
             }
             
         }
-        public Drawing.Rectangle GetImageRectangle()
+        public Rectangle GetImageRectangle()
         {
             return ImageRectangle;
         }

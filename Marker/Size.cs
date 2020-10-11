@@ -47,5 +47,9 @@ namespace YoloDetection.Marker
         {
             return new Size<T> { Width = (dynamic)left.Width / right, Height = (dynamic)left.Height / right };
         }
+        public static Size<T> operator /( T left, Size<T> right)
+        {
+            return new Size<T> { Width = (dynamic)left / right.Width, Height = (dynamic)left / right.Height };
+        }
     }
 }

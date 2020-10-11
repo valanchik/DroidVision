@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using YoloDetection.Marker.Interfaces;
 namespace YoloDetection.Marker
 {
     public delegate void EmptyHandle();
@@ -19,13 +19,10 @@ namespace YoloDetection.Marker
         Timer,
         Button
     }
-
-    
     public interface IMarker: IMediatorSetter
     {
         IFrame CurrentFrame { get; set; }
         List<IFrame> Data { get; set; }
-
         event EmptyHandle Loaded;
         void Load(string path);
         bool ShowBackwardFrame();
@@ -39,11 +36,8 @@ namespace YoloDetection.Marker
         private  ImageConverter imgConverter = new ImageConverter();
         public List<IFrame> Data { get; set; } = new List<IFrame>();
         private string FilePath;
-        
         public IFrame CurrentFrame { get; set; }
-
         public IMediator Mediator { get; set; }
-
         public Marker()
         {
         }
@@ -59,11 +53,8 @@ namespace YoloDetection.Marker
                 int bytesRead;
                 while ((bytesRead = source.Read(buffer, 0, buffer.Length)) > 0)
                 {
-                    
                     if (!TryGetJPEG(mjpegParser, buffer, bytesRead, out var jpeg)) continue;
-
                     IFrame d = CreateFrame(jpeg, frameId);
-
                     Data.Add(d);
                     frameId++;
                 }
@@ -78,7 +69,6 @@ namespace YoloDetection.Marker
             };
             state.SetTextState(ElementName.FrameId, frameId.ToString());
             state.SetIntState(ElementName.TimeLineBar, frameId);
-
             IFrame d = new Frame(
                 (Image)imgConverter.ConvertFrom(jpeg),
                 frameId,
@@ -86,7 +76,6 @@ namespace YoloDetection.Marker
             );
             return d;
         }
-
         private bool TryGetJPEG(MJPEGParser mjpegParser, byte[] buffer, int bytesRead, out byte[] jpeg)
         {
             jpeg = null;
@@ -104,7 +93,6 @@ namespace YoloDetection.Marker
             jpeg = mjpegParser.GetJPEG().ToArray();
             return true;
         }
-
         private IFrame GetFrameById(int frame)
         {
             return Data.Find(o => o.FrameId == frame);
@@ -151,13 +139,9 @@ namespace YoloDetection.Marker
             }
             return null;
         }
-
         public void SetMediator(IMediator mediator)
         {
             Mediator = mediator;
         }
     }
-    
-    
-    
 }

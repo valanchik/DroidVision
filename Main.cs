@@ -20,6 +20,8 @@ using static Darknet.YoloWrapper;
 using OpenCvSharp;
 using System.Drawing.Imaging;
 using YoloDetection.Marker;
+using YoloDetection.Marker.Interfaces;
+
 namespace YoloDetection
 {
     public partial class Main : Form

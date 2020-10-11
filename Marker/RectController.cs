@@ -2,23 +2,10 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using YoloDetection.Marker.Interfaces;
 
 namespace YoloDetection.Marker
 {
-    
-    public interface IRectController
-    {
-        bool CreatingFrameObjec { get; set; }
-        List<IControlRect> ControlRects { get; set; }
-        event Action<IFrameObject> OnNewFrameObject;
-        void DrawAll();
-        void Draw(IFrameObject frameObject);
-        void MouseLeftDown(object sender, MouseEventArgs e);
-        void MouseLeftUp(object sender, MouseEventArgs e);
-        void MouseWheel(object sender, MouseEventArgs e);
-        void Move(object sender, MouseEventArgs e);
-        void SetFrameObjectList(List<IFrameObject> list);
-    }
     public class RectController : IRectController
     {
         public event Action<IFrameObject> OnNewFrameObject;
@@ -66,9 +53,9 @@ namespace YoloDetection.Marker
             if (CreatingFrameObjec)
             {
                 Drawing = false;
-                Point loc = new Point(e.Location.X+(int)(BorderSize* ViewBoxController.ImageScale), e.Location.Y+(int)(BorderSize*ViewBoxController.ImageScale));
-                endPoint = ConverPointToPointF(loc.Divide(ViewBoxController.ImageScale));
+                endPoint = ConverPointToPointF(e.Location.Divide(ViewBoxController.ImageScale));
                 IFrameObject frameObject = new FrameObject(0, "", new RectNormalized(startPoint, endPoint), ConverSizeToSizeF(new Size(6,6)));
+                CorrectFrameObjectByBorder(frameObject);
                 OnNewFrameObject?.Invoke(frameObject);
                 DrawAll();
             }
@@ -76,8 +63,7 @@ namespace YoloDetection.Marker
         public void Move(object sender, MouseEventArgs e)
         {
             if (ViewBoxController.Moving) return;
-            Point loc = new Point(e.Location.X + (int)(BorderSize * ViewBoxController.ImageScale), e.Location.Y + (int)(BorderSize * ViewBoxController.ImageScale));
-            endPoint = ConverPointToPointF(loc.Divide(ViewBoxController.ImageScale));
+            endPoint = ConverPointToPointF(e.Location.Divide(ViewBoxController.ImageScale));
             if (Drawing || MovingSelectedFrameObject)
             {
                 if (MovingSelectedFrameObject)
@@ -94,10 +80,11 @@ namespace YoloDetection.Marker
                 DrawAll();
             } else
             {
-                IControlRect cr = GetControlRect((Point)endPoint);
+                IControlRect cr = GetControlRect(endPoint);
                 if (cr != null)
                 {
-                    Console.WriteLine(cr.FrameObject.GetPointType((Point)endPoint));
+                    cr.Selected = true;
+                    Console.WriteLine(cr.Type);
                 }
             }
         }
@@ -148,7 +135,7 @@ namespace YoloDetection.Marker
             using (Pen pen = new Pen(Color.Red, BorderSize))
             using (SolidBrush brushRect = new SolidBrush(Color.FromArgb(100, Color.Red)))
             using (SolidBrush brushElipse = new SolidBrush(Color.FromArgb(200, Color.White)))
-            using (SolidBrush brushControls = new SolidBrush(Color.FromArgb(200, Color.Black)))
+            using (SolidBrush brushControls = new SolidBrush(Color.FromArgb(200, frameObject.SelectedPointColor)))
             using (Graphics G = Graphics.FromImage(ViewBoxController.Image))
             {
                 Point leftTop = ConverPointFToPoint(frameObject.Rect.LeftTop);
@@ -196,7 +183,7 @@ namespace YoloDetection.Marker
             tmp.Y = (int)(point.Y * ViewBoxController.ImageSize.Height);
             return tmp;
         }
-        private IControlRect GetControlRect(PointF pos)
+        private IControlRect GetControlRect(Point<double> pos)
         {
             foreach (var elm in ControlRects)
             {
@@ -206,6 +193,16 @@ namespace YoloDetection.Marker
                 }
             }
             return null;
+        }
+        private void CorrectFrameObjectByBorder(IFrameObject frameObejct)
+        {
+            
+            Size<double> minSize = 1F/new Size<double>(ViewBoxController.ImageSize.Width, ViewBoxController.ImageSize.Height);
+            Point<double> offset = new Point<double>(minSize)*(BorderSize>1?BorderSize-1:1);
+            frameObejct.ControlRects[RectNormalizesPointType.RightBottomPoint].Move(offset);
+            //frameObejct.ControlRects[RectNormalizesPointType.LeftTopPoint].Move(new Point<double>(offset.X*-1, offset.Y * -1));
+            frameObejct.ControlRects[RectNormalizesPointType.RightTopPoint].Move(new Point<double>(offset.X, offset.Y*-1));
+            frameObejct.ControlRects[RectNormalizesPointType.LeftBottomPoint].Move(new Point<double>(0, offset.Y));
         }
     }
 }

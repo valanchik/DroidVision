@@ -65,6 +65,7 @@ namespace YoloDetection.Marker
         private Rectangle<double> _Rectangle = new Rectangle<double>();
         public Rectangle<double> Rectangle { get => _Rectangle; 
                 set {
+                    _Rectangle = value;
                     Start = value.Location;
                     End = new Point<double> { X = value.Right, Y = value.Bottom };
                 } }

@@ -12,6 +12,11 @@ namespace YoloDetection.Marker
             X = x;
             Y = y;
         }
+        public Point(Size<T> size)
+        {
+            X = size.Width;
+            Y = size.Height;
+        }
         public static implicit operator Point(Point<T> point)
         {
             return new Point((int)(dynamic)point.X, (int)(dynamic)point.Y);
@@ -35,6 +40,10 @@ namespace YoloDetection.Marker
         public static Point<T> operator /(Point<T> left, T right)
         {
             return new Point<T> { X = (dynamic)left.X / right, Y = (dynamic)left.Y /right };
+        }
+        public static Point<T> operator *(Point<T> left, T right)
+        {
+            return new Point<T> { X = (dynamic)left.X * right, Y = (dynamic)left.Y * right };
         }
         public static Point<T> Empty { get => new Point<T>(default,default); }
     }
