@@ -26,6 +26,7 @@ namespace YoloDetection.Marker.Interfaces
         Rectangle GetImageRectangle();
         void StartMoving(Point point);
         void Resize();
+        void Resize(Point mousePosition);
         Label MousePositionLabel { get; }
     }
 }

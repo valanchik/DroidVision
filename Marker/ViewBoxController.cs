@@ -23,21 +23,20 @@ namespace YoloDetection.Marker
                 MousePositionLabel.Text = _MousePosition.ToString();
             } }
         public Label MousePositionLabel => Mediator.GetElementController(ElementControllerType.Common).GetLabel(ElementName.MousePosition);
-        
         public double ImageScale
         {
             get => imageScale;
             set
             {
                 imageScale = value;
-                Resize();
             }
         }
+        private Point _MousePosition { get; set; }
         protected Image originImage;
         protected Rectangle ImageRectangle;
         protected double imageScale = 1;
         protected Point movingStart = new Point();
-        private Point _MousePosition { get; set; }
+        
         public ViewBoxController(PictureBox pictureBox)
         {
             PictureBox = pictureBox;
@@ -45,8 +44,6 @@ namespace YoloDetection.Marker
             PictureBox.MouseUp += MouseUp;
             PictureBox.MouseMove += Move;
             PictureBox.MouseWheel += MouseWheel;
-/*            PictureBox.MouseLeave += MouseLeave;
-            PictureBox.MouseEnter += MouseEnter;*/
             Size = PictureBox.Size;
             RectController = new RectController(this);
             RectController.OnNewFrameObject += (IFrameObject frameObject) =>
@@ -117,19 +114,27 @@ namespace YoloDetection.Marker
         }
         public void Resize()
         {
+            Resize(Point.Empty);
+        }
+        public void Resize(Point mousePosition)
+        {
             if (PictureBox.Image == null) return;
             int w = (int)(PictureBox.Image.Size.Width * ImageScale);
             int h = (int)(PictureBox.Image.Size.Height * ImageScale);
+            int mW = (int)(mousePosition.X * ImageScale);
+            int mH = (int)(mousePosition.Y * ImageScale);
             Size nSize = new Size(w, h);
-            Size delta = nSize - PictureBox.Size;
-            delta.Width /= 2;
-            delta.Height /= 2;
+            Size<double> coef = new Size<double>();
+            coef.Width = (double)nSize.Width / (double)PictureBox.Size.Width;
+            coef.Height = (double)nSize.Height / (double)PictureBox.Size.Height;
+            Size newMousePos = new Size((int)(mousePosition.X*coef.Width), (int)(mousePosition.Y*coef.Height));
+            Size offset = new Size(newMousePos.Width-mousePosition.X, newMousePos.Height - mousePosition.Y);
+
             if (nSize.Width>100 || nSize.Height>100)
             {
                 PictureBox.Size = nSize;
-                PictureBox.Location -= delta;
+                PictureBox.Location -= offset;
             }
-            
         }
         public Rectangle GetImageRectangle()
         {

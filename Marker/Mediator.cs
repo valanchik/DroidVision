@@ -132,6 +132,7 @@ namespace YoloDetection.Marker
             timeline.Maximum = Marker.Data.Count;
             Marker.ShowFrame(Marker.Data[0]);
             ViewBoxController.ImageScale = 1;
+            ViewBoxController.Resize();
         }
     }
 }
