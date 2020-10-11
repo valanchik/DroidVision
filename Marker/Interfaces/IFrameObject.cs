@@ -21,8 +21,10 @@ namespace YoloDetection.Marker.Interfaces
         Color SelectedPointColor { get; set; }
         Color PointColor { get; set; }
         Color SelectedBorderColor { get; set; }
-        Dictionary<RectNormalizesPointType, ControlRect> ControlRects { get; set; }
+        Dictionary<RectNormalizesPointType, IControlRect> ControlRects { get; set; }
         Size<double> ControlsSize { get; set; }
+
+        void Edit(RectNormalizesPointType type, Point<double> pos);
         List<IControlRect> GetControlRects();
         void Move(Point<double> pos);
     }

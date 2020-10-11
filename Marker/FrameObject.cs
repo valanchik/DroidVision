@@ -24,7 +24,7 @@ namespace YoloDetection.Marker
         public int Id { get; set; }
         public string Name { get; set; }
         public IRectNormalized Rect { get; set; }
-        public Dictionary<RectNormalizesPointType, ControlRect> ControlRects { get; set; } = new Dictionary<RectNormalizesPointType, ControlRect>();
+        public Dictionary<RectNormalizesPointType, IControlRect> ControlRects { get; set; } = new Dictionary<RectNormalizesPointType, IControlRect>();
         public Size<double> ControlsSize { get; set; }
         public Color BaseColor { get; set; }
         public Color BorderColor { get; set; }
@@ -84,6 +84,36 @@ namespace YoloDetection.Marker
             foreach (var elm in ControlRects)
             {
                 ControlRects[elm.Key].Move(pos);
+            }
+        }
+        public void Edit(RectNormalizesPointType type, Point<double> pos)
+        {
+            switch (type)
+            {
+                case RectNormalizesPointType.LeftTopPoint:
+                    Rect.LeftTop += pos;
+                    ControlRects[type].Move(pos);
+                    ControlRects[RectNormalizesPointType.LeftBottomPoint].Move(new Point<double>(pos.X, 0));
+                    ControlRects[RectNormalizesPointType.RightTopPoint].Move(new Point<double>(0, pos.Y));
+                    break;
+                case RectNormalizesPointType.LeftBottomPoint:
+                    Rect.LeftBottom += pos;
+                    ControlRects[type].Move(pos);
+                    ControlRects[RectNormalizesPointType.LeftTopPoint].Move(new Point<double>(pos.X, 0));
+                    ControlRects[RectNormalizesPointType.RightBottomPoint].Move(new Point<double>(0, pos.Y));
+                    break;
+                case RectNormalizesPointType.RightTopPoint:
+                    Rect.RightTop += pos;
+                    ControlRects[type].Move(pos);
+                    ControlRects[RectNormalizesPointType.LeftTopPoint].Move(new Point<double>(0, pos.Y));
+                    ControlRects[RectNormalizesPointType.RightBottomPoint].Move(new Point<double>(pos.X, 0));
+                    break;
+                case RectNormalizesPointType.RightBottomPoint:
+                    Rect.RightBottom += pos;
+                    ControlRects[type].Move(pos);
+                    ControlRects[RectNormalizesPointType.LeftBottomPoint].Move(new Point<double>(0, pos.Y));
+                    ControlRects[RectNormalizesPointType.RightTopPoint].Move(new Point<double>(pos.X, 0));
+                    break;
             }
         }
     }

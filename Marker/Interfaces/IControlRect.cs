@@ -9,6 +9,7 @@ namespace YoloDetection.Marker
         RectNormalizesPointType Type { get; set; }
         IFrameObject FrameObject { get; set; }
         bool Selected { get; set; }
+        string Id { get; set; }
 
         bool Contains(Point<double> pos);
         void Move(Point<double> pos);

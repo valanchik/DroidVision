@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using YoloDetection.Marker.Interfaces;
-
 namespace YoloDetection.Marker
 {
     public class RectController : IRectController
     {
         public event Action<IFrameObject> OnNewFrameObject;
         public List<IControlRect> ControlRects { get; set; } = new List<IControlRect>();
+        public IControlRect SelectedControlRect { get; set; }
         public bool CreatingFrameObjec { get; set; }
         private IFrameObejctContainer FrameObejctContainer { get; set; } = new FrameObejctContainer();
         private Point<double> startPoint = new Point<double>();
         private Point<double> endPoint = new Point<double>();
         private bool Drawing = false;
         private bool MovingSelectedFrameObject = false;
+        private bool EditSelectedFrameObject = false;
         private IViewBoxControler ViewBoxController { get; set; }
         public RectController(IViewBoxControler viewBoxController) : this(viewBoxController, new List<IFrameObject>()) { }
         public RectController(IViewBoxControler viewBoxController, List<IFrameObject> frameObjectList)
@@ -33,14 +34,20 @@ namespace YoloDetection.Marker
                 Drawing = true;
                 return;
             }
+
+            if (SelectedControlRect != null)
+            {
+                EditSelectedFrameObject = true;
+                return;
+            }
             IFrameObject fo = GetFrameObjectByPointF(startPoint);
             FrameObejctContainer.SetSelectedObject(fo, true);
-            if (fo == null)
-            {
-                ViewBoxController.StartMoving(e.Location);
-            } else
+            if (fo != null)
             {
                 MovingSelectedFrameObject = true;
+            } else
+            {
+                ViewBoxController.StartMoving(e.Location);
             }
         }
         public void MouseLeftUp(object sender, MouseEventArgs e)
@@ -48,6 +55,11 @@ namespace YoloDetection.Marker
             if (MovingSelectedFrameObject)
             {
                 MovingSelectedFrameObject = false;
+                DrawAll();
+            }
+            if (EditSelectedFrameObject)
+            {
+                EditSelectedFrameObject = false;
                 DrawAll();
             }
             if (CreatingFrameObjec)
@@ -64,7 +76,7 @@ namespace YoloDetection.Marker
         {
             if (ViewBoxController.Moving) return;
             endPoint = ConverPointToPointF(e.Location.Divide(ViewBoxController.ImageScale));
-            if (Drawing || MovingSelectedFrameObject)
+            if (Drawing || MovingSelectedFrameObject || EditSelectedFrameObject)
             {
                 if (MovingSelectedFrameObject)
                 {
@@ -77,14 +89,24 @@ namespace YoloDetection.Marker
                         Draw(sfo);
                     }
                 }
+                if (EditSelectedFrameObject)
+                {
+                    IFrameObject sfo = SelectedControlRect.FrameObject;
+                    Point<double> delta = endPoint - startPoint;
+                    sfo.Edit(SelectedControlRect.Type, delta);
+                    startPoint = endPoint;
+                    Draw(sfo);
+                }
                 DrawAll();
             } else
             {
                 IControlRect cr = GetControlRect(endPoint);
                 if (cr != null)
                 {
-                    cr.Selected = true;
-                    Console.WriteLine(cr.Type);
+                    SetSeletedControlRects(cr, true);
+                } else if (SelectedControlRect != null)
+                {
+                    SetSeletedControlRects(cr, false);
                 }
             }
         }
@@ -135,20 +157,26 @@ namespace YoloDetection.Marker
             using (Pen pen = new Pen(Color.Red, BorderSize))
             using (SolidBrush brushRect = new SolidBrush(Color.FromArgb(100, Color.Red)))
             using (SolidBrush brushElipse = new SolidBrush(Color.FromArgb(200, Color.White)))
-            using (SolidBrush brushControls = new SolidBrush(Color.FromArgb(200, frameObject.SelectedPointColor)))
+            using (SolidBrush brushControls = new SolidBrush(Color.FromArgb(200, frameObject.PointColor)))
+            using (SolidBrush brushSelectedControls = new SolidBrush(Color.FromArgb(200, frameObject.SelectedPointColor)))
             using (Graphics G = Graphics.FromImage(ViewBoxController.Image))
             {
                 Point leftTop = ConverPointFToPoint(frameObject.Rect.LeftTop);
                 Point rightBottom = ConverPointFToPoint(frameObject.Rect.RightBottom);
-
                 Rectangle rect = new Rectangle().FromPoints(leftTop, rightBottom);
                 G.DrawRectangle(pen, rect);
                 G.FillRectangle(brushRect, rect);
                 if (!MovingSelectedFrameObject)
                 {
-                    foreach (var elm in frameObject.ControlRects)
+                    foreach (KeyValuePair< RectNormalizesPointType, IControlRect > val in frameObject.ControlRects)
                     {
-                        G.FillRectangle(brushControls, elm.Value.Rect.Rectangle.UnNormalize(ViewBoxController.ImageSize));
+                        if (val.Value.Selected)
+                        {
+                            G.FillRectangle(brushSelectedControls, val.Value.Rect.Rectangle.UnNormalize(ViewBoxController.ImageSize));
+                        } else
+                        {
+                            G.FillRectangle(brushControls, val.Value.Rect.Rectangle.UnNormalize(ViewBoxController.ImageSize));
+                        }
                     }
                 }
             }
@@ -167,7 +195,6 @@ namespace YoloDetection.Marker
         private Point<double> ConverPointToPointF(Point point)
         {
             Point<double> tmp = new Point<double>();
-
             tmp.X = point.X>0? (point.X / (double)ViewBoxController.ImageSize.Width): 0;
             tmp.Y = point.Y>0? (point.Y / (double)ViewBoxController.ImageSize.Height): 0;
             return tmp;
@@ -196,13 +223,33 @@ namespace YoloDetection.Marker
         }
         private void CorrectFrameObjectByBorder(IFrameObject frameObejct)
         {
-            
             Size<double> minSize = 1F/new Size<double>(ViewBoxController.ImageSize.Width, ViewBoxController.ImageSize.Height);
             Point<double> offset = new Point<double>(minSize)*(BorderSize>1?BorderSize-1:1);
             frameObejct.ControlRects[RectNormalizesPointType.RightBottomPoint].Move(offset);
             //frameObejct.ControlRects[RectNormalizesPointType.LeftTopPoint].Move(new Point<double>(offset.X*-1, offset.Y * -1));
             frameObejct.ControlRects[RectNormalizesPointType.RightTopPoint].Move(new Point<double>(offset.X, offset.Y*-1));
             frameObejct.ControlRects[RectNormalizesPointType.LeftBottomPoint].Move(new Point<double>(0, offset.Y));
+        }
+        private void SetSeletedControlRects(IControlRect rect, bool selected)
+        {
+            if (rect != null)
+            {
+                rect.Selected = selected;
+                SelectedControlRect = rect;
+                ControlRects.FindAll(fo =>
+                {
+                    if (fo.Id != rect.Id)
+                    {
+                        fo.Selected = false;
+                    };
+                    return false;
+                });
+            } else
+            {
+                ControlRects.FindAll(fo => fo.Selected = false);
+                SelectedControlRect = null;
+            }
+            DrawAll();
         }
     }
 }

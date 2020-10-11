@@ -10,6 +10,7 @@ namespace YoloDetection.Marker
 {
     public class ControlRect : IControlRect
     {
+        public string Id { get; set; }
         public IRectNormalized Rect { get; set; }
         public RectNormalizesPointType Type { get; set; }
         public IFrameObject FrameObject { get; set; }
@@ -18,6 +19,7 @@ namespace YoloDetection.Marker
         {
             FrameObject = frameObject;
             Type = type;
+            Id = FrameObject.Id.ToString() + "_" + Type.GetHashCode().ToString();
             Rect = new RectNormalized(point, size);
         }
         public bool Contains(Point<double> pos)

@@ -11,6 +11,8 @@ namespace YoloDetection.Marker.Interfaces
     {
         bool CreatingFrameObjec { get; set; }
         List<IControlRect> ControlRects { get; set; }
+        IControlRect SelectedControlRect { get; set; }
+
         event Action<IFrameObject> OnNewFrameObject;
         void DrawAll();
         void Draw(IFrameObject frameObject);
