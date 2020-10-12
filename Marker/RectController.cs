@@ -119,7 +119,6 @@ namespace YoloDetection.Marker
             deltaScale = ViewBoxController.ImageScale - deltaScale;
             if (ViewBoxController.ImageScale < 0) ViewBoxController.ImageScale = 0;
             Point loc = new Point((int)(e.Location.X * deltaScale), (int)(e.Location.Y * deltaScale));
-            //Point delta 
             ViewBoxController.Resize(e.Location);
         }
         public void DrawAll()
