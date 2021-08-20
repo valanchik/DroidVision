@@ -601,7 +601,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.backwardOne.AutoSize = true;
-            this.backwardOne.BackgroundImage = global::YoloDetection.Properties.Resources.back;
+            this.backwardOne.BackgroundImage = global::DroidVision.Properties.Resources.back;
             this.backwardOne.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.backwardOne.Location = new System.Drawing.Point(52, 3);
             this.backwardOne.Name = "backwardOne";
@@ -616,7 +616,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.button6.AutoSize = true;
-            this.button6.BackgroundImage = global::YoloDetection.Properties.Resources.many_forward;
+            this.button6.BackgroundImage = global::DroidVision.Properties.Resources.many_forward;
             this.button6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.button6.Location = new System.Drawing.Point(199, 3);
             this.button6.Name = "button6";
@@ -630,7 +630,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.forwardOne.AutoSize = true;
-            this.forwardOne.BackgroundImage = global::YoloDetection.Properties.Resources.forward;
+            this.forwardOne.BackgroundImage = global::DroidVision.Properties.Resources.forward;
             this.forwardOne.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.forwardOne.Location = new System.Drawing.Point(150, 3);
             this.forwardOne.Name = "forwardOne";
@@ -646,7 +646,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mPlay.AutoSize = true;
             this.mPlay.BackColor = System.Drawing.Color.Transparent;
-            this.mPlay.BackgroundImage = global::YoloDetection.Properties.Resources.play;
+            this.mPlay.BackgroundImage = global::DroidVision.Properties.Resources.play;
             this.mPlay.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.mPlay.Location = new System.Drawing.Point(101, 3);
             this.mPlay.Name = "mPlay";
@@ -661,7 +661,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.button3.AutoSize = true;
-            this.button3.BackgroundImage = global::YoloDetection.Properties.Resources.many_back;
+            this.button3.BackgroundImage = global::DroidVision.Properties.Resources.many_back;
             this.button3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.button3.Location = new System.Drawing.Point(3, 3);
             this.button3.Name = "button3";
