@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using YoloDetection.Marker.Interfaces;
-namespace YoloDetection.Marker
+using Marker.Interfaces;
+using YoloDetection;
+
+namespace Marker
 {
     public class RectController : IRectController
     {
         public event Action<IFrameObject> OnNewFrameObject;
         public List<IControlRect> ControlRects { get; set; } = new List<IControlRect>();
         public IControlRect SelectedControlRect { get; set; }
-        public bool CreatingFrameObjec { get; set; }
+        public bool CreatingFrameObject { get; set; }
         private IFrameObejctContainer FrameObejctContainer { get; set; } = new FrameObejctContainer();
         private Point<double> startPoint = new Point<double>();
         private Point<double> endPoint = new Point<double>();
@@ -29,7 +31,7 @@ namespace YoloDetection.Marker
         {
             Point newPoint = e.Location.Divide(ViewBoxController.ImageScale);
             startPoint = ConverPointToPointF(newPoint);
-            if (CreatingFrameObjec)
+            if (CreatingFrameObject)
             {
                 Drawing = true;
                 return;
@@ -62,7 +64,7 @@ namespace YoloDetection.Marker
                 EditSelectedFrameObject = false;
                 DrawAll();
             }
-            if (CreatingFrameObjec)
+            if (CreatingFrameObject)
             {
                 Drawing = false;
                 endPoint = ConverPointToPointF(e.Location.Divide(ViewBoxController.ImageScale));
@@ -125,7 +127,7 @@ namespace YoloDetection.Marker
         {
             if (ViewBoxController.ImageNotExists) return;
             ViewBoxController.Clear();
-            if (CreatingFrameObjec)
+            if (CreatingFrameObject)
             {
                 FrameObject obj = new FrameObject();
                 obj.Rect = new RectNormalized() { Start = startPoint, End = endPoint };

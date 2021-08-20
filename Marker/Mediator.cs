@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using YoloDetection.Marker.Interfaces;
+using Marker.Interfaces;
 
-namespace YoloDetection.Marker
+namespace Marker
 {
     public struct Element { }
     
@@ -80,7 +80,7 @@ namespace YoloDetection.Marker
         {
             Button cfoBtn = GetElementController(ElementControllerType.Button).GetButton(ElementName.CreateFrameObejct);
             cfoBtn.Enabled = true;
-            ViewBoxController.RectController.CreatingFrameObjec = false;
+            ViewBoxController.RectController.CreatingFrameObject = false;
         }
         protected void EmitElementEvent(IElementEvent elementEvent)
         {
@@ -102,9 +102,9 @@ namespace YoloDetection.Marker
             switch (element)
             {
                 case ElementName.CreateFrameObejct:
-                    ViewBoxController.RectController.CreatingFrameObjec = !ViewBoxController.RectController.CreatingFrameObjec;
+                    ViewBoxController.RectController.CreatingFrameObject = !ViewBoxController.RectController.CreatingFrameObject;
                     Button btn = (Button)sender;
-                    btn.Enabled = !ViewBoxController.RectController.CreatingFrameObjec;
+                    btn.Enabled = !ViewBoxController.RectController.CreatingFrameObject;
                     break;
             }
         }

@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace YoloDetection.Marker.Interfaces
+namespace Marker.Interfaces
 {
     public interface IRectController
     {
-        bool CreatingFrameObjec { get; set; }
+        bool CreatingFrameObject { get; set; }
         List<IControlRect> ControlRects { get; set; }
         IControlRect SelectedControlRect { get; set; }
 

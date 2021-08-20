@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
-using YoloDetection.Marker.Interfaces;
+using Marker.Interfaces;
 
-namespace YoloDetection.Marker
+namespace Marker
 {
     public interface IControlRect
     {

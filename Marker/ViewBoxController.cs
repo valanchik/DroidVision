@@ -1,9 +1,8 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
-using YoloDetection.Marker.Interfaces;
-namespace YoloDetection.Marker
+using Marker.Interfaces;
+namespace Marker
 {
-    
     public class ViewBoxController : IViewBoxControler
     {
         public IRectController RectController { get; set; }

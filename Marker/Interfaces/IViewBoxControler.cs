@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace YoloDetection.Marker.Interfaces
+namespace Marker.Interfaces
 {
     public interface IViewBoxControler : IMediatorSetter
     {

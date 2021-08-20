@@ -19,8 +19,8 @@ using Darknet;
 using static Darknet.YoloWrapper;
 using OpenCvSharp;
 using System.Drawing.Imaging;
-using YoloDetection.Marker;
-using YoloDetection.Marker.Interfaces;
+using Marker;
+using Marker.Interfaces;
 
 namespace YoloDetection
 {

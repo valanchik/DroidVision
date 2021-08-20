@@ -4,8 +4,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using YoloDetection.Marker.Interfaces;
-namespace YoloDetection.Marker
+using Marker.Interfaces;
+namespace Marker
 {
     public enum RectNormalizesPointType
     {

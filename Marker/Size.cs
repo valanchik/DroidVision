@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace YoloDetection.Marker
+namespace Marker
 {
     public struct Size<T> where T : unmanaged
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace YoloDetection.Marker.Interfaces
+namespace Marker.Interfaces
 {
     public interface IFrameObject
     {

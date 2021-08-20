@@ -6,8 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using YoloDetection.Marker.Interfaces;
-namespace YoloDetection.Marker
+using Marker.Interfaces;
+using YoloDetection;
+
+namespace Marker
 {
     public delegate void EmptyHandle();
     public enum ElementControllerType

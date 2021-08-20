@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace YoloDetection.Marker
+namespace Marker
 {
     public struct Point<T> where T : unmanaged
     {
