@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Marker.Interfaces;
-using YoloDetection;
+using DroidVision;
 
 namespace Marker
 {

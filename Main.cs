@@ -19,10 +19,11 @@ using Darknet;
 using static Darknet.YoloWrapper;
 using OpenCvSharp;
 using System.Drawing.Imaging;
+using DroidVision;
 using Marker;
 using Marker.Interfaces;
 
-namespace YoloDetection
+namespace DroidVision
 {
     public partial class Main : Form
     {

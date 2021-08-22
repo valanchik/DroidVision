@@ -1,4 +1,4 @@
-﻿namespace YoloDetection
+﻿namespace DroidVision
 {
     partial class Main
     {

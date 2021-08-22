@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace YoloDetection
+namespace DroidVision
 {
+    // ReSharper disable once InconsistentNaming
     class MJPEGWriter
     {
         private string Path;

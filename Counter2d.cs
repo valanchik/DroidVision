@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Xml.Schema;
 
-namespace YoloDetection
+namespace DroidVision
 {
     class Counter2d
     {

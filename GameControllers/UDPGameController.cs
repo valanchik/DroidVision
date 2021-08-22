@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Newtonsoft.Json;
 
-namespace YoloDetection
+namespace DroidVision
 {
     enum MouseClickTypes
     {

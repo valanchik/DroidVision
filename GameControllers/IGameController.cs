@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 
-namespace YoloDetection
+namespace DroidVision
 {
     
     interface IGameController {

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Darknet;
 using static Darknet.YoloWrapper;
 using static Darknet.YoloWrapperTiny;
-namespace YoloDetection
+namespace DroidVision
 {
     class YoloDetection
     {

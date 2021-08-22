@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using Marker.Interfaces;
-using YoloDetection;
+using DroidVision;
 
 namespace Marker
 {
